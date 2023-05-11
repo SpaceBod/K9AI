@@ -19,7 +19,7 @@ client_id = "3112161c7e454bce81ee3277ac772ceb"
 client_secret = "a4e72d15ac164dba8c3f1559aa1ef7c1"
 redirect_uri = "http://localhost:8888/callback"
 username = "lucabod8"
-device_name = "PC-BOD"
+device_name = "Macbook"
 scope = "user-read-private user-read-playback-state user-modify-playback-state"
 
 auth_manager = SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope, username=username)
@@ -38,10 +38,6 @@ print(f"Spotify Successfully Connected - {deviceID}")
 recogniser = speech_recognition.Recognizer()
 speaker = tts.init()
 speaker.setProperty('rate', 200)
-voices = speaker.getProperty('voices')
-print("Available voices:")
-for voice in voices:
-    print(" - %s" % voice.name)
 
 speaker.say("Hi, I'm K9. What can I help you with?")
 speaker.runAndWait()
@@ -174,7 +170,7 @@ while True:
     try:
         message = recognise_input(recogniser)
         print(f"[INPUT]\t{message}")
-        print(assistant.request(message))
+        assistant.request(message)
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()
         print("unknown")
