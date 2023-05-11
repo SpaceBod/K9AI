@@ -5,7 +5,10 @@ Link for NeuralIntent Chat Bot Tutorial:
 https://youtu.be/SXsyLdKkKX0  
 
 Link for spotify control:
-https://m.youtube.com/watch?v=tsFVzYVVr4c. 
+https://m.youtube.com/watch?v=tsFVzYVVr4c  
+
+Link for face ID:  
+https://youtu.be/tl2eEBFEHqM
 
 
 ## Features
