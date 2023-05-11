@@ -11,7 +11,13 @@
                 "Good day"
             ],
             "responses": [
-                "Hi! What can I do for you?"
+                "Hello! How can I assist you today?",
+                "Hi there! How may I help you?",
+                "Greetings! What can I do for you?",
+                "Hey! What brings you here today?",
+                "Good day! How can I be of service?",
+                "Hi! I'm here to help. What do you need assistance with?",
+                "Hello! I'm at your service. What can I help you with today?"
             ]
         },
         {
@@ -34,6 +40,19 @@
             ],
             "responses": [
                 "Sure, playing that song for you."
+            ]
+        },
+        {
+            "tag": "time",
+            "patterns": [
+                "What time is it?",
+                "Do you know the time?",
+                "What's the current time?"
+            ],
+            "responses": [
+                "It's currently",
+                "The time is",
+                "Right now, it's"
             ]
         },
         {
