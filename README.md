@@ -1,5 +1,8 @@
 # K9AI
-Group Consultancy Project for IBM.
+Group Consultancy Project for IBM.  
+Link for NeuralIntent Chat Bot Tutorial:
+https://youtu.be/SXsyLdKkKX0
+
 ## Features
 The chat bot utilises a neural network to find the "intent" behind all quereies given by the user. Therefore, the chat bot will undersand your query.
 - Can say greetings
