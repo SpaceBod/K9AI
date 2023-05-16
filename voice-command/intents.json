@@ -4,20 +4,20 @@
             "tag": "greetings",
             "patterns": [
                 "Hey",
-                "hello",
+                "Hello",
                 "What's up?",
                 "How is it going?",
                 "Hi",
                 "Good day"
             ],
             "responses": [
-                "Hello! How can I assist you today?",
-                "Hi there! How may I help you?",
-                "Greetings! What can I do for you?",
-                "Hey! What brings you here today?",
-                "Good day! How can I be of service?",
-                "Hi! I'm here to help. What do you need assistance with?",
-                "Hello! I'm at your service. What can I help you with today?"
+                "How can I assist you today?",
+                "How may I help you?",
+                "What can I do for you?",
+                "What brings you here today?",
+                "How can I be of service?",
+                "I'm here to help. What do you need assistance with?",
+                "I'm at your service. What can I help you with today?"
             ]
         },
         {
@@ -53,6 +53,29 @@
                 "It's currently",
                 "The time is",
                 "Right now, it's"
+            ]
+        },
+        {
+            "tag": "date",
+            "patterns": [
+                "What is the date today?",
+                "What's the date?",
+                "Tell me the date?"
+            ],
+            "responses": [
+                "The date is",
+                "Today, the date it"
+            ]
+        },
+        {
+            "tag": "day",
+            "patterns": [
+                "What day is it today?",
+                "What day is it?"
+            ],
+            "responses": [
+                "Today is",
+                "It's"
             ]
         },
         {

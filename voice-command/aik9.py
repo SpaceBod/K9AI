@@ -1,15 +1,11 @@
 from neuralintents import GenericAssistant
 from requests import post
-from datetime import datetime
-from pytz import timezone
-import speech_recognition, pyttsx3 as tts, sys, re, os, glob, random, json
+from playsound import playsound
+import datetime
+import speech_recognition, pyttsx3 as tts, sys, re, os, random, json
 import spotipy as sp
 from spotipy.oauth2 import SpotifyOAuth
 from music import *
-
-cache_files = glob.glob('.cache*')
-for file in cache_files:
-    os.remove(file)
 
 # Load the intents file
 with open('intents.json') as file:
@@ -36,44 +32,50 @@ print(f"Spotify Successfully Connected - {deviceID}")
 
 
 recogniser = speech_recognition.Recognizer()
-speaker = tts.init()
-speaker.setProperty('rate', 200)
-voices = speaker.getProperty('voices')
+k9 = tts.init()
+k9.setProperty('rate', 200)
+voices = k9.getProperty('voices')
 print("Available voices:")
 for voice in voices:
     print(" - %s" % voice.name)
+desired_voice = voices[2]
+k9.setProperty('voice', desired_voice.id)
 
-speaker.say("Hi, I'm K9. What can I help you with?")
-speaker.runAndWait()
-print("READY")
+def speak(text):
+    print('K9: ' + text)
+    k9.say(text)
+    k9.runAndWait()
 
-def recognise_input(recognizer):
+def calibrate_mic(recogniser):
+     with speech_recognition.Microphone() as source:   
+        print("Please wait. Calibrating microphone...")   
+        recogniser.adjust_for_ambient_noise(source, duration=3)
+
+def recognise_input(recogniser):
     with speech_recognition.Microphone() as mic:
-        recognizer.adjust_for_ambient_noise(mic, duration=0.2)
-        audio = recognizer.listen(mic)
-        message = recognizer.recognize_google(audio)
+        audio = recogniser.listen(mic)
+        playsound("assets/prompt.mp3", False)
+        message = recogniser.recognize_google(audio)
         message = message.lower()
         return message
 
 def extract_specific_song(text):
     # Extract the song name and artist from the user input
     match = re.search(r'play(?: me)?\s(.+?)(?:\sby\s(.+))?$', text, re.IGNORECASE)
-    song_name = match.group(1).strip() if match.group(1) is not None else None
+    song_name = match.group(1).strip() if match.group(1) is not None else ""
     artist = match.group(2).strip() if match.group(2) is not None else ""
     return song_name, artist
 
 def extract_song_and_artist(text):
     # Extract the song name and artist from the user input
     match = re.search(r'(.+?)(?:\sby\s(.+))?$', text)
-    song_name = match.group(1).strip() if match.group(1) is not None else None
+    song_name = match.group(1).strip() if match.group(1) is not None else ""
     artist = match.group(2).strip() if match.group(2) is not None else ""
     return song_name, artist
 
 def play_song():
     global recogniser
-    print("[K9]\tSong Request")
-    speaker.say("Sure, what song do you want to listen to?")
-    speaker.runAndWait()
+    speak("Sure, what song do you want to listen to?")
 
     done = False
     while not done:
@@ -83,78 +85,68 @@ def play_song():
             print("song", song_name)
             print("artist", artist)
             if artist == "":
-                print(f"[K9] Playing {song_name}.")
                 uri = get_track_uri(spotify=spotify, name=song_name)
                 play_track(spotify=spotify, device_id=deviceID, uri=uri)
-                speaker.say(f"Playing {song_name}.")
-                speaker.runAndWait()
+                speak(f"Playing {song_name}.")
             # If song title + artist provided
             else:
-                print(f"[K9] Playing {song_name} by {artist}.")
                 uri = get_track_uri(spotify=spotify, name=song_name, artist=artist)
                 play_track(spotify=spotify, device_id=deviceID, uri=uri)
-                speaker.say(f"Playing {song_name} by {artist}.")
-                speaker.runAndWait()
+                speak(f"Playing {song_name} by {artist}.")
             done = True
         except speech_recognition.UnknownValueError:
             recogniser = speech_recognition.Recognizer()
-            speaker.say("Please repeat...")
-            speaker.runAndWait()
+            speak("Please repeat...")
 
 def play_specific_song():
     global message
     song_name, artist = extract_specific_song(message)
     # If only song title provided
     if artist == "":
-        print(f"[K9] Playing {song_name}.")
         uri = get_track_uri(spotify=spotify, name=song_name)
         play_track(spotify=spotify, device_id=deviceID, uri=uri)
-        speaker.say(f"Playing {song_name}.")
-        speaker.runAndWait()
+        speak(f"Playing {song_name}.")
     # If song title + artist provided
     else:
-        print(f"[K9] Playing {song_name} by {artist}.")
         uri = get_track_uri(spotify=spotify, name=song_name, artist=artist)
         play_track(spotify=spotify, device_id=deviceID, uri=uri)
-        speaker.say(f"Playing {song_name} by {artist}.")
-        speaker.runAndWait()
+        speak(f"Playing {song_name} by {artist}.")
 
 def greeting():
-    print("[K9]\tGreeting")
+    hour = datetime.datetime.now().hour
+    if (hour >= 3 and hour < 12):
+        speak("Good morning!")
+    if (hour >= 12 and hour < 18):
+        speak("Good afternoon!")
+    if (hour >= 18 and hour < 21):
+        speak("Good evening!")
+    else:
+        speak("Hello!")
     for intent in intents:
         if intent['tag'] == "greetings":
-            speaker.say(random.choice(intent['responses']))
-    speaker.runAndWait()
+            speak(random.choice(intent['responses']))
 
 def get_time():
-    # Set the time zone to London
-    london_tz = timezone('Europe/London')
-    london_time = datetime.now(london_tz)
-    # Format the time as a string
-    time_str = london_time.strftime('%I:%M')
-    # Replace leading zeros with the word "oh"
-    time_str = time_str.replace('0', '', 1)
-    time_str = time_str.replace(':', ' ')
-    if london_time.hour >= 12:
-        time_str += ' Pee Em'
-    else:
-        time_str += ' Ay Em'
-    
-    print(f"[K9]\tTIME-{time_str}")
     for intent in intents:
         if intent['tag'] == "time":
-            speaker.say(random.choice(intent['responses']))
+            clock = datetime.datetime.now().strftime("%I:%M %p")
+            speak(random.choice(intent['responses']) + " " + clock)
 
-    speaker.runAndWait()
-    speaker.setProperty('rate', 150)
-    speaker.say(time_str)
-    speaker.runAndWait()
-    speaker.setProperty('rate', 200)
+def get_date():
+    for intent in intents:
+        if intent['tag'] == "date":
+            today = datetime.datetime.now().strftime("%d %B %Y")
+            speak(random.choice(intent['responses']) + " " + today)
+
+def get_day():
+    for intent in intents:
+        if intent['tag'] == "day":
+            day = datetime.datetime.now().strftime('%A')
+            speak(random.choice(intent['responses']) + " " + day)
 
 def quit():
     print("[K9]\tExit")
-    speaker.say("Bye")
-    speaker.runAndWait()
+    speak("Bye")
     sys.exit(0)
 
 mappings = {
@@ -162,6 +154,8 @@ mappings = {
     "play_song": play_song,
     "play_specific_song": play_specific_song,
     "time": get_time,
+    "date": get_date,
+    "day": get_day,
     "exit": quit
 }
 
@@ -170,11 +164,15 @@ assistant = GenericAssistant('intents.json', intent_methods=mappings)
 #assistant.save_model("./models/model")
 assistant.load_model("./models/model")
 
+# os.system("cls")
+calibrate_mic(recogniser)
+playsound("assets/startup.mp3")
+speak("Hi, I'm K9. What can I help you with?")
 while True:
     try:
         message = recognise_input(recogniser)
         print(f"[INPUT]\t{message}")
-        print(assistant.request(message))
+        assistant.request(message)
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()
-        print("unknown")
+        speak("I didn't quite catch that...")
