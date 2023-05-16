@@ -15,7 +15,7 @@ client_id = "3112161c7e454bce81ee3277ac772ceb"
 client_secret = "a4e72d15ac164dba8c3f1559aa1ef7c1"
 redirect_uri = "http://localhost:8888/callback"
 username = "lucabod8"
-device_name = "PC-BOD"
+device_name = "Macbook"
 scope = "user-read-private user-read-playback-state user-modify-playback-state"
 
 auth_manager = SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope, username=username)
@@ -172,6 +172,7 @@ while True:
     try:
         message = recognise_input(recogniser)
         print(f"[INPUT]\t{message}")
+        assistant.request(message)
         assistant.request(message)
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()
