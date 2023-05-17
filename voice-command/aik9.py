@@ -6,6 +6,7 @@ import speech_recognition, pyttsx3 as tts, sys, re, os, random, json
 import spotipy as sp
 from spotipy.oauth2 import SpotifyOAuth
 from music import *
+import requests
 
 # Load the intents file
 with open('intents.json') as file:
@@ -30,6 +31,7 @@ for d in devices['devices']:
         break
 print(f"Spotify Successfully Connected - {deviceID}")
 
+weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
 
 recogniser = speech_recognition.Recognizer()
 k9 = tts.init()
@@ -149,6 +151,19 @@ def quit():
     speak("Bye")
     sys.exit(0)
 
+def get_weather():
+    global message
+    pattern = r"(?<=\bin\s).*"
+    matches = re.search(pattern, message)    
+    if matches:
+        location = matches.group(0)
+    else:
+        location = "London"
+    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
+    weather = weather_data.json()['weather'][0]['main']
+    temp = round(weather_data.json()['main']['temp'])
+    speak(f"In {location}, the temperature is {temp} degrees, it's {weather}")
+
 mappings = {
     "greetings": greeting,
     "play_song": play_song,
@@ -156,6 +171,7 @@ mappings = {
     "time": get_time,
     "date": get_date,
     "day": get_day,
+    "weather": get_weather,
     "exit": quit
 }
 
@@ -172,7 +188,6 @@ while True:
     try:
         message = recognise_input(recogniser)
         print(f"[INPUT]\t{message}")
-        assistant.request(message)
         assistant.request(message)
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()

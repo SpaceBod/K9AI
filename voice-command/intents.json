@@ -64,7 +64,7 @@
             ],
             "responses": [
                 "The date is",
-                "Today, the date it"
+                "Today, the date is"
             ]
         },
         {
@@ -76,6 +76,18 @@
             "responses": [
                 "Today is",
                 "It's"
+            ]
+        },
+        {
+            "tag": "weather",
+            "patterns": [
+                "What's the weather today?",
+                "whats the temperature today?",
+                "Is it going to rain?",
+                "Whats the forecast?"
+            ],
+            "responses": [
+                "The weather is"
             ]
         },
         {
