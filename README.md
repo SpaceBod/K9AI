@@ -14,7 +14,9 @@ https://youtu.be/tl2eEBFEHqM
 ## Features
 The chat bot utilises a neural network to find the "intent" behind all quereies given by the user. Therefore, the chat bot will undersand your query.
 - Can say greetings
+- Can ask for weather, including other cities/countries
 - Can ask for the time of day
+- Can ask for the week day/date
 - Can tell it to shut down
 - Can ask it to play a song
 
