@@ -4,8 +4,8 @@ def initialize_face_cascade():
     face_cascade = cv2.CascadeClassifier('haarcascade_profileface.xml')
     return face_cascade
 
-def initialize_video_capture():
-    cap = cv2.VideoCapture(0)
+def initialize_video_capture(cam_index):
+    cap = cv2.VideoCapture(cam_index)
     return cap
 
 def initialize_video_writer():
@@ -94,7 +94,12 @@ def detect_and_track_people(face_cascade, cap, out):
 
 def main():
     face_cascade = initialize_face_cascade()
-    cap = initialize_video_capture()
+
+    # Prompt for selecting the webcam
+    print("Select a webcam (0, 1, 2, ...):")
+    cam_index = int(input())
+
+    cap = initialize_video_capture(cam_index)
     out = initialize_video_writer()
     detect_and_track_people(face_cascade, cap, out)
 
