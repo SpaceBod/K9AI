@@ -1,7 +1,7 @@
 import csv
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from functions import speak, get_weather, get_day, play_song, play_specific_song
+from functions import speak, get_weather, get_day, request_song, request_specific_song, request_specific_playlist, request_playlist, pause_music, play_music, play_liked, play_next, play_previous, increase_vol, decrease_vol, set_vol
 
 class WatsonAssistant:
     def __init__(self, api_key, id, service_url, intents_file):
@@ -22,8 +22,18 @@ class WatsonAssistant:
         self.intent_mapping = {
             'Weather': get_weather,
             'Day': get_day,
-            'Music': play_song,
-            'Song Request': play_specific_song
+            'Song': request_song,
+            'Song Request': request_specific_song,
+            'Playlist': request_playlist,
+            'Playlist Request': request_specific_playlist,
+            'Pause': pause_music,
+            'Play': play_music,
+            'Play Liked Songs': play_liked,
+            'Next Song': play_next,
+            'Previous Song': play_previous,
+            'Volume Up': increase_vol,
+            'Volume Down': decrease_vol,
+            'Volume Set': set_vol
         }
 
     def read_intents_from_csv(self, file_path):

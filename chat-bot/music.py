@@ -1,6 +1,7 @@
 import spotipy as sp
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+import random
 
 class InvalidSearchError(Exception):
     pass
@@ -71,12 +72,25 @@ def get_playlist_uri(spotify: Spotify, name: str) -> str:
     return playlist_uri
 
 def get_liked_songs(spotify: Spotify):
-    results = spotify.current_user_saved_tracks()
-    liked_songs=results['items']
-    while results['next']:
-        results = spotify.next(results)
-        liked_songs.extend(results['items'])
-    return liked_songs
+    liked_songs = []
+    offset = 0
+    limit = 50  # Adjust the limit to control the number of tracks fetched per page
+    # Fetch all pages of liked tracks
+    while True:
+        results = spotify.current_user_saved_tracks(limit=limit, offset=offset)
+        tracks = results['items']
+        liked_songs.extend(tracks)
+        if len(tracks) < limit:
+            break
+        offset += limit
+    # Randomly select a sample of 100 tracks
+    random.shuffle(liked_songs)
+    sample = liked_songs[:100]
+    return sample
+
+def play_liked_songs(spotify=None, device_id=None, liked_songs=None):
+    track_uris = [track['track']['uri'] for track in liked_songs]
+    spotify.start_playback(device_id=device_id, uris=track_uris)
 
 def play_artist(spotify=None, device_id=None, uri=None):
     spotify.start_playback(device_id=device_id, context_uri=uri)
@@ -84,6 +98,9 @@ def play_artist(spotify=None, device_id=None, uri=None):
 def play_track(spotify=None, device_id=None, uri=None):
     spotify.start_playback(device_id=device_id, uris=[uri])
 
+def play_playlist(spotify=None, device_id=None, uri=None):
+    spotify.start_playback(device_id=device_id, context_uri=uri)
+    
 def next_track(spotify=None, device_id=None):
     spotify.next_track(device_id=device_id)
 
@@ -98,3 +115,11 @@ def resume_play(spotify=None, device_id=None):
 
 def set_volume(spotify=None, device_id=None, volume=None):
     spotify.volume(volume, device_id=device_id)
+
+def get_current_volume(spotify=None, device_id=None):
+    current_playback = spotify.current_playback()
+    if current_playback and current_playback['device']:
+        if current_playback['device']['id'] == device_id:
+            volume_level = current_playback['device']['volume_percent']
+            return volume_level
+    return None

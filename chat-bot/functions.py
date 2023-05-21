@@ -2,7 +2,6 @@ import requests, re
 import pyttsx3 as tts
 import speech_recognition
 from playsound import playsound as sound
-import os
 import datetime
 from music import *
 
@@ -65,7 +64,7 @@ def extract_song_info(text):
         else:
             song_name = ""
             artist = ""
-    return song_name, artist
+    return song_name.title(), artist.title()
 
 
 def extract_song_and_artist(text):
@@ -73,12 +72,22 @@ def extract_song_and_artist(text):
     match = re.search(r'(.+?)(?:\sby\s(.+))?$', text)
     song_name = match.group(1).strip() if match.group(1) is not None else ""
     artist = match.group(2).strip() if match.group(2) is not None else ""
-    return song_name, artist
+    return song_name.title(), artist.title()
 
-def play_song(text):
+def extract_playlist_info(text):
+    # Try to match the pattern 'playlist' followed by the playlist name
+    match = re.search(r'playlist\s(.+)$', text, re.IGNORECASE)
+    if match:
+        playlist_name = match.group(1).strip()
+    else:
+        playlist_name = ""
+    return playlist_name
+
+
+# Local functions called by Watson (must take user_input even if not used)
+def request_song(text):
     global local_recogniser
     speak("Sure, what song do you want to listen to?")
-
     done = False
     while not done:
         try:
@@ -100,9 +109,8 @@ def play_song(text):
             local_recogniser = speech_recognition.Recognizer()
             speak("Please repeat...")
 
-def play_specific_song(message):
-    message
-    song_name, artist = extract_song_info(message)
+def request_specific_song(text):
+    song_name, artist = extract_song_info(text)
     if (artist == "" and song_name == ""):
         speak(f"Search unsuccessful, please try again.")
         return
@@ -117,12 +125,84 @@ def play_specific_song(message):
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {song_name} by {artist}.")
 
-# Local functions called by Watson (must take user_input even if not used)
+def request_playlist(text):
+    global local_recogniser
+    speak("Sure, what playlist do you want to listen to?")
+    done = False
+    while not done:
+        try:
+            playlist_name = recognise_input(local_recogniser).title()
+            print("Playlist: ", playlist_name)
+            uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
+            play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            speak(f"Playing {playlist_name}.")
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
+def request_specific_playlist(text):
+    playlist_name = extract_playlist_info(text).title()
+    if playlist_name == "":
+        speak(f"Search unsuccessful, please try again.")
+        return
+    else:
+        uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
+        play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
+        speak(f"Playing {playlist_name}.")
+
+def pause_music(text):
+    pause_track(spotify=global_spotify, device_id=global_device_id)
+
+def play_music(text):
+    resume_play(spotify=global_spotify, device_id=global_device_id)
+
+def play_liked(text):
+    liked_songs = get_liked_songs(spotify=global_spotify)
+    play_liked_songs(spotify=global_spotify, device_id=global_device_id, liked_songs=liked_songs)
+
+def play_next(text):
+    next_track(spotify=global_spotify, device_id=global_device_id)
+
+def play_previous(text):
+    prev_track(spotify=global_spotify, device_id=global_device_id)
+
+def extract_volume_percentage(text):
+    # Try to find the pattern 'to' followed by a number, with or without '%'
+    match = re.search(r'to\s+(\d+)%?', text, re.IGNORECASE)
+    if match:
+        volume_percentage = int(match.group(1))
+        return volume_percentage
+    else:
+        return None
+    
+def set_vol(text):
+    set_vol = extract_volume_percentage(text)
+    set_volume(spotify=global_spotify, device_id=global_device_id, volume=set_vol)
+
+def increase_vol(text):
+    current_volume = get_current_volume(spotify=global_spotify, device_id=global_device_id)
+    if current_volume is not None:
+        new_volume = min(current_volume + 10, 100)
+        set_volume(spotify=global_spotify, device_id=global_device_id, volume=new_volume)
+        print(f"Volume increased to {new_volume}%")
+    else:
+        print("No active playback or device found.")
+
+def decrease_vol(text):
+    current_volume = get_current_volume(spotify=global_spotify, device_id=global_device_id)
+    if current_volume is not None:
+        new_volume = max(current_volume - 10, 0)
+        set_volume(spotify=global_spotify, device_id=global_device_id, volume=new_volume)
+        print(f"Volume decreased to {new_volume}%")
+    else:
+        print("No active playback or device found.")
+
 def get_weather(user_input):
     pattern = r"(?<=\bin\s).*"
     matches = re.search(pattern, user_input)    
     if matches:
-        location = matches.group(0)
+        location = matches.group(0).title()
     else:
         location = "London"
     weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")

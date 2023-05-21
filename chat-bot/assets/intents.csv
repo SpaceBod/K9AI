@@ -5,5 +5,15 @@ action_46733_intent_40577,Date
 action_29383_intent_6364,Weather
 action_18745_intent_28589,Day
 action_15673_intent_29814,News
-action_2877_intent_34691,Music
+action_2877_intent_34691,Song
 action_3293_intent_49781,Song Request
+action_9274_intent_47295,Playlist
+action_15116_intent_12878,Playlist Request
+action_23706_intent_14853,Pause
+action_1625_intent_19422,Play
+action_12216_intent_30565,Play Liked Songs
+action_13833_intent_13770,Next Song
+action_40217_intent_43963,Previous Song
+action_27995_intent_46177,Volume Up
+action_18809_intent_18309,Volume Down
+action_49032_intent_45855,Volume Set
