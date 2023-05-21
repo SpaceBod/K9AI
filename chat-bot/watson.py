@@ -1,7 +1,7 @@
 import csv
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from functions import speak, get_weather, get_day
+from functions import speak, get_weather, get_day, play_song, play_specific_song
 
 class WatsonAssistant:
     def __init__(self, api_key, id, service_url, intents_file):
@@ -21,7 +21,9 @@ class WatsonAssistant:
 
         self.intent_mapping = {
             'Weather': get_weather,
-            'Day': get_day
+            'Day': get_day,
+            'Music': play_song,
+            'Song Request': play_specific_song
         }
 
     def read_intents_from_csv(self, file_path):
@@ -42,9 +44,8 @@ class WatsonAssistant:
                     intents = message_response['output'].get('intents', [])
                     if intents:
                         intent = intents[0]['intent']
-                        print(intent)
                         intent_text = self.intents_dict.get(intent, 'Unknown intent')
-                        print('Intent:', intent_text)
+                        print('Intent:', intent_text, "\tID: ", intent)
                         # Call the corresponding function based on the intent with TTS
                         if intent_text in self.intent_mapping:
                             self.intent_mapping[intent_text](speech_input)
@@ -57,9 +58,8 @@ class WatsonAssistant:
                 intents = message_response['output'].get('intents', [])
                 if intents:
                     intent = intents[0]['intent']
-                    print(intent)
                     intent_text = self.intents_dict.get(intent, 'Unknown intent')
-                    print('Intent:', intent_text)
+                    print('Intent:', intent_text, "\tID: ", intent)
                     # Call the corresponding function based on the intent without TTS
                     if intent_text in self.intent_mapping:
                         self.intent_mapping[intent_text](speech_input)
