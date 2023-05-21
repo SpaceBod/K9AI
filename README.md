@@ -18,11 +18,7 @@ The chat bot utilises a neural network to find the "intent" behind all quereies 
 - Can ask for the time of day
 - Can ask for the week day/date
 - Can tell it to shut down
-- Can ask it to play a song
+- Can ask it to play a song, playlist, liked songs
+- Can ask it to play/pause/skip/previous
+- Can ask it to turn up/down/set volume level
 
-## How song requests work
-User: "Play me a song"   
-Bot: "What song would you like to listen to?"  
-User: "Dancing Queen by ABBA" or "Dancing Queen"
-
-Or you can directly state: "Play me Dancing Queen by ABBA" or "Play Dancing Queen"
