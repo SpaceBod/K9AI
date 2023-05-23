@@ -30,11 +30,14 @@ def initialize_chatbot():
         scope=spotify_settings['scope']
     )
     send_variables(spot, dev_ID)
-    recognized_names = scan_face()
     sound("assets/startup.mp3")
+    recognized_names = scan_face()
     for name in recognized_names:
         #print(name)
-        speak(f"Hi {name}")
+        if name == "N":
+            speak("Hi, I don't think we have met. If you want me to greet you by name, say Hey K9, Add me!")
+        else:
+            speak(f"Hi {name}")
     speak("I'm K9. What can I help you with?")
 
     # Create an instance of the WatsonAssistant class

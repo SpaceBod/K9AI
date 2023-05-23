@@ -297,6 +297,9 @@ def scan_face():
 
         # Detect Faces
         face_locations, face_names = sfr.detect_known_faces(frame)
+        if len(face_locations) == 0:  # No face detected
+            error_message = "N"
+            return error_message
         for face_loc, name in zip(face_locations, face_names):
             y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
 
@@ -306,7 +309,6 @@ def scan_face():
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
 
         #cv2.imshow("Frame", frame)
-
         # key = cv2.waitKey(1)
         # if key == 27:
         #     break
@@ -318,3 +320,11 @@ def scan_face():
     cap.release()
     cv2.destroyAllWindows()
     return(recognized_names)
+
+
+def add_face(person):
+    cap = cv2.VideoCapture(0)
+    _, image = cap.read()
+    image_path = f"faces/{person}.jpg"
+    cv2.imwrite(image_path, image)
+    print(f"Face captured and saved as {image_path}")
