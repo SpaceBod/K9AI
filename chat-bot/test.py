@@ -19,5 +19,3 @@ def add_face(person):
     cv2.imwrite(image_path, image)
     print(f"Face captured and saved as {image_path}")
 
-
-add_face("Hamed")

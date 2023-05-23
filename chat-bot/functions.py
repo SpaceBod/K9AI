@@ -313,14 +313,12 @@ def scan_face():
         # if key == 27:
         #     break
 
-        # Check if there are no more frames available
         if len(recognized_names) > 0:
             break
 
     cap.release()
     cv2.destroyAllWindows()
     return(recognized_names)
-
 
 def add_face(person):
     cap = cv2.VideoCapture(0)

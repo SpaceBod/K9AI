@@ -34,11 +34,11 @@ def initialize_chatbot():
     recognized_names = scan_face()
     for name in recognized_names:
         #print(name)
-        if name == "N":
-            speak("Hi, I don't think we have met. If you want me to greet you by name, say Hey K9, Add me!")
+        if name == "N" or name == "Unknown":
+            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
         else:
-            speak(f"Hi {name}")
-    speak("I'm K9. What can I help you with?")
+            speak(f"Hi {name}. I'm K9.")
+    speak("What can I help you with?")
 
     # Create an instance of the WatsonAssistant class
     assistant = WatsonAssistant(
@@ -86,3 +86,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+#if someone says "Add me"
+# ask for a name 
+# call function add_face with their name as paramter
