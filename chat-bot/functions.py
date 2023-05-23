@@ -4,6 +4,7 @@ import speech_recognition
 from playsound import playsound as sound
 import datetime
 from music import *
+import struct
 
 K9_TTS = None
 weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
@@ -35,6 +36,15 @@ def recognise_input(recogniser):
         message = recogniser.recognize_google(audio)
         message = message.lower()
         return message
+
+def listen_for_wake_word(porcupine, audio_stream):
+    while True:
+        pcm = audio_stream.read(porcupine.frame_length)
+        pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+        keyword_index = porcupine.process(pcm)
+        if keyword_index >= 0:
+            print("Custom Keyword Detected")
+            break
 
 # Text to speech
 def speak(text):
