@@ -290,7 +290,7 @@ def scan_face():
     sfr.load_encoding_images("faces/", save_file=save_file)
 
     # Load Camera
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     while True:
         ret, frame = cap.read()
         recognized_names = []  # Initialize the list inside the loop
@@ -320,9 +320,30 @@ def scan_face():
     cv2.destroyAllWindows()
     return(recognized_names)
 
-def add_face(person):
-    cap = cv2.VideoCapture(0)
+def add_face(text):
+    global local_recogniser
+    speak("Sure, What's your name?")
+    done = False
+    while not done:
+        try:
+            person = recognise_input(local_recogniser)
+            print("Name: ", person)
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+    cap = cv2.VideoCapture(1)
+    speak("3")
     _, image = cap.read()
+    speak("2")
+    speak("1")
+    speak("Smile!")
     image_path = f"faces/{person}.jpg"
     cv2.imwrite(image_path, image)
+    speak(f"All done! Hello {person}")
     print(f"Face captured and saved as {image_path}")
+    cap.release()
+    cv2.destroyAllWindows()
+    save_file = 'face_encodings.pkl'
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("faces/", save_file=save_file)

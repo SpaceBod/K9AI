@@ -13,7 +13,7 @@ import numpy as np
 import pickle
 
 def add_face(person):
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     _, image = cap.read()
     image_path = f"faces/{person}.jpg"
     cv2.imwrite(image_path, image)
