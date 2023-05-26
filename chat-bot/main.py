@@ -86,8 +86,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-#if someone says "Add me"
-# ask for a name 
-# call function add_face with their name as paramter

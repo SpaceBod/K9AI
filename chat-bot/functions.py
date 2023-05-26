@@ -11,6 +11,10 @@ import os
 import glob
 import numpy as np
 import pickle
+import csv
+import random
+
+
 
 K9_TTS = None
 weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
@@ -290,7 +294,7 @@ def scan_face():
     sfr.load_encoding_images("faces/", save_file=save_file)
 
     # Load Camera
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
         recognized_names = []  # Initialize the list inside the loop
@@ -332,7 +336,7 @@ def add_face(text):
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
             speak("Please repeat...")
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     speak("3")
     _, image = cap.read()
     speak("2")
@@ -347,3 +351,91 @@ def add_face(text):
     save_file = 'face_encodings.pkl'
     sfr = SimpleFacerec()
     sfr.load_encoding_images("faces/", save_file=save_file)
+
+
+
+def be_positive(text):
+    global local_recogniser
+    categories = ["Exercise","Gratitude","Learning","Reading"]
+    category = random.choice(categories)            
+    folder_path = os.path.join('assets', 'behaviours')
+    file_path = os.path.join(folder_path, f'{category}.csv')
+    location = "Chelsea" #adjust to dog location
+    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
+    weather = weather_data.json()['weather'][0]['main']
+    temp = round(weather_data.json()['main']['temp'])
+    responses = []
+    with open(file_path, 'r') as options:
+        reader = csv.reader(options)
+        for row in reader:
+            row_weather = row[1]
+            row_temperature = int(row[2])
+
+            if abs(row_temperature - temp) <= 3.0 and (weather == row_weather):
+                responses.append(row[3])
+    motivation = random.choice(responses)
+    prev_motivation = motivation 
+    speak("My suggestion is ...")   
+    speak(f"{motivation}")
+    speak("Would you like a different suggestion?")
+    done = False
+    while not done: # response may be too short to recognise reliably 
+        try:
+            repsonse = recognise_input(local_recogniser)
+            print("[INPUT] ",repsonse)
+            if 'yes' in repsonse:
+                while motivation == prev_motivation:
+                    motivation = random.choice(responses)
+                speak("Another suggestion is ...")   
+                speak(f"{motivation}")                
+                break
+            else:
+                done = False
+
+            if 'no' in repsonse:
+                done = True
+            else:
+                done = False
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+        
+def greet_me(text):
+    # Encode faces from a folder and save the encodings
+    save_file = 'face_encodings.pkl'
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("faces/", save_file=save_file)
+    # Load Camera
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        recognized_names = []  # Initialize the list inside the loop
+        # Detect Faces
+        face_locations, face_names = sfr.detect_known_faces(frame)
+        if len(face_locations) == 0:  # No face detected
+            error_message = "N"
+            return error_message
+        for face_loc, name in zip(face_locations, face_names):
+            y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
+            recognized_names.append(name)  # Add recognized name to the list
+            cv2.putText(frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
+        if len(recognized_names) > 0:
+            break
+    cap.release()
+    cv2.destroyAllWindows()
+    for name in recognized_names:
+        if name == "N" or name == "Unknown":
+            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
+        else:
+            speak(f"Hey {name}. I'm K9.")
+    
+
+
+
+
+        
+
+
+
+
