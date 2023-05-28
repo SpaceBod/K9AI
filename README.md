@@ -10,6 +10,7 @@ https://m.youtube.com/watch?v=tsFVzYVVr4c
 Link for face ID:  
 https://youtu.be/tl2eEBFEHqM
 
+![alt text](k9.png)
 
 ## Features
 The chat bot utilises a neural network to find the "intent" behind all quereies given by the user. Therefore, the chat bot will undersand your query.
