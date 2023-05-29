@@ -4,7 +4,8 @@ action_16649_intent_19656,Time
 action_46733_intent_40577,Date
 action_29383_intent_6364,Weather
 action_18745_intent_28589,Day
-action_15673_intent_29814,News
+action_23600_intent_17622,News
+action_24288_intent_40415,News Topic
 action_2877_intent_34691,Song
 action_3293_intent_49781,Song Request
 action_9274_intent_47295,Playlist

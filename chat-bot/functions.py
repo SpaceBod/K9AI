@@ -431,6 +431,130 @@ def greet_me(text):
             speak(f"Hey {name}. I'm K9.")
     
 
+def get_news(user_input):
+    global local_recogniser
+    news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
+    news = news_data.json()
+    titles = ""
+    for i in range(min(5, len(news["results"]))):
+        titles += news["results"][i]["title"] + "\n"
+    speak("Here are the latest news: \n" + titles)
+    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    done = False
+    while not done:
+        try:
+            user_reply = recognise_input(local_recogniser)
+            print("Reply: ", user_reply)
+            if user_reply == "repeat":
+                speak("Here are the latest news: \n" + titles)
+            elif user_reply == "no":
+                speak("Alright!")
+                done = True
+            elif user_reply == "number one" or user_reply == "number 1":
+                speak(news["results"][0]["description"])
+                done = True
+            elif user_reply == "number two" or user_reply == "number 2":
+                speak(news["results"][1]["description"])
+                done = True
+            elif user_reply == "number three" or user_reply == "number 3":
+                speak(news["results"][2]["description"])
+                done = True
+            elif user_reply == "number four" or user_reply == "number 4":
+                speak(news["results"][3]["description"])
+                done = True
+            elif user_reply == "number five" or user_reply == "number 5":
+                speak(news["results"][4]["description"])
+                done = True
+            else:
+                speak("I didn't understand")
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
+def get_specific_news(user_input):
+    match_on = re.search(r'\bon\s(?P<substring>.+)', user_input)
+    if match_on:
+        substring_on = match_on.group("substring")
+        position_on = match_on.start("substring")
+    else:
+        substring_on = ""
+        position_on = -1
+
+    match_about = re.search(r'\babout\s(?P<substring>.+)', user_input)
+    if match_about:
+        substring_about = match_about.group("substring")
+        position_about = match_about.start("substring")
+    else:
+        substring_about = ""
+        position_about = -1
+
+    match_on_the = re.search(r'\bon the\s(?P<substring>.+)', user_input)
+    if match_on_the:
+        substring_on_the = match_on_the.group("substring")
+        position_on_the = match_on_the.start("substring")
+    else:
+        substring_on_the = ""
+        position_on_the = -1
+
+    match_about_the = re.search(r'\babout the\s(?P<substring>.+)', user_input)
+    if match_about_the:
+        substring_about_the = match_about_the.group("substring")
+        position_about = match_about_the.start("substring")
+    else:
+        substring_about_the = ""
+        position_about_the = -1
+
+    max_position = max(position_on, position_about, position_on_the, position_about_the)
+    if max_position == position_on:
+        substring_max = substring_on
+    elif max_position == position_about:
+        substring_max = substring_about
+    elif max_position == position_on_the:
+        substring_max = substring_on_the
+    elif max_position == position_about_the:
+        substring_max = substring_about_the
+    else:
+        substring_max = ""
+
+    global local_recogniser
+    news_data = requests.get(f'https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&q={substring_max}')
+    news = news_data.json()
+    titles = ""
+    for i in range(min(5, len(news["results"]))):
+        titles += news["results"][i]["title"] + "\n"
+    speak(f"These are the latest news on {substring_max}: \n" + titles)
+    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    done = False
+    while not done:
+        try:
+            user_reply = recognise_input(local_recogniser)
+            print("Reply: ", user_reply)
+            if user_reply == "repeat":
+                speak(f"These are the latest news on {substring_max}: \n" + titles)
+            elif user_reply == "no":
+                speak("Alright!")
+                done = True
+            elif user_reply == "number one" or user_reply == "number 1":
+                speak(news["results"][0]["description"])
+                done = True
+            elif user_reply == "number two" or user_reply == "number 2":
+                speak(news["results"][1]["description"])
+                done = True
+            elif user_reply == "number three" or user_reply == "number 3":
+                speak(news["results"][2]["description"])
+                done = True
+            elif user_reply == "number four" or user_reply == "number 4":
+                speak(news["results"][3]["description"])
+                done = True
+            elif user_reply == "number five" or user_reply == "number 5":
+                speak(news["results"][4]["description"])
+                done = True
+            else:
+                speak("I didn't understand")
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
 
 
 
