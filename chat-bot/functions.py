@@ -356,7 +356,7 @@ def add_face(text):
 
 def be_positive(text):
     global local_recogniser
-    categories = ["Exercise","Gratitude","Learning","Reading"]
+    categories = ["Exercise","Gratitude","Learning","Reading","Walking"]
     category = random.choice(categories)            
     folder_path = os.path.join('assets', 'behaviours')
     file_path = os.path.join(folder_path, f'{category}.csv')
@@ -375,15 +375,28 @@ def be_positive(text):
                 responses.append(row[3])
     motivation = random.choice(responses)
     prev_motivation = motivation 
+    prev_category = category
     speak("My suggestion is ...")   
     speak(f"{motivation}")
     speak("Would you like a different suggestion?")
     done = False
     while not done: # response may be too short to recognise reliably 
+        category = random.choice(categories)            
         try:
             repsonse = recognise_input(local_recogniser)
             print("[INPUT] ",repsonse)
             if 'yes' in repsonse:
+                while prev_category == category:
+                    category = random.choice(categories)            
+                responses = []
+                with open(file_path, 'r') as options:
+                    reader = csv.reader(options)
+                    for row in reader:
+                        row_weather = row[1]
+                        row_temperature = int(row[2])
+                        if abs(row_temperature - temp) <= 3.0 and (weather == row_weather):
+                            responses.append(row[3])
+                motivation = random.choice(responses)
                 while motivation == prev_motivation:
                     motivation = random.choice(responses)
                 speak("Another suggestion is ...")   
@@ -393,6 +406,7 @@ def be_positive(text):
                 done = False
 
             if 'no' in repsonse:
+                speak("Okay, mate!")   
                 done = True
             else:
                 done = False
