@@ -5,8 +5,10 @@ import json
 import pvporcupine
 import pyaudio
 import struct
+import cv2
 
 def initialize_chatbot():
+    recognized_names = []
     # Read the settings from the file
     with open('settings.json') as f:
         settings = json.load(f)
@@ -29,7 +31,14 @@ def initialize_chatbot():
     )
     send_variables(spot, dev_ID)
     sound("assets/startup.mp3")
-    speak("Hi, I'm K9. What can I help you with?")
+    recognized_names = scan_face()
+    for name in recognized_names:
+        #print(name)
+        if name == "N" or name == "Unknown":
+            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
+        else:
+            speak(f"Hi {name}. I'm K9.")
+    speak("What can I help you with?")
 
     # Create an instance of the WatsonAssistant class
     assistant = WatsonAssistant(
@@ -64,7 +73,6 @@ def main():
         while True:
             listen_for_wake_word(porcupine, audio_stream)
             sound("assets/ready.mp3")
-
             try:
                 user_input = recognise_input(recogniser)
                 print(f"[INPUT]\t{user_input}")

@@ -5,6 +5,16 @@ from playsound import playsound as sound
 import datetime
 from music import *
 import struct
+import face_recognition
+import cv2
+import os
+import glob
+import numpy as np
+import pickle
+import csv
+import random
+
+
 
 K9_TTS = None
 weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
@@ -223,3 +233,333 @@ def get_weather(user_input):
 def get_day(user_input):
     day = datetime.datetime.now().strftime('%A')
     speak(f"Today is {day}.")
+
+
+class SimpleFacerec:
+    def __init__(self):
+        self.known_face_encodings = []
+        self.known_face_names = []
+        self.frame_resizing = 0.25
+
+    def load_encoding_images(self, images_path, save_file=None):
+        if save_file and os.path.exists(save_file):
+            # Load pre-encoded face encodings from file
+            with open(save_file, 'rb') as f:
+                data = pickle.load(f)
+            self.known_face_encodings = data['encodings']
+            self.known_face_names = data['names']
+        else:
+            # Encode faces and save the encodings
+            images_path = os.path.abspath(images_path)
+            for filename in os.listdir(images_path):
+                if filename.endswith('.jpg') or filename.endswith('.png'):
+                    image_path = os.path.join(images_path, filename)
+                    img = cv2.imread(image_path)
+                    rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    encoding = face_recognition.face_encodings(rgb_img)[0]
+                    self.known_face_encodings.append(encoding)
+                    self.known_face_names.append(os.path.splitext(filename)[0])
+
+            if save_file:
+                # Save the face encodings to file
+                data = {'encodings': self.known_face_encodings, 'names': self.known_face_names}
+                with open(save_file, 'wb') as f:
+                    pickle.dump(data, f)
+
+    def detect_known_faces(self, frame):
+        small_frame = cv2.resize(frame, (0, 0), fx=self.frame_resizing, fy=self.frame_resizing)
+        rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+        face_locations = face_recognition.face_locations(rgb_small_frame)
+        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+
+        face_names = []
+        for face_encoding in face_encodings:
+            matches = face_recognition.compare_faces(self.known_face_encodings, face_encoding)
+            name = "Unknown"
+
+            face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
+            best_match_index = np.argmin(face_distances)
+            if matches[best_match_index]:
+                name = self.known_face_names[best_match_index]
+            face_names.append(name)
+
+        face_locations = np.array(face_locations)
+        face_locations = face_locations / self.frame_resizing
+        return face_locations.astype(int), face_names
+
+def scan_face():
+    # Encode faces from a folder and save the encodings
+    save_file = 'face_encodings.pkl'
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("faces/", save_file=save_file)
+
+    # Load Camera
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        recognized_names = []  # Initialize the list inside the loop
+
+        # Detect Faces
+        face_locations, face_names = sfr.detect_known_faces(frame)
+        if len(face_locations) == 0:  # No face detected
+            error_message = "N"
+            return error_message
+        for face_loc, name in zip(face_locations, face_names):
+            y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
+
+            recognized_names.append(name)  # Add recognized name to the list
+
+            cv2.putText(frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
+
+        #cv2.imshow("Frame", frame)
+        # key = cv2.waitKey(1)
+        # if key == 27:
+        #     break
+
+        if len(recognized_names) > 0:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+    return(recognized_names)
+
+def add_face(text):
+    global local_recogniser
+    speak("Sure, What's your name?")
+    done = False
+    while not done:
+        try:
+            person = recognise_input(local_recogniser)
+            print("Name: ", person)
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+    cap = cv2.VideoCapture(0)
+    speak("3")
+    _, image = cap.read()
+    speak("2")
+    speak("1")
+    speak("Smile!")
+    image_path = f"faces/{person}.jpg"
+    cv2.imwrite(image_path, image)
+    speak(f"All done! Hello {person}")
+    print(f"Face captured and saved as {image_path}")
+    cap.release()
+    cv2.destroyAllWindows()
+    save_file = 'face_encodings.pkl'
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("faces/", save_file=save_file)
+
+
+
+def be_positive(text):
+    global local_recogniser
+    categories = ["Exercise","Gratitude","Learning","Reading"]
+    category = random.choice(categories)            
+    folder_path = os.path.join('assets', 'behaviours')
+    file_path = os.path.join(folder_path, f'{category}.csv')
+    location = "Chelsea" #adjust to dog location
+    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
+    weather = weather_data.json()['weather'][0]['main']
+    temp = round(weather_data.json()['main']['temp'])
+    responses = []
+    with open(file_path, 'r') as options:
+        reader = csv.reader(options)
+        for row in reader:
+            row_weather = row[1]
+            row_temperature = int(row[2])
+
+            if abs(row_temperature - temp) <= 3.0 and (weather == row_weather):
+                responses.append(row[3])
+    motivation = random.choice(responses)
+    prev_motivation = motivation 
+    speak("My suggestion is ...")   
+    speak(f"{motivation}")
+    speak("Would you like a different suggestion?")
+    done = False
+    while not done: # response may be too short to recognise reliably 
+        try:
+            repsonse = recognise_input(local_recogniser)
+            print("[INPUT] ",repsonse)
+            if 'yes' in repsonse:
+                while motivation == prev_motivation:
+                    motivation = random.choice(responses)
+                speak("Another suggestion is ...")   
+                speak(f"{motivation}")                
+                break
+            else:
+                done = False
+
+            if 'no' in repsonse:
+                done = True
+            else:
+                done = False
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+        
+def greet_me(text):
+    # Encode faces from a folder and save the encodings
+    save_file = 'face_encodings.pkl'
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("faces/", save_file=save_file)
+    # Load Camera
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        recognized_names = []  # Initialize the list inside the loop
+        # Detect Faces
+        face_locations, face_names = sfr.detect_known_faces(frame)
+        if len(face_locations) == 0:  # No face detected
+            error_message = "N"
+            return error_message
+        for face_loc, name in zip(face_locations, face_names):
+            y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
+            recognized_names.append(name)  # Add recognized name to the list
+            cv2.putText(frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
+        if len(recognized_names) > 0:
+            break
+    cap.release()
+    cv2.destroyAllWindows()
+    for name in recognized_names:
+        if name == "N" or name == "Unknown":
+            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
+        else:
+            speak(f"Hey {name}. I'm K9.")
+    
+
+def get_news(user_input):
+    global local_recogniser
+    news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
+    news = news_data.json()
+    titles = ""
+    for i in range(min(5, len(news["results"]))):
+        titles += news["results"][i]["title"] + "\n"
+    speak("Here are the latest news: \n" + titles)
+    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    done = False
+    while not done:
+        try:
+            user_reply = recognise_input(local_recogniser)
+            print("Reply: ", user_reply)
+            if user_reply == "repeat":
+                speak("Here are the latest news: \n" + titles)
+            elif user_reply == "no":
+                speak("Alright!")
+                done = True
+            elif user_reply == "number one" or user_reply == "number 1":
+                speak(news["results"][0]["description"])
+                done = True
+            elif user_reply == "number two" or user_reply == "number 2":
+                speak(news["results"][1]["description"])
+                done = True
+            elif user_reply == "number three" or user_reply == "number 3":
+                speak(news["results"][2]["description"])
+                done = True
+            elif user_reply == "number four" or user_reply == "number 4":
+                speak(news["results"][3]["description"])
+                done = True
+            elif user_reply == "number five" or user_reply == "number 5":
+                speak(news["results"][4]["description"])
+                done = True
+            else:
+                speak("I didn't understand")
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
+def get_specific_news(user_input):
+    match_on = re.search(r'\bon\s(?P<substring>.+)', user_input)
+    if match_on:
+        substring_on = match_on.group("substring")
+        position_on = match_on.start("substring")
+    else:
+        substring_on = ""
+        position_on = -1
+
+    match_about = re.search(r'\babout\s(?P<substring>.+)', user_input)
+    if match_about:
+        substring_about = match_about.group("substring")
+        position_about = match_about.start("substring")
+    else:
+        substring_about = ""
+        position_about = -1
+
+    match_on_the = re.search(r'\bon the\s(?P<substring>.+)', user_input)
+    if match_on_the:
+        substring_on_the = match_on_the.group("substring")
+        position_on_the = match_on_the.start("substring")
+    else:
+        substring_on_the = ""
+        position_on_the = -1
+
+    match_about_the = re.search(r'\babout the\s(?P<substring>.+)', user_input)
+    if match_about_the:
+        substring_about_the = match_about_the.group("substring")
+        position_about = match_about_the.start("substring")
+    else:
+        substring_about_the = ""
+        position_about_the = -1
+
+    max_position = max(position_on, position_about, position_on_the, position_about_the)
+    if max_position == position_on:
+        substring_max = substring_on
+    elif max_position == position_about:
+        substring_max = substring_about
+    elif max_position == position_on_the:
+        substring_max = substring_on_the
+    elif max_position == position_about_the:
+        substring_max = substring_about_the
+    else:
+        substring_max = ""
+
+    global local_recogniser
+    news_data = requests.get(f'https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&q={substring_max}')
+    news = news_data.json()
+    titles = ""
+    for i in range(min(5, len(news["results"]))):
+        titles += news["results"][i]["title"] + "\n"
+    speak(f"These are the latest news on {substring_max}: \n" + titles)
+    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    done = False
+    while not done:
+        try:
+            user_reply = recognise_input(local_recogniser)
+            print("Reply: ", user_reply)
+            if user_reply == "repeat":
+                speak(f"These are the latest news on {substring_max}: \n" + titles)
+            elif user_reply == "no":
+                speak("Alright!")
+                done = True
+            elif user_reply == "number one" or user_reply == "number 1":
+                speak(news["results"][0]["description"])
+                done = True
+            elif user_reply == "number two" or user_reply == "number 2":
+                speak(news["results"][1]["description"])
+                done = True
+            elif user_reply == "number three" or user_reply == "number 3":
+                speak(news["results"][2]["description"])
+                done = True
+            elif user_reply == "number four" or user_reply == "number 4":
+                speak(news["results"][3]["description"])
+                done = True
+            elif user_reply == "number five" or user_reply == "number 5":
+                speak(news["results"][4]["description"])
+                done = True
+            else:
+                speak("I didn't understand")
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
+
+
+
+        
+
+
+
+

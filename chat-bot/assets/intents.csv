@@ -4,7 +4,8 @@ action_16649_intent_19656,Time
 action_46733_intent_40577,Date
 action_29383_intent_6364,Weather
 action_18745_intent_28589,Day
-action_15673_intent_29814,News
+action_23600_intent_17622,News
+action_24288_intent_40415,News Topic
 action_2877_intent_34691,Song
 action_3293_intent_49781,Song Request
 action_9274_intent_47295,Playlist
@@ -17,3 +18,6 @@ action_40217_intent_43963,Previous Song
 action_27995_intent_46177,Volume Up
 action_18809_intent_18309,Volume Down
 action_49032_intent_45855,Volume Set
+action_25581_intent_35103,Add New Face
+action_47594_intent_30967,Positive Behaviours
+action_48497_intent_3527,Greet By Name
