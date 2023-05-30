@@ -146,7 +146,7 @@ def request_specific_song(text):
         speak(f"Playing {song_name} by {artist}.")
 
 def request_playlist(text):
-    global local_recogniser
+    global local_recogniser  
     speak("Sure, what playlist do you want to listen to?")
     done = False
     while not done:
@@ -326,21 +326,44 @@ def scan_face():
 
 def add_face(text):
     global local_recogniser
-    speak("Sure, What's your name?")
-    done = False
-    while not done:
-        try:
-            person = recognise_input(local_recogniser)
-            print("Name: ", person)
-            done = True
-        except speech_recognition.UnknownValueError:
-            local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+    name = False
+    speak("... Sure")
+    while name == False:
+        done = False
+        while not done:
+            speak("What's your name?")
+            try:
+                person = recognise_input(local_recogniser)
+                done=True
+            except speech_recognition.UnknownValueError:
+                local_recogniser = speech_recognition.Recognizer()
+                speak("Please repeat...")
+        
+        print("Name: ", person)
+        finish = False
+        while not finish:
+            speak(f"Is your name {person}?")
+            try:
+                response = recognise_input(local_recogniser)
+                print("[INPUT] ",response)
+                finish = True
+            except speech_recognition.UnknownValueError:
+                local_recogniser = speech_recognition.Recognizer()
+                speak("Please repeat...")
+
+        if ('no' in response) or ('nope' in response):
+            speak("Okay, Lets try again.")
+            name = False
+        else:
+            if ('yes' in response) or ('yeah' in response):               
+                name = True
+            name = True #consider changing 
     cap = cv2.VideoCapture(0)
+    speak("Get ready for a picture")
     speak("3")
-    _, image = cap.read()
     speak("2")
     speak("1")
+    _, image = cap.read()
     speak("Smile!")
     image_path = f"faces/{person}.jpg"
     cv2.imwrite(image_path, image)
@@ -383,9 +406,9 @@ def be_positive(text):
     while not done: # response may be too short to recognise reliably 
         category = random.choice(categories)            
         try:
-            repsonse = recognise_input(local_recogniser)
-            print("[INPUT] ",repsonse)
-            if 'yes' in repsonse:
+            response = recognise_input(local_recogniser)
+            print("[INPUT] ",response)
+            if 'yes' in response:
                 while prev_category == category:
                     category = random.choice(categories)            
                 responses = []
@@ -405,7 +428,7 @@ def be_positive(text):
             else:
                 done = False
 
-            if 'no' in repsonse:
+            if 'no' in response:
                 speak("Okay, mate!")   
                 done = True
             else:
