@@ -7,15 +7,12 @@ def fetch_ratings():
         reader = csv.reader(file)
         # Create a dictionary to store the topics and their corresponding numbers
         topics = {}
-
         # Iterate over each row in the CSV file
         for row in reader:
             topic = row[0]
             number = int(row[1])
-
             # Add the topic and its number to the dictionary
             topics[topic] = number
-
         return topics
 
 def init_ratings():
@@ -134,28 +131,35 @@ def update_rating(topic, rating):
     # Update the score using the change_rating function
     change_rating(topic, new_score)
 
+#example run
+
+init_ratings()
+on,tw,th = categorize_genres()
+print("top 30 : ", on)
+print("mid : ", tw)
+print("avoid : ", th)
 
 
-update_rating("Comedy", "strongly dislike")
+print("they listened to educational and loved it")
+update_rating("Educational", "love")
 
-# Call the function and store the result in an array
-favorite_topics = fav_genres()
-print("fav: ", favorite_topics)
-# Example usage:
-# Call the function and store the results in separate arrays
-top30, next30, bottom40 = categorize_genres()
-print("Top 30% topics:", top30)
-print("Next 30% topics:", next30)
-print("Bottom 40% topics:", bottom40)
+on,tw,th = categorize_genres()
+print("top 30 : ", on)
+print("mid : ", tw)
+print("avoid : ", th)
 
+print("they listened to True Crime and hate it")
+update_rating("True Crime", "hate")
+
+print(fav_genres())
 
 # read_rating(topic)
 # Reads and returns the score of a specific genre from the CSV file.
 
 # init_ratings()
-# Randomly initializes the scores for each genre in the CSV file.
+# Randomly initializes the scores between 4 and 8 (inclusive) for all genres in the CSV file.
 
-# fav_topics()
+# fav_genres()
 # Finds the top two genre with the highest scores, and additional genre with the same score.
 
 # categorize_topics()
@@ -166,7 +170,4 @@ print("Bottom 40% topics:", bottom40)
 
 # update_rating(topic, rating)
 # Updates the score of a specific topic based on the given rating.
-
-# #randomize_ratings()
-# Randomly assigns scores between 4 and 8 (inclusive) to all topics in the CSV file.
 
