@@ -103,6 +103,14 @@ def extract_playlist_info(text):
         playlist_name = ""
     return playlist_name
 
+def extract_podcast_info(text):
+    match = re.search(r'podcast\s(.+)$', text, re.IGNORECASE)
+    if match:
+        podcast_name = match.group(1).strip()
+    else:
+        podcast_name = ""
+    return podcast_name
+
 
 # Local functions called by Watson (must take user_input even if not used)
 def request_song(text):
@@ -170,6 +178,35 @@ def request_specific_playlist(text):
         uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
         play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {playlist_name}.")
+
+def request_podcast(text):
+    global local_recogniser  
+    speak("Sure, what podcast do you want to listen to?")
+    done = False
+    while not done:
+        try:
+            podcast_name = recognise_input(local_recogniser).title()
+            print("Podcast: ", podcast_name)
+            uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
+            play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            speak(f"Playing {podcast_name}.")
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            speak("Please repeat...")
+
+def request_specific_podcast(text):
+    podcast_name = extract_podcast_info(text).title()
+    if podcast_name == "":
+        speak(f"Search unsuccessful, please try again.")
+        return
+    else:
+        uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
+        play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+        speak(f"Playing {podcast_name}.")
+
+def is_music_paused():
+    return is_track_paused(spotify=global_spotify)
 
 def pause_music(text):
     pause_track(spotify=global_spotify, device_id=global_device_id)
@@ -286,7 +323,7 @@ class SimpleFacerec:
         face_locations = np.array(face_locations)
         face_locations = face_locations / self.frame_resizing
         return face_locations.astype(int), face_names
-
+    
 def scan_face():
     # Encode faces from a folder and save the encodings
     save_file = 'face_encodings.pkl'
@@ -466,7 +503,7 @@ def greet_me(text):
             speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
         else:
             speak(f"Hey {name}. I'm K9.")
-    
+   
 
 def get_news(user_input):
     global local_recogniser

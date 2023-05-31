@@ -72,6 +72,10 @@ def main():
     try:
         while True:
             listen_for_wake_word(porcupine, audio_stream)
+            if is_music_paused():
+                pause_music('Pause')
+            else:
+                continue
             sound("assets/ready.mp3")
             try:
                 user_input = recognise_input(recogniser)

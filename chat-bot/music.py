@@ -71,6 +71,17 @@ def get_playlist_uri(spotify: Spotify, name: str) -> str:
     print(results['playlists']['items'][0]['name'])
     return playlist_uri
 
+def get_podcast_uri(spotify: Spotify, name: str) -> str:
+    original = name
+    name = name.replace(' ', '+')
+
+    results = spotify.search(q=name, limit=1, type='show')
+    if not results['shows']['items']:
+        raise InvalidSearchError(f'No podcast named "{original}"')
+    podcast_uri = results['shows']['items'][0]['uri']
+    print(results['shows']['items'][0]['name'])
+    return podcast_uri
+
 def get_liked_songs(spotify: Spotify):
     liked_songs = []
     offset = 0
@@ -88,6 +99,14 @@ def get_liked_songs(spotify: Spotify):
     sample = liked_songs[:100]
     return sample
 
+def is_track_paused(spotify: Spotify) -> bool:
+    current_playback = spotify.current_user_playing_track()
+    print(current_playback['is_playing'])
+    if current_playback and current_playback['is_playing']:
+        return True
+    return False
+
+
 def play_liked_songs(spotify=None, device_id=None, liked_songs=None):
     track_uris = [track['track']['uri'] for track in liked_songs]
     spotify.start_playback(device_id=device_id, uris=track_uris)
@@ -99,6 +118,9 @@ def play_track(spotify=None, device_id=None, uri=None):
     spotify.start_playback(device_id=device_id, uris=[uri])
 
 def play_playlist(spotify=None, device_id=None, uri=None):
+    spotify.start_playback(device_id=device_id, context_uri=uri)
+
+def play_podcast(spotify=None, device_id=None, uri=None):
     spotify.start_playback(device_id=device_id, context_uri=uri)
     
 def next_track(spotify=None, device_id=None):
