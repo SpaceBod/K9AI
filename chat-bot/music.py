@@ -101,7 +101,7 @@ def get_liked_songs(spotify: Spotify):
 
 def is_track_paused(spotify: Spotify) -> bool:
     current_playback = spotify.current_user_playing_track()
-    print(current_playback['is_playing'])
+    #print(current_playback['is_playing'])
     if current_playback and current_playback['is_playing']:
         return True
     return False
