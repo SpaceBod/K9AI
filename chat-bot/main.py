@@ -61,7 +61,8 @@ def initialize_porcupine(wake_word_settings):
         channels=1,
         format=pyaudio.paInt16,
         input=True,
-        frames_per_buffer=porcupine.frame_length
+        frames_per_buffer=porcupine.frame_length,
+        output=False
     )
     return porcupine, audio_stream
 
@@ -72,10 +73,8 @@ def main():
     try:
         while True:
             listen_for_wake_word(porcupine, audio_stream)
-            if is_music_paused():
+            if (is_music_paused() == True):
                 pause_music('Pause')
-            else:
-                continue
             sound("assets/ready.mp3")
             try:
                 user_input = recognise_input(recogniser)
