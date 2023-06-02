@@ -8,12 +8,11 @@ import struct
 import face_recognition
 import cv2
 import os
-import glob
 import numpy as np
 import pickle
 import csv
 import random
-
+import time
 
 
 K9_TTS = None
@@ -124,11 +123,13 @@ def request_song(text):
             print("song", song_name)
             print("artist", artist)
             if artist == "":
+                time.sleep(4)
                 uri = get_track_uri(spotify=global_spotify, name=song_name)
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
                 speak(f"Playing {song_name}.")
             # If song title + artist provided
             else:
+                time.sleep(4)
                 uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
                 speak(f"Playing {song_name} by {artist}.")
@@ -144,11 +145,13 @@ def request_specific_song(text):
         return
     # If only song title provided
     if artist == "":
+        time.sleep(4)
         uri = get_track_uri(spotify=global_spotify, name=song_name)
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {song_name}.")
     # If song title + artist provided
     else:
+        time.sleep(4)
         uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {song_name} by {artist}.")
@@ -161,6 +164,7 @@ def request_playlist(text):
         try:
             playlist_name = recognise_input(local_recogniser).title()
             print("Playlist: ", playlist_name)
+            time.sleep(4)
             uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
             play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
             speak(f"Playing {playlist_name}.")
@@ -175,6 +179,7 @@ def request_specific_playlist(text):
         speak(f"Search unsuccessful, please try again.")
         return
     else:
+        time.sleep(4)
         uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
         play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {playlist_name}.")
@@ -187,6 +192,7 @@ def request_podcast(text):
         try:
             podcast_name = recognise_input(local_recogniser).title()
             print("Podcast: ", podcast_name)
+            time.sleep(4)
             uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
             play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
             speak(f"Playing {podcast_name}.")
@@ -201,6 +207,7 @@ def request_specific_podcast(text):
         speak(f"Search unsuccessful, please try again.")
         return
     else:
+        time.sleep(4)
         uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {podcast_name}.")
@@ -349,10 +356,6 @@ def scan_face():
             cv2.putText(frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2)
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
 
-        #cv2.imshow("Frame", frame)
-        # key = cv2.waitKey(1)
-        # if key == 27:
-        #     break
 
         if len(recognized_names) > 0:
             break
@@ -416,63 +419,91 @@ def add_face(text):
 
 def be_positive(text):
     global local_recogniser
-    categories = ["Exercise","Gratitude","Learning","Reading","Walking"]
-    category = random.choice(categories)            
+    categories = ["Exercise", "Gratitude", "Learning", "Reading", "Walking"]
+    category = random.choice(categories)
     folder_path = os.path.join('assets', 'behaviours')
     file_path = os.path.join(folder_path, f'{category}.csv')
-    location = "Chelsea" #adjust to dog location
-    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
-    weather = weather_data.json()['weather'][0]['main']
-    temp = round(weather_data.json()['main']['temp'])
-    responses = []
-    with open(file_path, 'r') as options:
-        reader = csv.reader(options)
-        for row in reader:
-            row_weather = row[1]
-            row_temperature = int(row[2])
+    location = "Chelsea"  # adjust to dog location
 
-            if abs(row_temperature - temp) <= 3.0 and (weather == row_weather):
-                responses.append(row[3])
-    motivation = random.choice(responses)
-    prev_motivation = motivation 
-    prev_category = category
-    speak("My suggestion is ...")   
-    speak(f"{motivation}")
-    speak("Would you like a different suggestion?")
-    done = False
-    while not done: # response may be too short to recognise reliably 
-        category = random.choice(categories)            
-        try:
-            response = recognise_input(local_recogniser)
-            print("[INPUT] ",response)
-            if 'yes' in response:
-                while prev_category == category:
-                    category = random.choice(categories)            
-                responses = []
-                with open(file_path, 'r') as options:
-                    reader = csv.reader(options)
-                    for row in reader:
-                        row_weather = row[1]
-                        row_temperature = int(row[2])
-                        if abs(row_temperature - temp) <= 3.0 and (weather == row_weather):
-                            responses.append(row[3])
-                motivation = random.choice(responses)
-                while motivation == prev_motivation:
-                    motivation = random.choice(responses)
-                speak("Another suggestion is ...")   
-                speak(f"{motivation}")                
-                break
-            else:
-                done = False
+    def get_suggestions():
+        suggestions = []
 
-            if 'no' in response:
-                speak("Okay, mate!")   
-                done = True
-            else:
-                done = False
-        except speech_recognition.UnknownValueError:
-            local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+        closest_temperature_diff = float('inf')
+        closest_temperature_activity = None
+
+        with open(file_path, 'r') as options:
+            reader = csv.reader(options)
+            for row in reader:
+                row_weather = row[1]
+                row_temperature = int(row[2])
+                temperature_diff = abs(row_temperature - temp)
+                if temperature_diff <= 3.0 and weather == row_weather:
+                    suggestions.append(row[3])
+                elif temperature_diff < closest_temperature_diff and weather == row_weather:
+                    closest_temperature_diff = temperature_diff
+                    closest_temperature_activity = row[3]
+
+        if len(suggestions) > 0:
+            return suggestions
+        elif closest_temperature_activity:
+            return [closest_temperature_activity]
+
+    while True:
+        weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
+        weather_json = weather_data.json()
+        weather = weather_json['weather'][0]['main']
+        temp = round(weather_json['main']['temp'])
+        suggestions = get_suggestions()
+        motivation = random.choice(suggestions)
+        prev_motivation = motivation
+        prev_category = category
+
+        speak("My suggestion is ...")
+        speak(f"{motivation}")
+        speak("Would you like a different suggestion?")
+
+        attempt_counter = 0
+        max_attempts = 3  # Set the maximum number of attempts
+
+        while attempt_counter < max_attempts:
+            category = random.choice(categories)
+            try:
+                response = recognise_input(local_recogniser)
+                print("[INPUT] ", response)
+                if 'yes' in response:
+                    while prev_category == category:
+                        category = random.choice(categories)
+                    suggestions = get_suggestions()
+                    if suggestions:
+                        suggestions.remove(prev_motivation)  # Remove the previous suggestion from the available suggestions
+                        if suggestions:
+                            motivation = random.choice(suggestions)
+                        else:
+                            speak("I'm sorry, I couldn't find any more suggestions at the moment.")
+                            break  # Exit the inner while loop
+                        speak("Another suggestion is ...")
+                        speak(f"{motivation}")
+                    else:
+                        speak("I'm sorry, I couldn't find any more suggestions at the moment.")
+                        break  # Exit the inner while loop
+                    break  # Exit the inner while loop
+                elif 'no' in response:
+                    speak("No problem!")
+                    break  # Exit the inner while loop
+                else:
+                    speak("I didn't understand. Please respond with 'yes' or 'no'.")
+                attempt_counter += 1
+            except speech_recognition.UnknownValueError:
+                local_recogniser = speech_recognition.Recognizer()
+                speak("Please repeat...")
+
+        if attempt_counter >= max_attempts:
+            speak("Sorry, I couldn't find any more suggestions. If you need further assistance, feel free to ask.")
+        break  # Exit the outer while loop
+
+
+
+
         
 def greet_me(text):
     # Encode faces from a folder and save the encodings
@@ -503,7 +534,22 @@ def greet_me(text):
             speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
         else:
             speak(f"Hey {name}. I'm K9.")
-   
+
+def extract_article_number(user_input):
+    number_words = {
+        'one': 1,
+        'two': 2,
+        'three': 3,
+        'four': 4,
+        'five': 5
+    }
+    match = re.search(r'\bnumber\s*(\w+)\b', user_input, re.IGNORECASE)
+    if match:
+        number_word = match.group(1)
+        if number_word in number_words:
+            return number_words[number_word]
+    return None
+
 
 def get_news(user_input):
     global local_recogniser
@@ -512,8 +558,8 @@ def get_news(user_input):
     titles = ""
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
-    speak("Here are the latest news: \n" + titles)
-    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    speak("Here's the latest news: \n" + titles)
+    speak("Would you like me to read any of these articles? If so, simply say the article number. You can also say 'repeat' to hear the titles again.")
     done = False
     while not done:
         try:
@@ -521,76 +567,46 @@ def get_news(user_input):
             print("Reply: ", user_reply)
             if user_reply == "repeat":
                 speak("Here are the latest news: \n" + titles)
+                speak("Please provide a number from 1 to 5")
             elif user_reply == "no":
                 speak("Alright!")
                 done = True
-            elif user_reply == "number one" or user_reply == "number 1":
-                speak(news["results"][0]["description"])
-                done = True
-            elif user_reply == "number two" or user_reply == "number 2":
-                speak(news["results"][1]["description"])
-                done = True
-            elif user_reply == "number three" or user_reply == "number 3":
-                speak(news["results"][2]["description"])
-                done = True
-            elif user_reply == "number four" or user_reply == "number 4":
-                speak(news["results"][3]["description"])
-                done = True
-            elif user_reply == "number five" or user_reply == "number 5":
-                speak(news["results"][4]["description"])
-                done = True
             else:
-                speak("I didn't understand")
+                article_number = extract_article_number(user_reply)
+                if article_number is not None:
+                    article_index = article_number - 1
+                    if 0 <= article_index < min(5, len(news["results"])):
+                        speak(news["results"][article_index]["description"])
+                        done = True
+                    else:
+                        speak("Sorry, the specified article number is out of range.")
+                        done = True
+                else:
+                    speak("Please provide a number from 1 to 5")
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
             speak("Please repeat...")
 
 def get_specific_news(user_input):
-    match_on = re.search(r'\bon\s(?P<substring>.+)', user_input)
-    if match_on:
-        substring_on = match_on.group("substring")
-        position_on = match_on.start("substring")
-    else:
-        substring_on = ""
-        position_on = -1
-
-    match_about = re.search(r'\babout\s(?P<substring>.+)', user_input)
-    if match_about:
-        substring_about = match_about.group("substring")
-        position_about = match_about.start("substring")
-    else:
-        substring_about = ""
-        position_about = -1
-
-    match_on_the = re.search(r'\bon the\s(?P<substring>.+)', user_input)
-    if match_on_the:
-        substring_on_the = match_on_the.group("substring")
-        position_on_the = match_on_the.start("substring")
-    else:
-        substring_on_the = ""
-        position_on_the = -1
-
-    match_about_the = re.search(r'\babout the\s(?P<substring>.+)', user_input)
-    if match_about_the:
-        substring_about_the = match_about_the.group("substring")
-        position_about = match_about_the.start("substring")
-    else:
-        substring_about_the = ""
-        position_about_the = -1
-
-    max_position = max(position_on, position_about, position_on_the, position_about_the)
-    if max_position == position_on:
-        substring_max = substring_on
-    elif max_position == position_about:
-        substring_max = substring_about
-    elif max_position == position_on_the:
-        substring_max = substring_on_the
-    elif max_position == position_about_the:
-        substring_max = substring_about_the
-    else:
-        substring_max = ""
-
     global local_recogniser
+    matches = [
+        re.search(r'\bon\s(?P<substring>.+)', user_input),
+        re.search(r'\babout\s(?P<substring>.+)', user_input),
+        re.search(r'\bon the\s(?P<substring>.+)', user_input),
+        re.search(r'\babout the\s(?P<substring>.+)', user_input)
+    ]
+
+    max_position = -1
+    substring_max = ""
+
+    for match in matches:
+        if match:
+            substring = match.group("substring")
+            position = match.start("substring")
+            if position > max_position:
+                max_position = position
+                substring_max = substring
+
     news_data = requests.get(f'https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&q={substring_max}')
     news = news_data.json()
     titles = ""
@@ -603,31 +619,35 @@ def get_specific_news(user_input):
         try:
             user_reply = recognise_input(local_recogniser)
             print("Reply: ", user_reply)
+            article_number = extract_article_number(user_reply)
             if user_reply == "repeat":
                 speak(f"These are the latest news on {substring_max}: \n" + titles)
             elif user_reply == "no":
                 speak("Alright!")
                 done = True
-            elif user_reply == "number one" or user_reply == "number 1":
-                speak(news["results"][0]["description"])
-                done = True
-            elif user_reply == "number two" or user_reply == "number 2":
-                speak(news["results"][1]["description"])
-                done = True
-            elif user_reply == "number three" or user_reply == "number 3":
-                speak(news["results"][2]["description"])
-                done = True
-            elif user_reply == "number four" or user_reply == "number 4":
-                speak(news["results"][3]["description"])
-                done = True
-            elif user_reply == "number five" or user_reply == "number 5":
-                speak(news["results"][4]["description"])
+            elif article_number is not None and 1 <= article_number <= 5:
+                speak(news["results"][article_number - 1]["description"])
                 done = True
             else:
                 speak("I didn't understand")
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
             speak("Please repeat...")
+
+def get_random_joke(text):
+    url = "https://v2.jokeapi.dev/joke/Any?type=twopart"
+    response = requests.get(url)
+    data = response.json()
+
+    if data["type"] == "twopart":
+        setup = data["setup"]
+        punchline = data["delivery"]
+        joke = f"{setup}\n{punchline}"
+    else:
+        joke = data["joke"]
+
+    speak(joke)
+
 
 
 

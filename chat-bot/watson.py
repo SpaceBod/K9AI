@@ -1,7 +1,7 @@
 import csv
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from functions import speak, get_weather, get_day, request_song, greet_me, request_specific_song, request_specific_playlist, request_playlist, pause_music, play_music, play_liked, play_next, play_previous, increase_vol, decrease_vol, set_vol, add_face, be_positive, get_news, get_specific_news, request_specific_podcast, request_podcast
+from functions import speak, get_weather, get_day, request_song, greet_me, request_specific_song, request_specific_playlist, request_playlist, pause_music, play_music, play_liked, play_next, play_previous, increase_vol, decrease_vol, set_vol, add_face, be_positive, get_news, get_specific_news, request_specific_podcast, request_podcast, get_random_joke
 
 class WatsonAssistant:
     def __init__(self, api_key, id, service_url, intents_file):
@@ -40,7 +40,8 @@ class WatsonAssistant:
             'Positive Behaviours': be_positive,
             'Greet By Name': greet_me,
             'Podcast Request': request_specific_podcast,
-            'Podcast': request_podcast
+            'Podcast': request_podcast,
+            'Joke': get_random_joke
         }
 
     def read_intents_from_csv(self, file_path):
@@ -65,8 +66,11 @@ class WatsonAssistant:
                         print('Intent:', intent_text, "\tID: ", intent)
                         # Call the corresponding function based on the intent with TTS
                         if intent_text in self.intent_mapping:
+                            speak(assistant_reply)
                             self.intent_mapping[intent_text](speech_input)
-                        speak(assistant_reply)  # Call speak() only when both generic and intent are detected
+                        else:
+                            speak(assistant_reply)
+
                     else:
                         speak("Oops! I am not sure how to respond to that.")
                 else:
