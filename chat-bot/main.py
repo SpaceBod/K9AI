@@ -4,8 +4,7 @@ from watson import WatsonAssistant
 import json
 import pvporcupine
 import pyaudio
-import struct
-import cv2
+import os
 
 def initialize_chatbot():
     recognized_names = []
@@ -20,6 +19,7 @@ def initialize_chatbot():
     recogniser = speech_recognition.Recognizer()
     calibrate_mic(recogniser)
     initialise_tts()
+    pygame.init()
     # Initialising Spotify
     spot, dev_ID = initialise_spotify(
         client_id=spotify_settings['client_id'],
@@ -30,15 +30,16 @@ def initialize_chatbot():
         scope=spotify_settings['scope']
     )
     send_variables(spot, dev_ID)
-    sound("assets/startup.mp3")
+    play_sound("assets/startup.mp3", 0.5, blocking=False)
     recognized_names = scan_face()
     for name in recognized_names:
         #print(name)
         if name == "N" or name == "Unknown":
-            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
+            play_sound("sound/intro_no_name.mp3", 0.5, blocking=True)
+            #speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
         else:
             speak(f"Hi {name}. I'm K9.")
-    speak("What can I help you with?")
+    play_sound("sound/what_can_I_help_you_with.mp3", 0.5, blocking=False)
 
     # Create an instance of the WatsonAssistant class
     assistant = WatsonAssistant(
@@ -75,14 +76,14 @@ def main():
             listen_for_wake_word(porcupine, audio_stream)
             if (is_music_paused() == True):
                 pause_music('Pause')
-            sound("assets/ready.mp3")
+            play_sound("assets/ready.mp3", 0.5, blocking=False)
             try:
                 user_input = recognise_input(recogniser)
                 print(f"[INPUT]\t{user_input}")
                 assistant.watson_chat(user_input)
             except speech_recognition.UnknownValueError:
                 recogniser = speech_recognition.Recognizer()
-                speak("I didn't quite catch that...")
+                play_sound("sound/repeat.mp3", 0.5, blocking=False)
     finally:
         if porcupine is not None:
             porcupine.delete()

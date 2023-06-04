@@ -14,6 +14,9 @@ import csv
 import random
 import time
 
+# Import for sound files
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+import pygame
 
 K9_TTS = None
 weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
@@ -22,6 +25,16 @@ local_recogniser = None
 global_spotify = None
 global_device_id = None
 
+def play_sound(file_path, volume, blocking=True):
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound(file_path)
+    sound.set_volume(volume)
+    if blocking:
+        sound.play()
+        while pygame.mixer.get_busy():  # Wait for the sound to finish playing
+            pygame.time.Clock().tick(10)  # Control the loop speed
+    else:
+        sound.play()
 
 # Initiliasing the Text to Speech engine
 def initialise_tts():
@@ -41,7 +54,7 @@ def recognise_input(recogniser):
     local_recogniser = recogniser
     with speech_recognition.Microphone() as mic:
         audio = recogniser.listen(mic)
-        sound("assets/prompt.mp3")
+        play_sound("assets/prompt.mp3", 0.8, blocking=False)
         message = recogniser.recognize_google(audio)
         message = message.lower()
         return message
