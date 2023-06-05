@@ -127,7 +127,7 @@ def extract_podcast_info(text):
 # Local functions called by Watson (must take user_input even if not used)
 def request_song(text):
     global local_recogniser
-    speak("Sure, what song do you want to listen to?")
+    play_sound("sound/songRequest.mp3", 0.5, blocking=False)
     done = False
     while not done:
         try:
@@ -149,12 +149,12 @@ def request_song(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+            play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def request_specific_song(text):
     song_name, artist = extract_song_info(text)
     if (artist == "" and song_name == ""):
-        speak(f"Search unsuccessful, please try again.")
+        play_sound("sound/searchFailed.mp3", 0.5, blocking=False)
         return
     # If only song title provided
     if artist == "":
@@ -171,7 +171,7 @@ def request_specific_song(text):
 
 def request_playlist(text):
     global local_recogniser  
-    speak("Sure, what playlist do you want to listen to?")
+    play_sound("sound/playlistRequest.mp3", 0.5, blocking=False)
     done = False
     while not done:
         try:
@@ -184,12 +184,12 @@ def request_playlist(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+            play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def request_specific_playlist(text):
     playlist_name = extract_playlist_info(text).title()
     if playlist_name == "":
-        speak(f"Search unsuccessful, please try again.")
+        play_sound("sound/searchFailed.mp3", 0.5, blocking=False)
         return
     else:
         time.sleep(4)
@@ -199,7 +199,7 @@ def request_specific_playlist(text):
 
 def request_podcast(text):
     global local_recogniser  
-    speak("Sure, what podcast do you want to listen to?")
+    play_sound("sound/podcastRequest.mp3", 0.5, blocking=False)
     done = False
     while not done:
         try:
@@ -212,12 +212,12 @@ def request_podcast(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+            play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def request_specific_podcast(text):
     podcast_name = extract_podcast_info(text).title()
     if podcast_name == "":
-        speak(f"Search unsuccessful, please try again.")
+        play_sound("sound/searchFailed.mp3", 0.5, blocking=False)
         return
     else:
         time.sleep(4)
@@ -380,17 +380,17 @@ def scan_face():
 def add_face(text):
     global local_recogniser
     name = False
-    speak("... Sure")
+    play_sound("sound/sure.mp3", 0.5, blocking=True)
     while name == False:
         done = False
         while not done:
-            speak("What's your name?")
+            play_sound("sound/name.mp3", 0.5, blocking=True)
             try:
                 person = recognise_input(local_recogniser)
                 done=True
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                speak("Please repeat...")
+                play_sound("sound/repeat.mp3", 0.5, blocking=False)
         
         print("Name: ", person)
         finish = False
@@ -402,25 +402,21 @@ def add_face(text):
                 finish = True
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                speak("Please repeat...")
+                play_sound("sound/repeat.mp3", 0.5, blocking=True)
 
         if ('no' in response) or ('nope' in response):
-            speak("Okay, Lets try again.")
+            play_sound("sound/tryAgain.mp3", 0.5, blocking=True)
             name = False
         else:
             if ('yes' in response) or ('yeah' in response):               
                 name = True
             name = True #consider changing 
     cap = cv2.VideoCapture(0)
-    speak("Get ready for a picture")
-    speak("3")
-    speak("2")
-    speak("1")
+    play_sound("sound/picture.mp3", 0.5, blocking=True)
     _, image = cap.read()
-    speak("Smile!")
     image_path = f"faces/{person}.jpg"
     cv2.imwrite(image_path, image)
-    speak(f"All done! Hello {person}")
+    play_sound("sound/done.mp3", 0.5, blocking=True)
     print(f"Face captured and saved as {image_path}")
     cap.release()
     cv2.destroyAllWindows()
@@ -471,9 +467,8 @@ def be_positive(text):
         prev_motivation = motivation
         prev_category = category
 
-        speak("My suggestion is ...")
-        speak(f"{motivation}")
-        speak("Would you like a different suggestion?")
+        speak(f"My suggestion is ... {motivation}")
+        play_sound("sound/differentSuggestion.mp3", 0.5, blocking=False)
 
         attempt_counter = 0
         max_attempts = 3  # Set the maximum number of attempts
@@ -492,26 +487,25 @@ def be_positive(text):
                         if suggestions:
                             motivation = random.choice(suggestions)
                         else:
-                            speak("I'm sorry, I couldn't find any more suggestions at the moment.")
+                            play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
                             break  # Exit the inner while loop
-                        speak("Another suggestion is ...")
-                        speak(f"{motivation}")
+                        speak(f"Another suggestion is ... {motivation}")
                     else:
-                        speak("I'm sorry, I couldn't find any more suggestions at the moment.")
+                        play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
                         break  # Exit the inner while loop
                     break  # Exit the inner while loop
                 elif 'no' in response:
-                    speak("No problem!")
+                    play_sound("sound/noProblem.mp3", 0.5, blocking=False)
                     break  # Exit the inner while loop
                 else:
-                    speak("I didn't understand. Please respond with 'yes' or 'no'.")
+                    play_sound("sound/yesNoRespond.mp3", 0.5, blocking=False)
                 attempt_counter += 1
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                speak("Please repeat...")
+                play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
         if attempt_counter >= max_attempts:
-            speak("Sorry, I couldn't find any more suggestions. If you need further assistance, feel free to ask.")
+            play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
         break  # Exit the outer while loop
 
 
@@ -544,7 +538,7 @@ def greet_me(text):
     cv2.destroyAllWindows()
     for name in recognized_names:
         if name == "N" or name == "Unknown":
-            speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
+            play_sound("sound/greet.mp3", 0.5, blocking=False)
         else:
             speak(f"Hey {name}. I'm K9.")
 
@@ -572,7 +566,7 @@ def get_news(user_input):
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     speak("Here's the latest news: \n" + titles)
-    speak("Would you like me to read any of these articles? If so, simply say the article number. You can also say 'repeat' to hear the titles again.")
+    play_sound("sound/newsSelection.mp3", 0.5, blocking=False)
     done = False
     while not done:
         try:
@@ -580,11 +574,12 @@ def get_news(user_input):
             print("Reply: ", user_reply)
             if user_reply == "repeat":
                 speak("Here are the latest news: \n" + titles)
-                speak("Please provide a number from 1 to 5")
+                play_sound("sound/1to5.mp3", 0.5, blocking=False)
             elif user_reply == "no":
-                speak("Alright!")
+                play_sound("sound/noProblem.mp3", 0.5, blocking=False)
                 done = True
             else:
+                play_sound("sound/sure.mp3", 0.5, blocking=False)
                 article_number = extract_article_number(user_reply)
                 if article_number is not None:
                     article_index = article_number - 1
@@ -592,13 +587,13 @@ def get_news(user_input):
                         speak(news["results"][article_index]["description"])
                         done = True
                     else:
-                        speak("Sorry, the specified article number is out of range.")
+                        play_sound("sound/outOfRange.mp3", 0.5, blocking=False)
                         done = True
                 else:
-                    speak("Please provide a number from 1 to 5")
+                    play_sound("sound/1to5.mp3", 0.5, blocking=False)
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+            play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def get_specific_news(user_input):
     global local_recogniser
@@ -626,7 +621,7 @@ def get_specific_news(user_input):
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     speak(f"These are the latest news on {substring_max}: \n" + titles)
-    speak("Do you want me to read any of these? Say the number of the article if so. Or say repeat for me to repeat the titles.")
+    play_sound("sound/newsSelection.mp3", 0.5, blocking=False)
     done = False
     while not done:
         try:
@@ -636,16 +631,16 @@ def get_specific_news(user_input):
             if user_reply == "repeat":
                 speak(f"These are the latest news on {substring_max}: \n" + titles)
             elif user_reply == "no":
-                speak("Alright!")
+                play_sound("sound/noProblem.mp3", 0.5, blocking=False)
                 done = True
             elif article_number is not None and 1 <= article_number <= 5:
                 speak(news["results"][article_number - 1]["description"])
                 done = True
             else:
-                speak("I didn't understand")
+                play_sound("sound/1to5.mp3", 0.5, blocking=False)
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            speak("Please repeat...")
+            play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def get_random_joke(text):
     url = "https://v2.jokeapi.dev/joke/Any?type=twopart"

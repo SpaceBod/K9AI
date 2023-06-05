@@ -35,11 +35,11 @@ def initialize_chatbot():
     for name in recognized_names:
         #print(name)
         if name == "N" or name == "Unknown":
-            play_sound("sound/intro_no_name.mp3", 0.5, blocking=True)
+            play_sound("sound/greet.mp3", 0.5, blocking=True)
             #speak("Hi, I don't think we have met. I'm K9. If you want me to greet you by name, say Hey K9, Add me!")
         else:
             speak(f"Hi {name}. I'm K9.")
-    play_sound("sound/what_can_I_help_you_with.mp3", 0.5, blocking=False)
+    play_sound("sound/help.mp3", 0.5, blocking=False)
 
     # Create an instance of the WatsonAssistant class
     assistant = WatsonAssistant(
