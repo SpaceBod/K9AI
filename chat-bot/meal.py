@@ -1,5 +1,6 @@
 import requests
 import random
+import re
 
 API_KEY = "f690740882be4d4a9dce062ebdafc9d1"
 HEADERS = {"Content-Type": "application/json"}
@@ -95,20 +96,30 @@ def get_random_meal_by_phrase(phrase):
     else:
         print(f"Sorry, couldn't find any {meal_type} meals. Please try again.")
 
+def extract_meal_name(prompt):
+    pattern = r"(?i)\b(how to make|recipe for|instructions for|how do I make|tell me how to make|show me how to make)\b\s+(.*)"
+    match = re.search(pattern, prompt)
+    if match:
+        return match.group(2).strip()
+    return None
 
 # Example usage for getting food recommendations:
 # Accepts phrases with: breakfast lunch dinner, if none found, gets random meal
-phrase = "I want a random  recipe"
+phrase = "I want a lunch recipe"
 get_random_meal_by_phrase(phrase)
 
 print("\n\n\n")
 
 # Example usage for getting recipe from name:
-dish_name = "burger"
-recipes = search_recipe_by_name(dish_name)
-if recipes:
-    print(f"Title: {recipes[0]['title']}")
-    print("Instructions:")
-    print(recipes[0]['instructions'])
+phrase = "Give me a recipe for Pasta."
+meal_name = extract_meal_name(phrase)
+if meal_name != None:
+    recipes = search_recipe_by_name(meal_name)
+    if recipes:
+        print(f"Title: {recipes[0]['title']}")
+        print("Instructions:")
+        print(recipes[0]['instructions'])
+    else:
+        print("No recipe found for the given dish name.")
 else:
-    print("No recipe found for the given dish name.")
+    print("Please try again")
