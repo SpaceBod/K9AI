@@ -61,7 +61,7 @@ def recognise_input(recogniser):
 
 def listen_for_wake_word(porcupine, audio_stream):
     while True:
-        pcm = audio_stream.read(porcupine.frame_length)
+        pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow = False)
         pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
         keyword_index = porcupine.process(pcm)
         if keyword_index >= 0:
@@ -643,7 +643,8 @@ def get_specific_news(user_input):
             play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
 def get_random_joke(text):
-    url = "https://v2.jokeapi.dev/joke/Any?type=twopart"
+    # Yup we have to filter out a lot of bad jokes...
+    url = "https://v2.jokeapi.dev/joke/Any?type=twopart&blacklistFlags=nsfw,religious,political,racist,sexist"
     response = requests.get(url)
     data = response.json()
 
@@ -653,8 +654,10 @@ def get_random_joke(text):
         joke = f"{setup}\n{punchline}"
     else:
         joke = data["joke"]
-
     speak(joke)
+
+
+
 
 
 

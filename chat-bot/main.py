@@ -62,7 +62,7 @@ def initialize_porcupine(wake_word_settings):
         channels=1,
         format=pyaudio.paInt16,
         input=True,
-        frames_per_buffer=porcupine.frame_length,
+        frames_per_buffer=1024,
         output=False
     )
     return porcupine, audio_stream
