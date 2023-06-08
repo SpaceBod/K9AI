@@ -164,7 +164,8 @@ def get_current_volume(spotify=None, device_id=None):
 
 def fetch_podcast_ratings():
     # Open the CSV file
-    with open('assests/genres.csv', 'r') as file:
+    file_path = "assets/genres.csv"
+    with open(file_path, 'r') as file:
         reader = csv.reader(file)
         # Create a dictionary to store the topics and their corresponding numbers
         topics = {}
@@ -283,14 +284,14 @@ def update_podcast_rating(topic, rating):
         new_score = max(current_score - 2, 1)
     elif rating == "hate":
         new_score = 2
-        change_rating(topic, new_score)
+        change_podcast_rating(topic, new_score)
         return
     else:
         print("Invalid rating.")
         return
 
-    # Update the score using the change_rating function
-    change_rating(topic, new_score)
+    # Update the score using the change_podcast_rating function
+    change_podcast_rating(topic, new_score)
 
 # read_rating(topic)
 # Reads and returns the score of a specific genre from the CSV file.
@@ -304,7 +305,7 @@ def update_podcast_rating(topic, rating):
 # categorize_topics()
 # Categorizes the genre into three arrays based on their scores: top 30%, next 30%, and bottom 40%.
 
-# change_rating(topic, new_score)
+# change_podcast_rating(topic, new_score)
 # Updates the score of a specific genre in the CSV file.
 
 # update_rating(topic, rating)
