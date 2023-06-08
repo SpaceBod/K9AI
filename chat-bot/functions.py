@@ -276,7 +276,7 @@ def request_genre_podcast(text):
             check_history = podcast_history_check(podcast_name,podcast_artist)
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {podcast_genre}.")
-        podcast_history(podcast_name,podcast_artist)
+        podcast_history(podcast_genre,podcast_name,podcast_artist)
 
 def request_random_podcast(text):
     genres = fav_podcast_genres()
@@ -290,19 +290,19 @@ def request_random_podcast(text):
         check_history = podcast_history_check(podcast_name,podcast_artist)
     play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     speak(f"Playing {podcast_genre}.")    
-    podcast_history(podcast_name,podcast_artist)
+    podcast_history(podcast_genre,podcast_name,podcast_artist)
 
 
-def podcast_history(podcast_name,podcast_artist):
+def podcast_history(podcast_genre,podcast_name,podcast_artist):
     file_path = "assets/podcast_history.csv"
     file_exists = os.path.exists(file_path)
     with open(file_path, "a", newline="") as csvfile:
         writer = csv.writer(csvfile)
         # Write the header row if the file is empty
         if not file_exists or os.stat(file_path).st_size == 0:
-            writer.writerow(["Podcast Name", "Artist"])
+            writer.writerow(["Genre","Podcast Name", "Artist"])
         # Write the data to the next empty row
-        writer.writerow([podcast_name, podcast_artist])
+        writer.writerow([podcast_genre, podcast_name, podcast_artist])
     print("Podcast has been written to the CSV file.")
 
 def podcast_history_check(podcast_name, podcast_artist):
@@ -313,7 +313,7 @@ def podcast_history_check(podcast_name, podcast_artist):
         reader = csv.reader(csvfile)
         next(reader)  
         for row in reader:
-            if row[0] == podcast_name and row[1] == podcast_artist:
+            if row[1] == podcast_name and row[2] == podcast_artist:
                 return True  # Exact match found
     return False  # No exact match found    
 
@@ -867,3 +867,38 @@ def search_meal(prompt):
             play_sound("sound/NoRecipesFound.mp3", 0.5, blocking=False)
     else:
         play_sound("sound/repeat.mp3", 0.5, blocking=False)
+
+def podcast_feedback(rating):  #add intents all 6 intents will call the same function with different ratings
+    file_path = "assets/podcast_history.csv"
+    if not os.path.exists(file_path):
+        return False 
+    with open(file_path, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  
+        for row in reader:
+            podcast_genre = row[0]        
+    topics = fetch_podcast_ratings()
+    current_score = topics.get(podcast_genre)
+    if current_score is None:
+        print("Topic not found.")
+        return
+    # Update the score based on the rating input
+    if rating == "favourite":
+        new_score = 9
+    elif rating == "love":
+        new_score = min(current_score + 2, 10)
+    elif rating == "like":
+        new_score = min(current_score + 1, 10)
+    elif rating == "dislike":
+        new_score = max(current_score - 1, 1)
+    elif rating == "strongly dislike":
+        new_score = max(current_score - 2, 1)
+    elif rating == "hate":
+        new_score = 2
+        change_podcast_rating(podcast_genre, new_score)
+        return
+    else:
+        print("Invalid rating.")
+        return
+    # Update the score using the change_podcast_rating function
+    change_podcast_rating(podcast_genre, new_score)

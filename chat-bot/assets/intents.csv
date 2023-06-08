@@ -28,3 +28,9 @@ action_5238_intent_27243,Podcast Suggestion
 action_26771_intent_31447,Podcast Genre
 action_6489_intent_12439,Meal Search
 action_1167_intent_47502,Meal Recommend
+action_15866_intent_30690,Podcast Feedback Fav
+action_33828_intent_47551,Podcast Feedback Love
+action_38589_intent_46335,Podcast Feedback Like
+action_13778_intent_34730,Podcast Feedback Dislike
+action_10353_intent_28071,Podcast Feedback Strong Dislike
+action_9784_intent_4926,Podcast Feedback Hate

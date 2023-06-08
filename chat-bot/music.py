@@ -261,39 +261,7 @@ def change_podcast_rating(topic, new_score):
 
     print("Score updated successfully.")
 
-def update_podcast_rating(topic, rating):
-    # Read the topic scores from the CSV file
-    topics = fetch_podcast_ratings()
-
-    # Find the topic in the dictionary and retrieve its current score
-    current_score = topics.get(topic)
-    if current_score is None:
-        print("Topic not found.")
-        return
-
-    # Update the score based on the rating input
-    if rating == "favourite":
-        new_score = 9
-    elif rating == "love":
-        new_score = min(current_score + 2, 10)
-    elif rating == "like":
-        new_score = min(current_score + 1, 10)
-    elif rating == "dislike":
-        new_score = max(current_score - 1, 1)
-    elif rating == "strongly dislike":
-        new_score = max(current_score - 2, 1)
-    elif rating == "hate":
-        new_score = 2
-        change_podcast_rating(topic, new_score)
-        return
-    else:
-        print("Invalid rating.")
-        return
-
-    # Update the score using the change_podcast_rating function
-    change_podcast_rating(topic, new_score)
-
-# read_rating(topic)
+# fetch_podcast_ratings(topic)
 # Reads and returns the score of a specific genre from the CSV file.
 
 # init_podcast_ratings()
@@ -307,6 +275,3 @@ def update_podcast_rating(topic, rating):
 
 # change_podcast_rating(topic, new_score)
 # Updates the score of a specific genre in the CSV file.
-
-# update_rating(topic, rating)
-# Updates the score of a specific topic based on the given rating.
