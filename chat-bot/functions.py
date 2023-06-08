@@ -225,6 +225,86 @@ def request_specific_podcast(text):
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {podcast_name}.")
 
+def request_genre_podcast(text):
+    global local_recogniser  
+    print("Entered request_genre_podcast")
+    print("Response:", text)
+    pattern1 = r"\ba\s+(.*?)\s+podcast\b|\ban\s+(.*?)\s+podcast\b"
+    pattern2 = r"(?:about|on)\s+(.*?)$"
+    pattern3 = r"(?:play|suggest|recommend)\s+(.*?)\s+podcast\b"
+    pattern4 = r"(?i)(?<=to\s)(?!.*to\s).*?(?=\spodcast)"
+
+    match1 = re.search(pattern1, text, re.IGNORECASE)
+    match2 = re.search(pattern2, text, re.IGNORECASE)
+    match3 = re.search(pattern3, text, re.IGNORECASE)
+    match4 = re.search(pattern4, text, re.IGNORECASE)
+
+    podcast_genre = None
+
+    if match1:
+        podcast_genre = match1.group(1) or match1.group(2)
+    elif match2:
+        podcast_genre = match2.group(1)
+    elif match3:
+        podcast_genre = match3.group(1)
+    elif match4:
+        podcast_genre = match4.group()
+
+    
+    print("genre identified:", podcast_genre)
+    if podcast_genre == "":
+        play_sound("sound/searchFailed.mp3", 0.5, blocking=False)
+        return
+    else:
+        time.sleep(4)
+        check_history = True
+        while check_history == True:
+            print("entered check:")
+            uri,podcast_name,podcast_artist = get_podcast_genre_uri(spotify=global_spotify, genre=podcast_genre)
+            check_history = podcast_history_check(podcast_name,podcast_artist)
+        play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+        speak(f"Playing {podcast_genre}.")
+        podcast_history(podcast_name,podcast_artist)
+
+def request_random_podcast(text):
+    genres = fav_podcast_genres()
+    index = random.randint(0, len(genres) - 1)
+    podcast_genre = genres[index]
+    time.sleep(4)
+    check_history = True
+    while check_history == True:
+        uri,podcast_name,podcast_artist = get_podcast_genre_uri(spotify=global_spotify, genre=podcast_genre)
+        print(podcast_name, podcast_artist)
+        check_history = podcast_history_check(podcast_name,podcast_artist)
+    play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+    speak(f"Playing {podcast_genre}.")    
+    podcast_history(podcast_name,podcast_artist)
+
+
+def podcast_history(podcast_name,podcast_artist):
+    file_path = "assets/podcast_history.csv"
+    file_exists = os.path.exists(file_path)
+    with open(file_path, "a", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        # Write the header row if the file is empty
+        if not file_exists or os.stat(file_path).st_size == 0:
+            writer.writerow(["Podcast Name", "Artist"])
+        # Write the data to the next empty row
+        writer.writerow([podcast_name, podcast_artist])
+    print("Podcast has been written to the CSV file.")
+
+def podcast_history_check(podcast_name, podcast_artist):
+    file_path = "assets/podcast_history.csv"
+    if not os.path.exists(file_path):
+        return False 
+    with open(file_path, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  
+        for row in reader:
+            if row[0] == podcast_name and row[1] == podcast_artist:
+                return True  # Exact match found
+    return False  # No exact match found    
+
 def is_music_paused():
     return is_track_paused(spotify=global_spotify)
 

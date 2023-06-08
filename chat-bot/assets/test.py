@@ -171,3 +171,6 @@ print(fav_genres())
 # update_rating(topic, rating)
 # Updates the score of a specific topic based on the given rating.
 
+def search_podcast_genre():
+
+
