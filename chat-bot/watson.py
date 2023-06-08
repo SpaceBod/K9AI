@@ -1,7 +1,7 @@
 import csv
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from functions import speak, get_weather, get_day, request_song, greet_me, request_specific_song, request_specific_playlist, request_playlist, pause_music, play_music, play_liked, play_next, play_previous, increase_vol, decrease_vol, set_vol, add_face, be_positive, get_news, get_specific_news, request_specific_podcast, request_podcast, get_random_joke, request_random_podcast, request_genre_podcast
+from functions import speak, get_weather, get_day, request_song, greet_me, request_specific_song, request_specific_playlist, request_playlist, pause_music, play_music, play_liked, play_next, play_previous, increase_vol, decrease_vol, set_vol, add_face, be_positive, get_news, get_specific_news, request_specific_podcast, request_podcast, get_random_joke, request_random_podcast, request_genre_podcast, get_random_meal_by_phrase, search_meal
 
 class WatsonAssistant:
     def __init__(self, api_key, id, service_url, intents_file):
@@ -43,7 +43,9 @@ class WatsonAssistant:
             'Podcast': request_podcast,
             'Joke': get_random_joke,
             'Podcast Suggestion': request_random_podcast,
-            'Podcast Genre': request_genre_podcast
+            'Podcast Genre': request_genre_podcast,
+            'Meal Recommend': get_random_meal_by_phrase,
+            'Meal Search': search_meal
         }
 
     def read_intents_from_csv(self, file_path):
