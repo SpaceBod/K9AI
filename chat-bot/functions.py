@@ -13,6 +13,8 @@ import pickle
 import csv
 import random
 import time
+from elevenlabslib.helpers import *
+from elevenlabslib import *
 
 # Import for sound files
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -72,10 +74,17 @@ def listen_for_wake_word(porcupine, audio_stream):
             break
 
 # Text to speech
-def speak(text):
+def espeak(text):
     print('K9: ' + text)
     K9_TTS.say(text)
     K9_TTS.runAndWait()
+
+def speak(text):
+    print('K9: ' + text)
+    api_key = "ecf8b902a86fab1c3ec866b9a8ed6fc3"
+    user = ElevenLabsUser(api_key)
+    premadeVoice = user.get_voices_by_name("Morgan Freeman Impersonator")[0]
+    generationData = premadeVoice.generate_play_audio(text , stability=0.4, similarity_boost=0.4, playInBackground=False, latencyOptimizationLevel = 0)
 
 def send_variables(spotify, device_id):
     global global_spotify
