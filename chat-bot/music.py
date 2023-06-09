@@ -2,6 +2,7 @@ import spotipy as sp
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 import random
+import os
 import csv
 
 class InvalidSearchError(Exception):
@@ -261,17 +262,47 @@ def change_podcast_rating(topic, new_score):
 
     print("Score updated successfully.")
 
-# fetch_podcast_ratings(topic)
-# Reads and returns the score of a specific genre from the CSV file.
+def update_podcast_rating(topic, rating):
+    # Read the topic scores from the CSV file
+    topics = fetch_podcast_ratings()
 
-# init_podcast_ratings()
-# Randomly initializes the scores between 4 and 8 (inclusive) for all genres in the CSV file.
+    # Find the topic in the dictionary and retrieve its current score
+    current_score = topics.get(topic)
+    if current_score is None:
+        print("Topic not found.")
+        return
 
-# fav_podcast_genres()
-# Finds the top two genre with the highest scores, and additional genre with the same score.
+    # Update the score based on the rating input
+    if rating == "favourite":
+        new_score = 9
+    elif rating == "love":
+        new_score = min(current_score + 2, 10)
+    elif rating == "like":
+        new_score = min(current_score + 1, 10)
+    elif rating == "dislike":
+        new_score = max(current_score - 1, 1)
+    elif rating == "strongly dislike":
+        new_score = max(current_score - 2, 1)
+    elif rating == "hate":
+        new_score = 2
+        change_podcast_rating(topic, new_score)
+        return
+    else:
+        print("Invalid rating.")
+        return
 
-# categorize_topics()
-# Categorizes the genre into three arrays based on their scores: top 30%, next 30%, and bottom 40%.
+    # Update the score using the change_podcast_rating function
+    change_podcast_rating(topic, new_score)
 
-# change_podcast_rating(topic, new_score)
-# Updates the score of a specific genre in the CSV file.
+def fetch_prev_podcast():
+    file_path = "assets/podcast_history.csv"
+    if not os.path.exists(file_path):
+        return False 
+    with open(file_path, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  
+        for row in reader:
+            podcast_genre = row[0]        
+    topics = fetch_podcast_ratings()
+    current_score = topics.get(podcast_genre)
+    return podcast_genre, current_score

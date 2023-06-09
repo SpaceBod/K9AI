@@ -600,9 +600,6 @@ def be_positive(text):
             play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
         break  # Exit the outer while loop
 
-
-
-
         
 def greet_me(text):
     # Encode faces from a folder and save the encodings
@@ -868,37 +865,54 @@ def search_meal(prompt):
     else:
         play_sound("sound/repeat.mp3", 0.5, blocking=False)
 
-def podcast_feedback(rating):  #add intents all 6 intents will call the same function with different ratings
-    file_path = "assets/podcast_history.csv"
-    if not os.path.exists(file_path):
-        return False 
-    with open(file_path, "r") as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  
-        for row in reader:
-            podcast_genre = row[0]        
-    topics = fetch_podcast_ratings()
-    current_score = topics.get(podcast_genre)
+def podcast_feedback_fav(text):
+    podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
         print("Topic not found.")
         return
-    # Update the score based on the rating input
-    if rating == "favourite":
-        new_score = 9
-    elif rating == "love":
-        new_score = min(current_score + 2, 10)
-    elif rating == "like":
-        new_score = min(current_score + 1, 10)
-    elif rating == "dislike":
-        new_score = max(current_score - 1, 1)
-    elif rating == "strongly dislike":
-        new_score = max(current_score - 2, 1)
-    elif rating == "hate":
-        new_score = 2
-        change_podcast_rating(podcast_genre, new_score)
+    change_podcast_rating(podcast_genre, 9)
+
+def podcast_feedback_love(text):
+    podcast_genre, current_score = fetch_prev_podcast()
+    if current_score is None:
+        print("Topic not found.")
         return
-    else:
-        print("Invalid rating.")
-        return
-    # Update the score using the change_podcast_rating function
+    new_score = min(current_score + 2, 10)
     change_podcast_rating(podcast_genre, new_score)
+    speak("")
+
+def podcast_feedback_like(text):
+    podcast_genre, current_score = fetch_prev_podcast()
+    if current_score is None:
+        print("Topic not found.")
+        return
+    new_score = min(current_score + 1, 10)
+    change_podcast_rating(podcast_genre, new_score)
+    speak("")
+
+def podcast_feedback_dis(text):
+    podcast_genre, current_score = fetch_prev_podcast()
+    if current_score is None:
+        print("Topic not found.")
+        return
+    new_score = max(current_score - 1, 1)
+    change_podcast_rating(podcast_genre, new_score)
+    speak("")
+
+def podcast_feedback_stdis(text):
+    podcast_genre, current_score = fetch_prev_podcast()
+    if current_score is None:
+        print("Topic not found.")
+        return
+    new_score = max(current_score - 2, 1)
+    change_podcast_rating(podcast_genre, new_score)
+    speak("")
+
+def podcast_feedback_hate(text):
+    podcast_genre, current_score = fetch_prev_podcast()
+    if current_score is None:
+        print("Topic not found.")
+        return
+    change_podcast_rating(podcast_genre, 2)
+    speak("")
+
