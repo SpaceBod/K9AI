@@ -1,9 +1,21 @@
-import requests
+from functions import *
 import random
-import re
 
 API_KEY = "f690740882be4d4a9dce062ebdafc9d1"
 HEADERS = {"Content-Type": "application/json"}
+
+def extract_recipe_number(user_input):
+    number_words = {
+        'one': 1,
+        'two': 2,
+        'three': 3,
+    }
+    match = re.search(r'\bnumber\s*(\w+)\b', user_input, re.IGNORECASE)
+    if match:
+        number_word = match.group(1)
+        if number_word in number_words:
+            return number_words[number_word]
+    return None
 
 def remove_html_tags(text):
     clean_text = ""
@@ -64,6 +76,7 @@ def get_random_recipes(number, meal_type):
         return []
 
 def get_random_meal_by_phrase(phrase):
+    local_recogniser = get_recogniser()
     meal_type = ""
     if "breakfast" in phrase.lower():
         meal_type = "breakfast"
@@ -76,25 +89,34 @@ def get_random_meal_by_phrase(phrase):
 
     random_meals = get_random_recipes(3, meal_type)
     if random_meals:
-        print(f"Random {meal_type.capitalize()} Meals:")
-        for i, meal in enumerate(random_meals, start=1):
-            print(f"{i}. {meal['title']}")
-
-        user_choice = input("Enter the number of the meal you want to get instructions for (or enter 0 to exit): ")
-        if user_choice.isdigit():
-            index = int(user_choice) - 1
-            if index >= 0 and index < len(random_meals):
-                selected_meal = random_meals[index]
-                print("Instructions:")
-                print(selected_meal["instructions"])
-            elif index == -1:
-                return
-            else:
-                print("Invalid choice. Please try again.")
-        else:
-            print("Invalid choice. Please try again.")
+        play_sound("sound/recipeSearch.mp3", 0.5, blocking=False)
+        meal_string = "\n"
+        for meal in random_meals:
+            meal_string += meal["title"] + ".\n"
+            
+        speak(f"Here are some {meal_type.capitalize()} meals!{meal_string}")
+        play_sound("sound/SayNumberMeals.mp3", 0.5, blocking=True)
+        done=False
+        while not done:
+            try:
+                user_reply = recognise_input(local_recogniser)
+                print("Reply: ", user_reply)
+                recipe_number = extract_recipe_number(user_reply)
+                if "zero" in user_reply or "0" in user_reply:
+                    play_sound("sound/noProblem.mp3", 0.5, blocking=True)
+                    done = True
+                elif recipe_number is not None and 1 <= recipe_number <= 3:
+                    play_sound("sound/getInstructions.mp3", 0.5, blocking=True)
+                    speak(f'Instructions: {random_meals[recipe_number - 1]["instructions"]}')
+                    done = True
+                    play_sound("sound/recipeEnd.mp3", 0.5, blocking=True)
+                else:
+                    play_sound("sound/InvalidChoice.mp3", 0.5, blocking=True)
+            except speech_recognition.UnknownValueError:
+                local_recogniser = speech_recognition.Recognizer()
+                play_sound("sound/repeat.mp3", 0.5, blocking=True)
     else:
-        print(f"Sorry, couldn't find any {meal_type} meals. Please try again.")
+        play_sound("sound/recipeRepeat.mp3", 0.5, blocking=True)
 
 def extract_meal_name(prompt):
     pattern = r"(?i)\b(how to make|recipe for|instructions for|how do I make|tell me how to make|show me how to make)\b\s+(.*)"
@@ -103,23 +125,15 @@ def extract_meal_name(prompt):
         return match.group(2).strip()
     return None
 
-# Example usage for getting food recommendations:
-# Accepts phrases with: breakfast lunch dinner, if none found, gets random meal
-phrase = "I want a lunch recipe"
-get_random_meal_by_phrase(phrase)
-
-print("\n\n\n")
-
-# Example usage for getting recipe from name:
-phrase = "Give me a recipe for Pasta."
-meal_name = extract_meal_name(phrase)
-if meal_name != None:
-    recipes = search_recipe_by_name(meal_name)
-    if recipes:
-        print(f"Title: {recipes[0]['title']}")
-        print("Instructions:")
-        print(recipes[0]['instructions'])
+def search_meal(prompt):
+    local_recogniser = get_recogniser()
+    meal_name = extract_meal_name(prompt)
+    if meal_name != None:
+        recipes = search_recipe_by_name(meal_name)
+        if recipes:
+            play_sound("sound/searchRecipe.mp3", 0.5, blocking=False)
+            speak(f"These are the instructions for {recipes[0]['title']}: {recipes[0]['instructions']}")
+        else:
+            play_sound("sound/NoRecipesFound.mp3", 0.5, blocking=True)
     else:
-        print("No recipe found for the given dish name.")
-else:
-    print("Please try again")
+        play_sound("sound/repeat.mp3", 0.5, blocking=True)

@@ -1,7 +1,12 @@
-import csv
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from functions import *
+from news import *
+from recipes import *
+from vision import *
+from activities import *
+from music import *
+import csv
 
 class WatsonAssistant:
     def __init__(self, api_key, id, service_url, intents_file):
@@ -37,7 +42,7 @@ class WatsonAssistant:
             'Volume Down': decrease_vol,
             'Volume Set': set_vol,
             'Add New Face': add_face,
-            'Positive Behaviours': be_positive,
+            'Positive Behaviours': get_activity,
             'Greet By Name': greet_me,
             'Podcast Request': request_specific_podcast,
             'Podcast': request_podcast,

@@ -1,5 +1,6 @@
-from playsound import playsound as sound
 from functions import *
+from music import *
+from vision import scan_face
 from watson import WatsonAssistant
 import json
 import pvporcupine
@@ -30,7 +31,7 @@ def initialize_chatbot():
         scope=spotify_settings['scope']
     )
     send_variables(spot, dev_ID)
-    play_sound("assets/startup.mp3", 0.5, blocking=False)
+    play_sound("sound/startup.mp3", 0.5, blocking=False)
     recognized_names = scan_face()
     for name in recognized_names:
         #print(name)
@@ -76,14 +77,14 @@ def main():
             listen_for_wake_word(porcupine, audio_stream)
             if (is_music_paused() == True):
                 pause_music('Pause')
-            play_sound("assets/ready.mp3", 0.5, blocking=False)
+            play_sound("sound/ready.mp3", 0.5, blocking=False)
             try:
                 user_input = recognise_input(recogniser)
                 print(f"[INPUT]\t{user_input}")
                 assistant.watson_chat(user_input)
             except speech_recognition.UnknownValueError:
                 recogniser = speech_recognition.Recognizer()
-                play_sound("sound/repeat.mp3", 0.5, blocking=False)
+                play_sound("sound/repeat.mp3", 0.5, blocking=True)
     finally:
         if porcupine is not None:
             porcupine.delete()
