@@ -4,6 +4,7 @@ import face_recognition
 import cv2
 import numpy as np
 
+
 class FaceRec:
     def __init__(self):
         self.known_face_encodings = []
@@ -120,15 +121,17 @@ def add_face(text):
             play_sound("sound/tryAgain.mp3", 0.5, blocking=True)
             name = False
         else:
-            if ('yes' in response) or ('yeah' in response):               
+            if ('yes' in response) or ('yeah' in response) or ('yep' in response):               
                 name = True
             name = True #consider changing 
     cap = cv2.VideoCapture(0)
     play_sound("sound/picture.mp3", 0.5, blocking=True)
     _, image = cap.read()
+    time.sleep(1)
     image_path = f"assets/vision/faces/{person}.jpg"
     cv2.imwrite(image_path, image)
     play_sound("sound/done.mp3", 0.5, blocking=True)
+
     print(f"Face captured and saved as {image_path}")
     cap.release()
     cv2.destroyAllWindows()
