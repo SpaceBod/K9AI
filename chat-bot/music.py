@@ -174,7 +174,7 @@ def get_current_volume(spotify=None, device_id=None):
 
 def fetch_podcast_ratings():
     # Open the CSV file
-    file_path = "assets/genres.csv"
+    file_path = "assets/podcast/genres.csv"
     with open(file_path, 'r') as file:
         reader = csv.reader(file)
         # Create a dictionary to store the topics and their corresponding numbers
