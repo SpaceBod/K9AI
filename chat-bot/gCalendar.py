@@ -11,7 +11,8 @@ def extract_calendar_info(input_text):
     input_text = input_text.lower()
     event = extract_calendar_event(input_text)
     day,month,year,time = extract_calendar_date_and_time(input_text)
-    return event, day,month,year, time
+    create_calendar_event_easy(event, day,month,year, time)
+    
 def extract_calendar_event(input_text):
     match = re.search(r'called\s+(.*?)\s+on', input_text)
     match2 = re.search(r'for\s+(.*?)\s+(?:on|in)', input_text)

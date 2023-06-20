@@ -6,6 +6,10 @@ import struct
 import os
 from elevenlabslib.helpers import *
 from elevenlabslib import *
+from gcsa.event import Event
+from gcsa.google_calendar import GoogleCalendar
+from beautiful_date import *
+from datetime import datetime, timedelta
 
 # Suppress pygame startup message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
