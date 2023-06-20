@@ -57,6 +57,7 @@ class WatsonAssistant:
             'Podcast Feedback Dislike': podcast_feedback_dis,
             'Podcast Feedback Strong Dislike': podcast_feedback_stdis,
             'Podcast Feedback Hate': podcast_feedback_hate,
+            'Calendar Event': extract_calendar_info
         }
 
     def read_intents_from_csv(self, file_path):
