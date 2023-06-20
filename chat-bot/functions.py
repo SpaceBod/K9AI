@@ -104,3 +104,22 @@ def get_random_joke(text):
     else:
         joke = data["joke"]
     speak(joke)
+
+def create_calendar_event_easy(title, day, month, year, time):
+    calendar = GoogleCalendar(credentials_path='client_secret.json')
+    start = datetime.strptime(f"{day}/{month}/{year} {time}", "%d/%m/%Y %H:%M")
+    end_time = datetime.strptime(time, "%H:%M") + timedelta(hours=1)
+    end_time = end_time.strftime("%H:%M")
+    end = datetime.strptime(f"{day}/{month}/{year} {end_time}", "%d/%m/%Y %H:%M")
+    event = Event(title,
+                start=start,
+                end=end,
+                description = title,
+                minutes_before_email_reminder=15)
+    calendar.add_event(event)
+
+
+    print("Event Created :", title)
+    print("Date + Time:", start)
+    print("\n")
+
