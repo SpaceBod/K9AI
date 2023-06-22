@@ -59,6 +59,8 @@ class WatsonAssistant:
             'Podcast Feedback Dislike': podcast_feedback_dis,
             'Podcast Feedback Strong Dislike': podcast_feedback_stdis,
             'Podcast Feedback Hate': podcast_feedback_hate,
+            'Mental Support': mental_support,
+            'I Love You': love_you,
             'Calendar Event': extract_calendar_info
         }
 
