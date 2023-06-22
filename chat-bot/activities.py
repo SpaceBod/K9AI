@@ -110,7 +110,7 @@ def mental_support(text):
         "My heart goes out to you. Remember, you're stronger than you think. Lean on someone you trust. Seek support on your journey.",
         "You deserve love and support. Your feelings are valid. Share your burden with someone you trust. Together, we can overcome.",
         "I'm sorry to hear you're going through a tough time. Reach out to someone you trust. You're not alone. Seek support for your well-being."]
-    samaritans_helpline = "Don't hesitate to reach out to the Samaritans helpline by calling 116 123, available 24 7"
+    samaritans_helpline = "Don't hesitate to reach out to the Samaritans helpline by calling 1 1 6 1 2 3, available 24 7"
     if any(keyword in text for keyword in depression_keywords):
         if prev_mental_support_response:
             helpline_responses.remove(prev_mental_support_response)
