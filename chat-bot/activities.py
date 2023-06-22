@@ -116,8 +116,7 @@ def mental_support(text):
             helpline_responses.remove(prev_mental_support_response)
         selected_response = random.choice(helpline_responses)
         prev_mental_support_response = selected_response
-        speak(selected_response) # change to mp3
-        speak(samaritans_helpline) # change to mp3
+        speak(selected_response+ " " + samaritans_helpline) # change to mp3
     else:
         with open("assets/behaviours/Mental_Support.txt", "r") as file:
             rows = file.readlines()
