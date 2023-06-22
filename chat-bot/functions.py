@@ -111,10 +111,15 @@ def get_random_joke(text):
 
 def create_calendar_event_easy(title, day, month, year, time):
     calendar = GoogleCalendar(credentials_path='client_secret.json')
-    start = datetime.strptime(f"{day}/{month}/{year} {time}", "%d/%m/%Y %H:%M")
-    end_time = datetime.strptime(time, "%H:%M") + timedelta(hours=1)
-    end_time = end_time.strftime("%H:%M")
-    end = datetime.strptime(f"{day}/{month}/{year} {end_time}", "%d/%m/%Y %H:%M")
+    if time == 'all day':
+        start = datetime(year, month, day).strftime("%Y-%m-%d")
+        end = datetime(year, month, day).strftime("%Y-%m-%d")
+    else:
+        start = datetime.strptime(f"{day}/{month}/{year} {time}", "%d/%m/%Y %H:%M")
+        end_time = datetime.strptime(time, "%H:%M") + timedelta(hours=1)
+        end_time = end_time.strftime("%H:%M")
+        end = datetime.strptime(f"{day}/{month}/{year} {end_time}", "%d/%m/%Y %H:%M")
+    
     event = Event(title,
                 start=start,
                 end=end,

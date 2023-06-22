@@ -6,6 +6,8 @@ from recipes import *
 from vision import *
 from activities import *
 from music import *
+from gCalendar import *
+
 import csv
 
 class WatsonAssistant:

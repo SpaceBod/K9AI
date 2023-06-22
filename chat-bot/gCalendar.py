@@ -146,9 +146,6 @@ def extract_calendar_date_and_time(input_text):
     return day,month,year,time
 
 
-input_text = [
-    "Add a gym workout for today at 10 p.m."
-]
 #     #"Create a reminder on 29th for parent-teacher meeting in my calendar.",
 #     "Book a time slot for yoga class on 11th October at 3 pm in my calendar.",
 #     "Can you add fluffly meeting to my calendar at 9 p.m.",
@@ -156,9 +153,5 @@ input_text = [
 #     "Add an event called Dinner with GF for the 11th at 8:30 in the morning"
 # ]
 
-for i in input_text:
-    event_title,day,month,year,event_time = extract_calendar_info(i)
-    print(i)
-    #create_calendar_event(client_id, client_secret, calendar_id, event_title, event_date, event_time)
-    create_calendar_event_easy(event_title, day,month,year, event_time)
+
 
