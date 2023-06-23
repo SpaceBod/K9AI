@@ -3,12 +3,13 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 import pygame
 import numpy as np
-from quadruped import Quadruped
+from movement.quadruped import Quadruped
 import time
 
-ismoving = False
+forwards = False
+backwards = False
 # Initialize pygame
-pygame.init()
+#pygame.init()
 
 # Initialize the joystick module
 pygame.joystick.init()
@@ -17,7 +18,7 @@ pygame.joystick.init()
 joystick_count = pygame.joystick.get_count()
 if joystick_count == 0:
     print("No gamepad found.")
-    quit()
+    #quit()
 
 # Select the first gamepad controller
 gamepad = pygame.joystick.Joystick(0)
@@ -44,11 +45,11 @@ button_names = {
     14: "RIGHT"
 }
 
-sitting = False
+
 # Main loop
-def controller(momentum, accel=0.05, bound=3.5):
-    global sitting
-    ismoving = False
+def controller(momentum, sit, accel=0.05, bound=3.5):
+    forwards = False
+    backwards = False
     head = ""
     pygame.event.pump()
     buttons = [gamepad.get_button(i) for i in range(gamepad.get_numbuttons())]
@@ -56,8 +57,8 @@ def controller(momentum, accel=0.05, bound=3.5):
         if button and not prev_buttons[i]:
             print("Button [P]:", button_names[i], i)
             if i == 1:
-                sitting = not sitting  # Toggle the sitting value
-                print(sitting)
+                sit.value = not sit.value  # Toggle the sitting value
+                print(sit.value)
         if not button and prev_buttons[i]:
             print("Button [R]:", button_names[i], i)
         prev_buttons[i] = button
@@ -68,11 +69,11 @@ def controller(momentum, accel=0.05, bound=3.5):
             if axis > 0.2:
                 direction = "Right"
                 momentum[1] = min(momentum[1] + accel, bound)
-                ismoving = True
+                forwards = True
             elif axis < -0.2:
                 direction = "Left"
                 momentum[1] = max(momentum[1] - accel, -bound)
-                ismoving = True
+                forwards = True
             else:
                 direction = "Center"
         # Right Joystick
@@ -92,11 +93,18 @@ def controller(momentum, accel=0.05, bound=3.5):
             if axis > 0.9:
                 if i == 4:
                     momentum[0] = min(momentum[0] + accel, bound)
-                    ismoving = True
-
+                    forwards = True
                 else:
                     momentum[0] = max(momentum[0] - accel, -bound)
-                    ismoving = True
+                    backwards = True
 
     pygame.time.wait(10)
-    return momentum, ismoving, sitting, head
+    return momentum, forwards, backwards, sit, head
+
+def command_sit(sit):
+    sit.value = True
+    print("Sit: ", sit.value)
+    
+def command_stand(sit):
+    sit.value = False
+    print("Sit: ", sit.value)

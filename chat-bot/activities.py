@@ -61,7 +61,7 @@ def get_activity(text):
             try:
                 response = recognise_input(local_recogniser)
                 print("[INPUT] ", response)
-                if ('yes' in response) or ('yeah' in response) or ('yep' in response):               
+                if 'yes' in response:
                     while prev_category == category:
                         category = random.choice(categories)
                     suggestions = get_suggestions()

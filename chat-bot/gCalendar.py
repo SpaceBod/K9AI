@@ -1,7 +1,5 @@
 months = ["january", "february", "march", "april","may", "june", "july", "august","september", "october", "november", "december"]
 ##############################
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
 import datetime
 import re
 import calendar

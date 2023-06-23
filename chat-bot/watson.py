@@ -8,6 +8,7 @@ from activities import *
 from music import *
 from gCalendar import *
 
+from movement.game_controller import command_sit, command_stand
 import csv
 
 class WatsonAssistant:
@@ -61,7 +62,9 @@ class WatsonAssistant:
             'Podcast Feedback Hate': podcast_feedback_hate,
             'Mental Support': mental_support,
             'I Love You': love_you,
-            'Calendar Event': extract_calendar_info
+            'Calendar Event': extract_calendar_info,
+            'Sit': command_sit,
+            'Stand': command_stand
         }
 
     def read_intents_from_csv(self, file_path):
@@ -71,7 +74,7 @@ class WatsonAssistant:
             intents = {intent_id: intent_text for intent_id, intent_text in reader}
         return intents
 
-    def watson_chat(self, speech_input):
+    def watson_chat(self, speech_input, movement):
         message_response = self.assistant.message(assistant_id=self.id, session_id=self.session_id,
                                                   input={'message_type': 'text', 'text': speech_input}).get_result()
         if 'generic' in message_response['output']:
@@ -102,9 +105,13 @@ class WatsonAssistant:
                     intent_text = self.intents_dict.get(intent, 'Unknown intent')
                     print('Intent:', intent_text, "\tID: ", intent)
                     # Call the corresponding function based on the intent without TTS
-                    if intent_text in self.intent_mapping:
+                    # Movement Command
+                    if intent_text == 'Sit' or intent_text == 'Stand':
+                        self.intent_mapping[intent_text](movement)
+                    elif intent_text in self.intent_mapping:
                         self.intent_mapping[intent_text](speech_input)
                 else:
                     speak("I am not sure how to respond to that.")
         else:
             speak("Oops! I am not sure how to respond to that.")
+
