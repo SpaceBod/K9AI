@@ -97,9 +97,9 @@ class WatsonAssistant:
                             speak(assistant_reply)
 
                     else:
-                        speak("Oops! I am not sure how to respond to that.")
+                        play_sound("sound/oops.mp3", 1, blocking=True)
                 else:
-                    speak("Oops! I am not sure how to respond to that.")
+                    play_sound("sound/oops.mp3", 1, blocking=True)
             else:
                 intents = message_response['output'].get('intents', [])
                 if intents:
@@ -113,7 +113,7 @@ class WatsonAssistant:
                     elif intent_text in self.intent_mapping:
                         self.intent_mapping[intent_text](speech_input)
                 else:
-                    speak("I am not sure how to respond to that.")
+                    play_sound("sound/oops.mp3", 1, blocking=True)
         else:
-            speak("Oops! I am not sure how to respond to that.")
+            play_sound("sound/oops.mp3", 1, blocking=True)
 

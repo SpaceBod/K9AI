@@ -49,7 +49,7 @@ def get_activity(text):
         motivation = random.choice(suggestions)
         prev_motivation = motivation
         prev_category = category
-
+        play_sound("sound/activitiesFiller.mp3", 1, blocking=False)
         speak(f"My suggestion is ... {motivation}")
         play_sound("sound/differentSuggestion.mp3", 0.5, blocking=False)
 
@@ -72,6 +72,7 @@ def get_activity(text):
                         else:
                             play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
                             break  # Exit the inner while loop
+                        play_sound("sound/activitiesAlternativeFiller.mp3", 1, blocking=False)
                         speak(f"Another suggestion is ... {motivation}")
                     else:
                         play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
@@ -91,41 +92,28 @@ def get_activity(text):
             play_sound("sound/noSuggestions.mp3", 0.5, blocking=False)
         break  # Exit the outer while loop
 
+mental_support_rows = list(range(1,51))
+mental_support_responses = list(range(1,11))
 
-prev_mental_support_row = None
-prev_mental_support_response = None
 def mental_support(text):
-    global prev_mental_support_row
-    global prev_mental_support_response
+    global mental_support_rows
+    global mental_support_responses
 
     # List of keywords related to depression or suicide
     depression_keywords = ["depressed", "depression","die", "dark place", "hopeless", "despair", "suicide","suicidal", "kill myself", "don't want to live"]
-    helpline_responses =  ["Sorry to hear you're feeling this way. Your feelings are valid. Talk to someone you trust. Seek support for your well-being.",
-        "It's tough to hear you're going through this. You matter. Open up to a trusted person. Seek support in your journey.",
-        "I'm here for you. Your emotions are valid. Reach out to someone who cares. Seek the support you deserve.",
-        "I'm truly sorry you're feeling like this. Remember, you're not alone. Seek help from someone you trust. Take steps towards support.",
-        "You're not alone in this journey. It's okay to ask for help. Share with someone you trust. Seek support to navigate through.",
-        "I'm here to support you. Your strength is remarkable. Reach out to someone you trust. You deserve care and assistance.",
-        "You matter. Your emotions are valid. Share your struggles with someone you trust. Seek support for your well-being.",
-        "My heart goes out to you. Remember, you're stronger than you think. Lean on someone you trust. Seek support on your journey.",
-        "You deserve love and support. Your feelings are valid. Share your burden with someone you trust. Together, we can overcome.",
-        "I'm sorry to hear you're going through a tough time. Reach out to someone you trust. You're not alone. Seek support for your well-being."]
-    samaritans_helpline = "Don't hesitate to reach out to the Samaritans helpline by calling 1 1 6 1 2 3, available 24 7"
     if any(keyword in text for keyword in depression_keywords):
-        if prev_mental_support_response:
-            helpline_responses.remove(prev_mental_support_response)
-        selected_response = random.choice(helpline_responses)
-        prev_mental_support_response = selected_response
-        speak(selected_response+ " " + samaritans_helpline) # change to mp3
+        selected_response = random.choice(mental_support_responses)
+        mental_support_responses.remove(selected_response)
+        play_sound(f"sound/helpline_responses/helpline_response{selected_response}.mp3", 1, blocking=True)
+        play_sound(f"sound/helpline_responses/samaritans_helpline.mp3", 1, blocking=True)
     else:
         with open("assets/behaviours/Mental_Support.txt", "r") as file:
             rows = file.readlines()
             rows = [row.strip() for row in rows]
-            if prev_mental_support_row:
-                rows.remove(prev_mental_support_row)
-            selected_row = random.choice(rows)
-            prev_mental_support_row = selected_row
-            speak(selected_row)  # Replace this line with your preferred method of output
+            selected_row = random.choice(mental_support_rows)
+            row = rows[selected_row]
+            mental_support_rows.remove(selected_row)
+            speak(row)  # Replace this line with your preferred method of output
         
 prev_love_you_response = None
 def love_you(text):

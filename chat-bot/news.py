@@ -22,6 +22,7 @@ def get_news(user_input):
     titles = ""
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
+    play_sound("sound/newsSearchFiller.mp3", 1, blocking=False)
     speak("Here's the latest news: \n" + titles)
     play_sound("sound/newsSelection.mp3", 1, blocking=False)
     done = False
@@ -30,7 +31,7 @@ def get_news(user_input):
             user_reply = recognise_input(local_recogniser)
             print("Reply: ", user_reply)
             if user_reply == "repeat":
-                speak("Here are the latest news: \n" + titles)
+                play_sound("sound/tts.mp3", 1, blocking=True)
                 play_sound("sound/1to5.mp3", 1, blocking=False)
             elif user_reply == "no":
                 play_sound("sound/noProblem.mp3", 1, blocking=False)
@@ -41,6 +42,7 @@ def get_news(user_input):
                 if article_number is not None:
                     article_index = article_number - 1
                     if 0 <= article_index < min(5, len(news["results"])):
+                        play_sound("sound/newsFiller.mp3", 1, blocking=False)
                         speak(news["results"][article_index]["description"])
                         done = True
                     else:
@@ -77,6 +79,7 @@ def get_specific_news(user_input):
     titles = ""
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
+    play_sound("sound/newsTopicSearchFiller.mp3", 1, blocking=False)
     speak(f"These are the latest news on {substring_max}: \n" + titles)
     play_sound("sound/newsSelection.mp3", 1, blocking=False)
     done = False
@@ -86,11 +89,12 @@ def get_specific_news(user_input):
             print("Reply: ", user_reply)
             article_number = extract_article_number(user_reply)
             if user_reply == "repeat":
-                speak(f"These are the latest news on {substring_max}: \n" + titles)
+                play_sound("sound/tts.mp3", 1, blocking=True)
             elif user_reply == "no":
                 play_sound("sound/noProblem.mp3", 1, blocking=False)
                 done = True
             elif article_number is not None and 1 <= article_number <= 5:
+                play_sound("sound/newsFiller.mp3", 1, blocking=True)
                 speak(news["results"][article_number - 1]["description"])
                 done = True
             else:

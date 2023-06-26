@@ -199,10 +199,12 @@ def get_weather(user_input):
     weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
     weather = weather_data.json()['weather'][0]['main']
     temp = round(weather_data.json()['main']['temp'])
+    play_sound("sound/weatherFiller.mp3", 1, blocking=False)
     speak(f"In {location}, the temperature is {temp} degrees, it's {weather}.")
 
 def get_day(user_input):
     day = datetime.datetime.now().strftime('%A')
+    play_sound("sound/dayFiller.mp3", 1, blocking=False)
     speak(f"Today is {day}.")
 
 def get_random_joke(text):
