@@ -1,14 +1,5 @@
 # K9AI
-Group Consultancy Project for IBM.  
-
-Link for NeuralIntent Chat Bot Tutorial:
-https://youtu.be/SXsyLdKkKX0  
-
-Link for spotify control:
-https://m.youtube.com/watch?v=tsFVzYVVr4c  
-
-Link for face ID:  
-https://youtu.be/tl2eEBFEHqM
+Group Consultancy Project for IBM.
 
 <img src="K9.png" alt="K9" title="K9 AI" width=50%>
 
@@ -22,4 +13,6 @@ The chat bot utilises a neural network to find the "intent" behind all quereies 
 - Can ask it to play a song, playlist, liked songs
 - Can ask it to play/pause/skip/previous
 - Can ask it to turn up/down/set volume level
-
+- Can ask for news headlines
+- Can add events to calendar
+- Can provide mental support
