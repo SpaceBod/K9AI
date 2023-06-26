@@ -45,15 +45,15 @@ def initialize_chatbot():
     )
     send_variables(spot, dev_ID)
     print("before playsound 1")
-    play_sound("sound/startup.mp3", 0.4, blocking=False)
+    play_sound("sound/startup.mp3", 1, blocking=False)
     print("recognized names")
     recognized_names = scan_face()
     for name in recognized_names:
         if name == "N" or name == "Unknown":
-            play_sound("sound/greet.mp3", 0.5, blocking=True)
+            play_sound("sound/greet.mp3", 1, blocking=True)
         else:
             speak(f"Hi {name}. I'm K9.")
-    play_sound("sound/help.mp3", 0.5, blocking=False)
+    play_sound("sound/help.mp3", 1, blocking=False)
     
     # Create an instance of the WatsonAssistant class
     assistant = WatsonAssistant(
@@ -92,14 +92,14 @@ def main(sit):
             if is_music_paused():
                 pause_music('Pause')
                 time.sleep(3)
-            play_sound("sound/ready.mp3", 0.4, blocking=False)
+            play_sound("sound/ready.mp3", 1, blocking=False)
             try:
                 user_input = recognise_input(recogniser)
                 print(f"[INPUT]\t{user_input}")
                 assistant.watson_chat(user_input, sit)
             except speech_recognition.UnknownValueError:
                 recogniser = speech_recognition.Recognizer()
-                play_sound("sound/repeat.mp3", 0.4, blocking=True)
+                play_sound("sound/repeat.mp3", 1, blocking=True)
             # Check process using the speaker device
     finally:
         second_thread.join()

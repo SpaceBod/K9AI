@@ -144,7 +144,7 @@ def play_artist(spotify=None, device_id=None, uri=None):
     spotify.start_playback(device_id=device_id, context_uri=uri)
 
 def play_track(spotify=None, device_id=None, uri=None):
-    time.sleep(10)
+    time.sleep(5)
     spotify.start_playback(device_id=device_id, uris=[uri])
     
 
@@ -352,7 +352,7 @@ def extract_podcast_info(text):
 
 def request_song(text):
     local_recogniser = get_recogniser()
-    play_sound("sound/songRequest.mp3", 0.5, blocking=True)
+    play_sound("sound/songRequest.mp3", 1, blocking=True)
     done = False
     while not done:
         try:
@@ -377,9 +377,9 @@ def request_song(text):
 
 def request_specific_song(text):
     song_name, artist = extract_song_info(text)
-    play_sound("sound/searching.mp3", 0.5, True)
+    play_sound("sound/searching.mp3", 1, True)
     if (artist == "" and song_name == ""):
-        play_sound("sound/searchFailed.mp3", 0.5, True)
+        play_sound("sound/searchFailed.mp3", 1, True)
         return
     # If only song title provided
     if artist == "":
@@ -394,7 +394,7 @@ def request_specific_song(text):
 
 def request_playlist(text):
     local_recogniser = get_recogniser()
-    play_sound("sound/playlistRequest.mp3", 0.5, blocking=True)
+    play_sound("sound/playlistRequest.mp3", 1, blocking=True)
     done = False
     while not done:
         try:
@@ -407,13 +407,13 @@ def request_playlist(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 0.5, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=False)
 
 def request_specific_playlist(text):
     playlist_name = extract_playlist_info(text).title()
-    play_sound("sound/searching.mp3", 0.5, True)
+    play_sound("sound/searching.mp3", 1, True)
     if playlist_name == "":
-        play_sound("sound/searchFailed.mp3", 0.5, blocking=True)
+        play_sound("sound/searchFailed.mp3", 1, blocking=True)
         return
     else:
         time.sleep(4)
@@ -423,7 +423,7 @@ def request_specific_playlist(text):
 
 def request_podcast(text):
     local_recogniser = get_recogniser()
-    play_sound("sound/podcastRequest.mp3", 0.5, blocking=True)
+    play_sound("sound/podcastRequest.mp3", 1, blocking=True)
     done = False
     while not done:
         try:
@@ -436,13 +436,13 @@ def request_podcast(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 0.5, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=False)
 
 def request_specific_podcast(text):
     podcast_name = extract_podcast_info(text).title()
-    play_sound("sound/searching.mp3", 0.5, True)
+    play_sound("sound/searching.mp3", 1, True)
     if podcast_name == "":
-        play_sound("sound/searchFailed.mp3", 0.5, blocking=True)
+        play_sound("sound/searchFailed.mp3", 1, blocking=True)
         return
     else:
         time.sleep(4)
@@ -478,7 +478,7 @@ def request_genre_podcast(text):
     
     print("genre identified:", podcast_genre)
     if podcast_genre == "":
-        play_sound("sound/searchFailed.mp3", 0.5, blocking=False)
+        play_sound("sound/searchFailed.mp3", 1, blocking=False)
         return
     else:
         time.sleep(4)

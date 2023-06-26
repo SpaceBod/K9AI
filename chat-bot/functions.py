@@ -270,3 +270,33 @@ def create_calendar_event_easy(title, day, month, year, time):
     print("Event Created :", title)
     print("Date + Time:", start)
     print("\n")
+
+def update_thingspeak(status):
+    # ThingSpeak API endpoint URL
+    url = "https://api.thingspeak.com/update.json"
+
+    # Your ThingSpeak channel ID and write API key
+    channel_id = "2201244"
+    write_api_key = "M0ZNFW8ZQDW7EIZC"
+
+    print(int(status))
+    # Create the payload data
+    data = {'api_key': write_api_key, 'field1': str(int(status))}
+
+    try:
+        # Send an HTTP POST request to update the field value
+        response = requests.post(url, data=data)
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            print("Status updated successfully!")
+        else:
+            print("Error occurred while updating status:", response.status_code)
+    except requests.exceptions.RequestException as e:
+        print("An error occurred:", e)
+    
+def light_on(text):
+    update_thingspeak(1)
+    
+def light_off(text):
+    update_thingspeak(0)

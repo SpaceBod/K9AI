@@ -47,7 +47,7 @@ button_names = {
 
 
 # Main loop
-def controller(momentum, sit, accel=0.05, bound=3.5):
+def controller(momentum, sit, accel=0.5, bound=4):
     forwards = False
     backwards = False
     head = ""

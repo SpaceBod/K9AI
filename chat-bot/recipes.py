@@ -89,13 +89,13 @@ def get_random_meal_by_phrase(phrase):
 
     random_meals = get_random_recipes(3, meal_type)
     if random_meals:
-        play_sound("sound/recipeSearch.mp3", 0.5, blocking=False)
+        play_sound("sound/recipeSearch.mp3", 1, blocking=False)
         meal_string = "\n"
         for meal in random_meals:
             meal_string += meal["title"] + ".\n"
             
         speak(f"Here are some {meal_type.capitalize()} meals!{meal_string}")
-        play_sound("sound/SayNumberMeals.mp3", 0.5, blocking=True)
+        play_sound("sound/SayNumberMeals.mp3", 1, blocking=True)
         done=False
         while not done:
             try:
@@ -103,20 +103,20 @@ def get_random_meal_by_phrase(phrase):
                 print("Reply: ", user_reply)
                 recipe_number = extract_recipe_number(user_reply)
                 if "zero" in user_reply or "0" in user_reply:
-                    play_sound("sound/noProblem.mp3", 0.5, blocking=True)
+                    play_sound("sound/noProblem.mp3", 1, blocking=True)
                     done = True
                 elif recipe_number is not None and 1 <= recipe_number <= 3:
-                    play_sound("sound/getInstructions.mp3", 0.5, blocking=True)
+                    play_sound("sound/getInstructions.mp3", 1, blocking=True)
                     speak(f'Instructions: {random_meals[recipe_number - 1]["instructions"]}')
                     done = True
-                    play_sound("sound/recipeEnd.mp3", 0.5, blocking=True)
+                    play_sound("sound/recipeEnd.mp3", 1, blocking=True)
                 else:
-                    play_sound("sound/InvalidChoice.mp3", 0.5, blocking=True)
+                    play_sound("sound/InvalidChoice.mp3", 1, blocking=True)
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                play_sound("sound/repeat.mp3", 0.5, blocking=True)
+                play_sound("sound/repeat.mp3", 1, blocking=True)
     else:
-        play_sound("sound/recipeRepeat.mp3", 0.5, blocking=True)
+        play_sound("sound/recipeRepeat.mp3", 1, blocking=True)
 
 def extract_meal_name(prompt):
     pattern = r"(?i)\b(how to make|recipe for|instructions for|how do I make|tell me how to make|show me how to make)\b\s+(.*)"
@@ -131,9 +131,9 @@ def search_meal(prompt):
     if meal_name != None:
         recipes = search_recipe_by_name(meal_name)
         if recipes:
-            play_sound("sound/searchRecipe.mp3", 0.5, blocking=False)
+            play_sound("sound/searchRecipe.mp3", 1, blocking=False)
             speak(f"These are the instructions for {recipes[0]['title']}: {recipes[0]['instructions']}")
         else:
-            play_sound("sound/NoRecipesFound.mp3", 0.5, blocking=True)
+            play_sound("sound/NoRecipesFound.mp3", 1, blocking=True)
     else:
-        play_sound("sound/repeat.mp3", 0.5, blocking=True)
+        play_sound("sound/repeat.mp3", 1, blocking=True)

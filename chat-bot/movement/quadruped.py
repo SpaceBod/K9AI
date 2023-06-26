@@ -154,7 +154,7 @@ class Quadruped:
             theta_shoulder = self.rad_to_degree(theta_shoulder) - 5
             theta_elbow = 50 + self.rad_to_degree(theta_elbow) - elbow_offset
             if hip:
-                theta_hip = 90 + self.rad_to_degree(thetaz)
+                theta_hip = 92 + self.rad_to_degree(thetaz)
 
         # Set the angles on the motors
         self.set_angle(shoulder, theta_shoulder)
@@ -195,9 +195,9 @@ class Quadruped:
         # Generate footstep
         s_vals = np.linspace(0.0, 1.0, 20)
         step_nodes = np.asfortranarray([
-            [-1.0, -1.0, 1.0, 1.0],
-            [-1.0, -1.0, 1.0, 1.0],
-            [-15.0, -12.0, -12.0, -15.0],
+            [-1, -1, 1, 1],
+            [-1, -1, 1, 1],
+            [-15.0, -12.5, -12.5, -15.0],
         ])
         curve = bezier.Curve(step_nodes, degree=3)
         step = curve.evaluate_multi(s_vals)

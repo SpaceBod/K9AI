@@ -64,7 +64,9 @@ class WatsonAssistant:
             'I Love You': love_you,
             'Calendar Event': extract_calendar_info,
             'Sit': command_sit,
-            'Stand': command_stand
+            'Stand': command_stand,
+            'Light On': light_on,
+            'Light Off': light_off
         }
 
     def read_intents_from_csv(self, file_path):

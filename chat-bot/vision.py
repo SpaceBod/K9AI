@@ -92,17 +92,17 @@ def scan_face():
 def add_face(text):
     local_recogniser = get_recogniser()
     name = False
-    play_sound("sound/sure.mp3", 0.5, blocking=True)
+    play_sound("sound/sure.mp3", 1, blocking=True)
     while name == False:
         done = False
         while not done:
-            play_sound("sound/name.mp3", 0.5, blocking=True)
+            play_sound("sound/name.mp3", 1, blocking=True)
             try:
                 person = recognise_input(local_recogniser)
                 done=True
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                play_sound("sound/repeat.mp3", 0.5, blocking=False)
+                play_sound("sound/repeat.mp3", 1, blocking=False)
         
         print("Name: ", person)
         finish = False
@@ -114,28 +114,28 @@ def add_face(text):
                 finish = True
             except speech_recognition.UnknownValueError:
                 local_recogniser = speech_recognition.Recognizer()
-                play_sound("sound/repeat.mp3", 0.5, blocking=True)
+                play_sound("sound/repeat.mp3", 1, blocking=True)
 
         if ('no' in response) or ('nope' in response):
-            play_sound("sound/tryAgain.mp3", 0.5, blocking=True)
+            play_sound("sound/tryAgain.mp3", 1, blocking=True)
             name = False
         else:
             if ('yes' in response) or ('yeah' in response):               
                 name = True
             name = True #consider changing 
     cap = cv2.VideoCapture(0)
-    play_sound("sound/picture.mp3", 0.5, blocking=True)
+    play_sound("sound/picture.mp3", 1, blocking=True)
     _, image = cap.read()
     image_path = f"assets/vision/faces/{person}.jpg"
     cv2.imwrite(image_path, image)
-    play_sound("sound/done.mp3", 0.5, blocking=True)
+    play_sound("sound/done.mp3", 1, blocking=True)
     print(f"Face captured and saved as {image_path}")
     cap.release()
     cv2.destroyAllWindows()
     save_file = 'assets/vision/face_encodings.pkl'
     sfr = FaceRec()
     sfr.load_encoding_images("faces/", save_file=save_file)
-
+    
 def greet_me(text):
     # Encode faces from a folder and save the encodings
     save_file = 'assets/vision/face_encodings.pkl'
@@ -150,7 +150,7 @@ def greet_me(text):
         face_locations, face_names = sfr.detect_known_faces(frame)
         if len(face_locations) == 0:  # No face detected
             error_message = "N"
-            return error_message
+            break
         for face_loc, name in zip(face_locations, face_names):
             y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
             recognized_names.append(name)  # Add recognized name to the list
@@ -160,8 +160,8 @@ def greet_me(text):
             break
     cap.release()
     cv2.destroyAllWindows()
-    for name in recognized_names:
-        if name == "N" or name == "Unknown":
-            play_sound("sound/greet.mp3", 0.5, blocking=False)
-        else:
+    if len(recognized_names) == 0:
+        play_sound("sound/greet.mp3", 1, blocking=False)
+    else:
+        for name in recognized_names:
             speak(f"Hey {name}. I'm K9.")

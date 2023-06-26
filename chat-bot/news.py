@@ -23,7 +23,7 @@ def get_news(user_input):
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     speak("Here's the latest news: \n" + titles)
-    play_sound("sound/newsSelection.mp3", 0.5, blocking=False)
+    play_sound("sound/newsSelection.mp3", 1, blocking=False)
     done = False
     while not done:
         try:
@@ -31,12 +31,12 @@ def get_news(user_input):
             print("Reply: ", user_reply)
             if user_reply == "repeat":
                 speak("Here are the latest news: \n" + titles)
-                play_sound("sound/1to5.mp3", 0.5, blocking=False)
+                play_sound("sound/1to5.mp3", 1, blocking=False)
             elif user_reply == "no":
-                play_sound("sound/noProblem.mp3", 0.5, blocking=False)
+                play_sound("sound/noProblem.mp3", 1, blocking=False)
                 done = True
             else:
-                play_sound("sound/sure.mp3", 0.5, blocking=False)
+                play_sound("sound/sure.mp3", 1, blocking=False)
                 article_number = extract_article_number(user_reply)
                 if article_number is not None:
                     article_index = article_number - 1
@@ -44,13 +44,13 @@ def get_news(user_input):
                         speak(news["results"][article_index]["description"])
                         done = True
                     else:
-                        play_sound("sound/outOfRange.mp3", 0.5, blocking=False)
+                        play_sound("sound/outOfRange.mp3", 1, blocking=False)
                         done = True
                 else:
-                    play_sound("sound/1to5.mp3", 0.5, blocking=False)
+                    play_sound("sound/1to5.mp3", 1, blocking=False)
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 0.5, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=False)
 
 def get_specific_news(user_input):
     local_recogniser = get_recogniser()
@@ -78,7 +78,7 @@ def get_specific_news(user_input):
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     speak(f"These are the latest news on {substring_max}: \n" + titles)
-    play_sound("sound/newsSelection.mp3", 0.5, blocking=False)
+    play_sound("sound/newsSelection.mp3", 1, blocking=False)
     done = False
     while not done:
         try:
@@ -88,13 +88,13 @@ def get_specific_news(user_input):
             if user_reply == "repeat":
                 speak(f"These are the latest news on {substring_max}: \n" + titles)
             elif user_reply == "no":
-                play_sound("sound/noProblem.mp3", 0.5, blocking=False)
+                play_sound("sound/noProblem.mp3", 1, blocking=False)
                 done = True
             elif article_number is not None and 1 <= article_number <= 5:
                 speak(news["results"][article_number - 1]["description"])
                 done = True
             else:
-                play_sound("sound/1to5.mp3", 0.5, blocking=False)
+                play_sound("sound/1to5.mp3", 1, blocking=False)
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 0.5, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=False)
