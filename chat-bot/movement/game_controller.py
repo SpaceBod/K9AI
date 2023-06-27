@@ -47,7 +47,7 @@ button_names = {
 
 
 # Main loop
-def controller(momentum, sit, accel=0.5, bound=4):
+def controller(momentum, sit, accel=0.7, bound=5):
     forwards = False
     backwards = False
     head = ""
@@ -92,6 +92,7 @@ def controller(momentum, sit, accel=0.5, bound=4):
         elif i == 4 or i == 5:
             if axis > 0.9:
                 if i == 4:
+                    #print("speed", momentum[0] + accel)
                     momentum[0] = min(momentum[0] + accel, bound)
                     forwards = True
                 else:

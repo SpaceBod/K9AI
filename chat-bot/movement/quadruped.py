@@ -7,8 +7,8 @@ import os
 
 forward_br_leg_lower_limit = -3.5
 forward_bl_leg_lower_limit = -3.5
-forward_fl_leg_lower_limit = -3.1
-forward_fr_leg_lower_limit = -3.1
+forward_fl_leg_lower_limit = -3.3
+forward_fr_leg_lower_limit = -3.3
 
 backward_br_leg_lower_limit = -2.5
 backward_bl_leg_lower_limit = -2.5
@@ -61,15 +61,15 @@ class Quadruped:
         sets the robot into the default "middle position" use this for attaching legs in right location
         :returns: void
         """
-        self.set_angle(Motor.FR_SHOULDER, 60) #0
+        self.set_angle(Motor.FR_SHOULDER, 50) #0
         self.set_angle(Motor.FR_ELBOW, 90)#0
         self.set_angle(Motor.FR_HIP, 90)#0
-        self.set_angle(Motor.FL_SHOULDER, 115)#-5
+        self.set_angle(Motor.FL_SHOULDER, 125)#-5
         self.set_angle(Motor.FL_ELBOW, 90)#0
         self.set_angle(Motor.FL_HIP, 90)#0
-        self.set_angle(Motor.BR_SHOULDER, 60)#0
+        self.set_angle(Motor.BR_SHOULDER, 50)#0
         self.set_angle(Motor.BR_ELBOW, 90)#0
-        self.set_angle(Motor.BL_SHOULDER, 115)#-5
+        self.set_angle(Motor.BL_SHOULDER, 125)#-5
         self.set_angle(Motor.BL_ELBOW, 90)    #0
     
     def head_control(self, direction, base_position, tilt_position):
@@ -93,19 +93,32 @@ class Quadruped:
         sets the robot into the default "middle position" use this for attaching legs in right location
         :returns: void
         """
-        self.set_angle(Motor.FR_SHOULDER, 70) #0
-        self.set_angle(Motor.FR_ELBOW, 80)#0
-        self.set_angle(Motor.FR_HIP, 90)#0
+        fr_shoulder_step = 0
+        fr_elbow_step = 0
+        fr_hip = 0
+        fl_shoulder_step = 0
+        fl_elbow_step = 0
+        fl_hip = 0
+        br_shoulder_step = 0
+        br_elbow_step = 0
+        bl_shoulder_step = 0
+        bl_elbow_step = 0
         
-        self.set_angle(Motor.FL_SHOULDER, 105)#-5
-        self.set_angle(Motor.FL_ELBOW, 100)#0
-        self.set_angle(Motor.FL_HIP, 90)#0
+        #for i in range(0, 10):
+
+        # self.set_angle(Motor.FR_SHOULDER, 60) #0
+        # self.set_angle(Motor.FR_ELBOW, 80)#0
+        # self.set_angle(Motor.FR_HIP, 90)#0
         
-        self.set_angle(Motor.BR_SHOULDER, 50)#0
-        self.set_angle(Motor.BR_ELBOW, 100)#0
+        # self.set_angle(Motor.FL_SHOULDER, 115)#-5
+        # self.set_angle(Motor.FL_ELBOW, 100)#0
+        # self.set_angle(Motor.FL_HIP, 90)#0
         
-        self.set_angle(Motor.BL_SHOULDER, 125)#-5
-        self.set_angle(Motor.BL_ELBOW, 80)    #0
+        # self.set_angle(Motor.BR_SHOULDER, 40)#0
+        # self.set_angle(Motor.BR_ELBOW, 100)#0
+        
+        # self.set_angle(Motor.BL_SHOULDER, 135)#-5
+        # self.set_angle(Motor.BL_ELBOW, 80)    #0
 
     def inverse_positioning(self, shoulder, elbow, x, y, z=0, hip=None, right=True):
         '''
@@ -187,6 +200,7 @@ class Quadruped:
         :param controller: the controller that is called to determine the robot momentum
         :returns: None, enters an infinite loop
         """
+        
         momentum = np.asarray([0,0,1,0],dtype=np.float32)
         index = 0
         base_position = 90
@@ -195,10 +209,16 @@ class Quadruped:
         # Generate footstep
         s_vals = np.linspace(0.0, 1.0, 20)
         step_nodes = np.asfortranarray([
-            [-1, -1, 1, 1],
-            [-1, -1, 1, 1],
-            [-15.0, -12.5, -12.5, -15.0],
+            [-0.6, -0.6, 0.6, 0.6],  # x-coordinates (shoulder motor control)
+            [-0.6, -0.6, 0.6, 0.6],  # y-coordinates (desired height)
+            [-12.0, -12.0, -12.0, -15.0],  # z-coordinates (hip/shoulder motor control)
         ])
+    
+        # step_nodes = np.asfortranarray([
+        #     [-0.9, -0.9, 0.9, 0.9],  # x-coordinates (shoulder motor control)
+        #     [18.3, 18.3, 18.3, 18.3],  # y-coordinates (desired height)
+        #     [-15.0, -12.8, -12.8, -15.0],  # z-coordinates (hip/shoulder motor control)
+        # ])
         curve = bezier.Curve(step_nodes, degree=3)
         step = curve.evaluate_multi(s_vals)
         slide_nodes = np.asfortranarray([
@@ -210,6 +230,7 @@ class Quadruped:
         slide = curve.evaluate_multi(s_vals)
 
         motion = np.concatenate((step,slide), axis=1)
+        prev_sit_value = False
 
         close = False
         while not close:
@@ -227,11 +248,12 @@ class Quadruped:
                 i2 = (index+20)%40
                 
                 # Apply movement based movement
+
                 self.inverse_positioning(Motor.FR_SHOULDER,Motor.FR_ELBOW,x[i1],y[i1]+forward_fr_leg_lower_limit,z=z[i1],hip=Motor.FR_HIP,right=True)
                 self.inverse_positioning(Motor.BR_SHOULDER,Motor.BR_ELBOW,x[i2],y[i2]+forward_br_leg_lower_limit,right=True)
                 self.inverse_positioning(Motor.FL_SHOULDER,Motor.FL_ELBOW,x[i2],y[i2]+forward_fl_leg_lower_limit,z=-z[i2],hip=Motor.FL_HIP,right=False)
                 self.inverse_positioning(Motor.BL_SHOULDER,Motor.BL_ELBOW,x[i1],y[i1]+forward_bl_leg_lower_limit,right=False)
-                index += 1
+                index += 2
             
             if backwards and not sit.value:
                 #print("is moving")
@@ -253,21 +275,48 @@ class Quadruped:
             # IDLE STAND
             if not forwards and not backwards and not sit.value:
                 # Set legs to lower limit when not moving and not sitting
-                self.leg_position("BR", 0, 17, z=0)
-                self.leg_position("BL", 0, 17, z=0)
-                self.leg_position("FR", 0, 17, z=0)
-                self.leg_position("FL", 0, 17, z=0)
+                if prev_sit_value == True:
+                    #print("in if")
+                    self.leg_position("FR", 0, 18.7, z=0)
+                    self.leg_position("FR", 0, 18.7, z=0)
+                    for value in np.arange(15.0, 18.7, 0.3):
+                        self.leg_position("BR", 0, value, z=0)
+                        self.leg_position("BL", 0, value, z=0)
+                        #print("standing", value)
+                else:
+                    self.leg_position("BR", 0, 18.7, z=0)
+                    self.leg_position("BL", 0, 18.7, z=0)
+                    self.leg_position("FR", 0, 18.7, z=0)
+                    self.leg_position("FL", 0, 18.7, z=0)
                 momentum = np.asarray([0,0,1,0],dtype=np.float32)
             
             # IDLE SIT
-            if sit.value and not forwards and not backwards:
-                self.sit_down()
+            if sit.value != prev_sit_value:
+                not_sat = False
+                #print("in sit.value != prev")
+
+                
+            if sit.value and not forwards and not backwards and not not_sat:
+                for value in np.arange(18.7, 15.0, -0.02):
+                    if value > 15.8 and value < 16.1:
+                        self.leg_position("FR", 0, 19.0, z=0)
+                        self.leg_position("FL", 0, 19.0, z=0)
+                    if value < 15.2:
+                        self.leg_position("FL", 0, 19.3, z=0)
+                        self.leg_position("FR", 0, 19.3, z=0)
+                    self.leg_position("BR", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
+                    self.leg_position("BL", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
+                    #print("sitting", value)
+
+                # self.sit_down()
                 momentum = np.asarray([0,0,1,0],dtype=np.float32)
+                not_sat = True
                 
                 
             if head_dir != "":
                 base_position, tilt_position = self.head_control(head_dir, base_position, tilt_position)
             
                 
+            prev_sit_value = sit.value
             
                 

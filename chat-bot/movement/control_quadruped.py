@@ -14,7 +14,7 @@ def handle_interrupt(signal, frame):
 def main_quad(sit):
     r = Quadruped()
     try:
-        r.calibrate()
+        #r.calibrate()
         r.move(controller, sit)
     except KeyboardInterrupt:
         # Ctrl+C was pressed, handle the interrupt
