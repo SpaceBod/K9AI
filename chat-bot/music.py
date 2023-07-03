@@ -14,6 +14,8 @@ global_device_id = None
 class InvalidSearchError(Exception):
     pass
 
+#-------------------------------------Setup-------------------------------------
+
 # Creates a connection to the spotify api and connects to the particular device
 def initialise_spotify(client_id, client_secret, redirect_uri, username, device_name, scope):
     auth_manager = SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope, username=username)
@@ -35,28 +37,17 @@ def send_variables(spotify, device_id):
     global_spotify = spotify
     global_device_id = device_id
 
-# Searches using Spotify api for a particular artist
-def get_artist_uri(spotify: Spotify, name: str) -> str:
-    original = name
-    name = name.replace(' ', '+')
+Status
+#------------------------------------Status-------------------------------------
 
-    results = spotify.search(q=name, limit=1, type='artist')
-    if not results['artists']['items']:
-        raise InvalidSearchError(f'No artist named "{original}"')
-    artist_uri = results['artists']['items'][0]['uri']
-    print(results['artists']['items'][0]['name'])
-    return artist_uri
+# Checks to see the status of the playback
+def is_track_paused(spotify: Spotify) -> bool:
+    current_playback = spotify.current_user_playing_track()
+    if current_playback and current_playback['is_playing']:
+        return True
+    return False
 
-# Searches using Spotify api for a particular album
-def get_album_uri(spotify: Spotify, name: str) -> str:
-    original = name
-    name = name.replace(' ', '+')
-
-    results = spotify.search(q=name, limit=1, type='album')
-    if not results['albums']['items']:
-        raise InvalidSearchError(f'No album named "{original}"')
-    album_uri = results['albums']['items'][0]['uri']
-    return album_uri
+#---------------------------------Fetching URI----------------------------------
 
 # Searches using Spotify api for a particular song
 def get_track_uri(spotify: Spotify, name: str, artist=None) -> str:
@@ -117,6 +108,29 @@ def get_podcast_genre_uri(spotify: Spotify, genre: str) -> str:
     print(random_podcast['name'])
     return podcast_uri,random_podcast['name'],random_podcast['publisher']
 
+# Searches using Spotify api for a particular artist
+def get_artist_uri(spotify: Spotify, name: str) -> str:
+    original = name
+    name = name.replace(' ', '+')
+
+    results = spotify.search(q=name, limit=1, type='artist')
+    if not results['artists']['items']:
+        raise InvalidSearchError(f'No artist named "{original}"')
+    artist_uri = results['artists']['items'][0]['uri']
+    print(results['artists']['items'][0]['name'])
+    return artist_uri
+
+# Searches using Spotify api for a particular album
+def get_album_uri(spotify: Spotify, name: str) -> str:
+    original = name
+    name = name.replace(' ', '+')
+
+    results = spotify.search(q=name, limit=1, type='album')
+    if not results['albums']['items']:
+        raise InvalidSearchError(f'No album named "{original}"')
+    album_uri = results['albums']['items'][0]['uri']
+    return album_uri
+
 # Uses Spotify api function to play the liked songs of user
 def get_liked_songs(spotify: Spotify):
     liked_songs = []
@@ -135,29 +149,13 @@ def get_liked_songs(spotify: Spotify):
     sample = liked_songs[:100]
     return sample
 
-# Checks to see the status of the playback
-def is_track_paused(spotify: Spotify) -> bool:
-    current_playback = spotify.current_user_playing_track()
-    if current_playback and current_playback['is_playing']:
-        return True
-    return False
-
-# Starts playback of liked songs
-def play_liked_songs(spotify=None, device_id=None, liked_songs=None):
-    time.sleep(5)
-    track_uris = [track['track']['uri'] for track in liked_songs]
-    spotify.start_playback(device_id=device_id, uris=track_uris)
-
-# Starts playback of a particular artist
-def play_artist(spotify=None, device_id=None, uri=None):
-    time.sleep(5)
-    spotify.start_playback(device_id=device_id, context_uri=uri)
+#-----------------------------------Playback------------------------------------
 
 # Starts playback of a particular song
 def play_track(spotify=None, device_id=None, uri=None):
     time.sleep(5)
     spotify.start_playback(device_id=device_id, uris=[uri])
-    
+
 # Starts playback of a particular playlist
 def play_playlist(spotify=None, device_id=None, uri=None):
     time.sleep(5)
@@ -168,6 +166,17 @@ def play_podcast(spotify=None, device_id=None, uri=None):
     time.sleep(5)
     spotify.start_playback(device_id=device_id, context_uri=uri)
 
+# Starts playback of a particular artist
+def play_artist(spotify=None, device_id=None, uri=None):
+    time.sleep(5)
+    spotify.start_playback(device_id=device_id, context_uri=uri)
+
+# Starts playback of liked songs
+def play_liked_songs(spotify=None, device_id=None, liked_songs=None):
+    time.sleep(5)
+    track_uris = [track['track']['uri'] for track in liked_songs]
+    spotify.start_playback(device_id=device_id, uris=track_uris)
+    
 # Changes playback to next song on the queue
 def next_track(spotify=None, device_id=None):
     spotify.next_track(device_id=device_id)
@@ -184,6 +193,8 @@ def pause_track(spotify=None, device_id=None):
 def resume_play(spotify=None, device_id=None):
     spotify.start_playback(device_id=device_id)
 
+#-----------------------------------Playback------------------------------------
+
 # Sets volume to a percentage from 0 to 100
 def set_volume(spotify=None, device_id=None, volume=None):
     spotify.volume(volume, device_id=device_id)
@@ -196,6 +207,21 @@ def get_current_volume(spotify=None, device_id=None):
             volume_level = current_playback['device']['volume_percent']
             return volume_level
     return None
+
+#--------------------------------Podcast Genres---------------------------------
+
+# Initially randomises favourite ratings
+def init_podcast_ratings():
+    # Read the topic scores from the CSV file
+    topics = fetch_podcast_ratings()
+
+    # Iterate over each topic and update its score
+    for topic in topics:
+        # Generate a random score between 4 and 8 (inclusive)
+        new_score = random.randint(4, 8)
+        change_podcast_rating(topic, new_score)
+
+    print("Scores randomized successfully.")
 
 # Reads genres.csv file to get users podcast ratings
 def fetch_podcast_ratings():
@@ -212,20 +238,7 @@ def fetch_podcast_ratings():
             # Add the topic and its number to the dictionary
             topics[topic] = number
         return topics
-
-# Initially randomises favourite ratings
-def init_podcast_ratings():
-    # Read the topic scores from the CSV file
-    topics = fetch_podcast_ratings()
-
-    # Iterate over each topic and update its score
-    for topic in topics:
-        # Generate a random score between 4 and 8 (inclusive)
-        new_score = random.randint(4, 8)
-        change_podcast_rating(topic, new_score)
-
-    print("Scores randomized successfully.")
-
+        
 # Fetches favourite top 3 podcast genres
 def fav_podcast_genres():
     # Read the topic scores from the CSV file
@@ -333,6 +346,34 @@ def fetch_prev_podcast():
     current_score = topics.get(podcast_genre)
     return podcast_genre, current_score
 
+# Saving previously played podcasts 
+def podcast_history(podcast_genre,podcast_name,podcast_artist):
+    file_path = "assets/podcast/podcast_history.csv"
+    file_exists = os.path.exists(file_path)
+    with open(file_path, "a", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        # Write the header row if the file is empty
+        if not file_exists or os.stat(file_path).st_size == 0:
+            writer.writerow(["Genre","Podcast Name", "Artist"])
+        # Write the data to the next empty row
+        writer.writerow([podcast_genre, podcast_name, podcast_artist])
+    print("Podcast has been written to the CSV file.")
+
+# Check if a podcast has been previously played
+def podcast_history_check(podcast_name, podcast_artist):
+    file_path = "assets/podcast/podcast_history.csv"
+    if not os.path.exists(file_path):
+        return False 
+    with open(file_path, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  
+        for row in reader:
+            if row[1] == podcast_name and row[2] == podcast_artist:
+                return True  # Exact match found
+    return False  # No exact match found    
+
+#----------------------------Information Extraction-----------------------------
+
 # Speech to text retrieval of given song and artist with 'play'
 def extract_song_info(text):
     # Try to match the pattern 'play' followed by song name and artist
@@ -378,7 +419,19 @@ def extract_podcast_info(text):
         podcast_name = ""
     return podcast_name
 
-# Overall function to call all functions needed to request a song
+# Speech to text retrieval of playback volume
+def extract_volume_percentage(text):
+    # Try to find the pattern 'to' followed by a number, with or without '%'
+    match = re.search(r'to\s+(\d+)%?', text, re.IGNORECASE)
+    if match:
+        volume_percentage = int(match.group(1))
+        return volume_percentage
+    else:
+        return None
+
+#-------------------------------Watson Functions--------------------------------
+
+# Request a song
 def request_song(text):
     local_recogniser = get_recogniser()
     play_sound("sound/songRequest.mp3", 1, blocking=True)
@@ -402,7 +455,7 @@ def request_song(text):
             local_recogniser = speech_recognition.Recognizer()
             play_sound("sound/repeat.mp3", 0.5, blocking=True)
 
-# Overall function to call all functions needed to request a specific pre-given song
+# Request a specific pre-given song
 def request_specific_song(text):
     song_name, artist = extract_song_info(text)
     play_sound("sound/searching.mp3", 1, True)
@@ -418,7 +471,7 @@ def request_specific_song(text):
         uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
-# Overall function to call all functions needed to request a playlist
+# Request a playlist
 def request_playlist(text):
     local_recogniser = get_recogniser()
     play_sound("sound/playlistRequest.mp3", 1, blocking=True)
@@ -436,7 +489,7 @@ def request_playlist(text):
             local_recogniser = speech_recognition.Recognizer()
             play_sound("sound/repeat.mp3", 1, blocking=True)
 
-# Overall function to call all functions needed to request a specific pre-given playlist
+# Request a specific pre-given playlist
 def request_specific_playlist(text):
     playlist_name = extract_playlist_info(text).title()
     play_sound("sound/searching.mp3", 1, True)
@@ -449,7 +502,7 @@ def request_specific_playlist(text):
         play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {playlist_name}.")
 
-# Overall function to call all functions needed to request a podcast
+# Request a podcast
 def request_podcast(text):
     local_recogniser = get_recogniser()
     play_sound("sound/podcastRequest.mp3", 1, blocking=True)
@@ -466,7 +519,7 @@ def request_podcast(text):
             local_recogniser = speech_recognition.Recognizer()
             play_sound("sound/repeat.mp3", 1, blocking=True)
 
-# Overall function to call all functions needed to request a specific podcast
+# Request a specific pre-given podcast
 def request_specific_podcast(text):
     podcast_name = extract_podcast_info(text).title()
     play_sound("sound/searching.mp3", 1, True)
@@ -478,7 +531,7 @@ def request_specific_podcast(text):
         uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
-# Overall function to get a podcast genre
+# Request a podcast genre
 def request_genre_podcast(text):
     local_recogniser = get_recogniser()
     print("Entered request_genre_podcast")
@@ -520,7 +573,7 @@ def request_genre_podcast(text):
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         podcast_history(podcast_genre,podcast_name,podcast_artist)
 
-# Uses favourite podcast genres to get a podcast
+# Requests Random Podcast from pre-saved favourites
 def request_random_podcast(text):
     genres = fav_podcast_genres()
     index = random.randint(0, len(genres) - 1)
@@ -535,65 +588,37 @@ def request_random_podcast(text):
     play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     podcast_history(podcast_genre,podcast_name,podcast_artist)
 
-# Saving previously played podcasts 
-def podcast_history(podcast_genre,podcast_name,podcast_artist):
-    file_path = "assets/podcast/podcast_history.csv"
-    file_exists = os.path.exists(file_path)
-    with open(file_path, "a", newline="") as csvfile:
-        writer = csv.writer(csvfile)
-        # Write the header row if the file is empty
-        if not file_exists or os.stat(file_path).st_size == 0:
-            writer.writerow(["Genre","Podcast Name", "Artist"])
-        # Write the data to the next empty row
-        writer.writerow([podcast_genre, podcast_name, podcast_artist])
-    print("Podcast has been written to the CSV file.")
-
-# Check if a podcast has been previously played
-def podcast_history_check(podcast_name, podcast_artist):
-    file_path = "assets/podcast/podcast_history.csv"
-    if not os.path.exists(file_path):
-        return False 
-    with open(file_path, "r") as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  
-        for row in reader:
-            if row[1] == podcast_name and row[2] == podcast_artist:
-                return True  # Exact match found
-    return False  # No exact match found    
-
 # Calls the check if podcast
 def is_music_paused():
     return is_track_paused(spotify=global_spotify)
 
+# Makes pause_track playable from Watson
 def pause_music(text):
     pause_track(spotify=global_spotify, device_id=global_device_id)
 
+# Makes resume_play playable from Watson
 def play_music(text):
     resume_play(spotify=global_spotify, device_id=global_device_id)
 
+# Overall function to play liked songs
 def play_liked(text):
     liked_songs = get_liked_songs(spotify=global_spotify)
     play_liked_songs(spotify=global_spotify, device_id=global_device_id, liked_songs=liked_songs)
 
+# Makes next_track playable from Watson
 def play_next(text):
     next_track(spotify=global_spotify, device_id=global_device_id)
 
+# Makes prev_track playable from Watson
 def play_previous(text):
     prev_track(spotify=global_spotify, device_id=global_device_id)
 
-def extract_volume_percentage(text):
-    # Try to find the pattern 'to' followed by a number, with or without '%'
-    match = re.search(r'to\s+(\d+)%?', text, re.IGNORECASE)
-    if match:
-        volume_percentage = int(match.group(1))
-        return volume_percentage
-    else:
-        return None
-    
+# Setting volume on Spotify
 def set_vol(text):
     set_vol = extract_volume_percentage(text)
     set_volume(spotify=global_spotify, device_id=global_device_id, volume=set_vol)
 
+# Increases volume of Spotify
 def increase_vol(text):
     current_volume = get_current_volume(spotify=global_spotify, device_id=global_device_id)
     if current_volume is not None:
@@ -603,6 +628,7 @@ def increase_vol(text):
     else:
         print("No active playback or device found.")
 
+# Decreases volume of Spotify
 def decrease_vol(text):
     current_volume = get_current_volume(spotify=global_spotify, device_id=global_device_id)
     if current_volume is not None:
@@ -612,6 +638,7 @@ def decrease_vol(text):
     else:
         print("No active playback or device found.")
 
+# Changes the podcast ratings for input 'favourite'
 def podcast_feedback_fav(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
@@ -619,6 +646,7 @@ def podcast_feedback_fav(text):
         return
     change_podcast_rating(podcast_genre, 9)
 
+# Changes the podcast ratings for input 'love'
 def podcast_feedback_love(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
@@ -628,6 +656,7 @@ def podcast_feedback_love(text):
     change_podcast_rating(podcast_genre, new_score)
     speak("Thanks for the feedback")
 
+# Changes the podcast ratings for input 'like'
 def podcast_feedback_like(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
@@ -637,6 +666,7 @@ def podcast_feedback_like(text):
     change_podcast_rating(podcast_genre, new_score)
     speak("Thanks for the feedback")
 
+# Changes the podcast ratings for input 'dislike'
 def podcast_feedback_dis(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
@@ -646,6 +676,7 @@ def podcast_feedback_dis(text):
     change_podcast_rating(podcast_genre, new_score)
     speak("Thanks for the feedback")
 
+# Changes the podcast ratings for input 'strongly dislike'
 def podcast_feedback_stdis(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
@@ -655,6 +686,7 @@ def podcast_feedback_stdis(text):
     change_podcast_rating(podcast_genre, new_score)
     speak("Thanks for the feedback")
 
+# Changes the podcast rating for input 'hate'
 def podcast_feedback_hate(text):
     podcast_genre, current_score = fetch_prev_podcast()
     if current_score is None:
