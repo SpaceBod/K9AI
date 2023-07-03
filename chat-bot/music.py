@@ -438,9 +438,11 @@ def request_song(text):
     while not done:
         try:
             song = recognise_input(local_recogniser)
+            play_sound("sound/searching.mp3", 1, True)
             song_name, artist = extract_song_and_artist(song)
-            print("song", song_name)
-            print("artist", artist)
+            print("Song:", song_name)
+            print("Artist:", artist)
+            
 
             if artist == "":
                 uri = get_track_uri(spotify=global_spotify, name=song_name)
