@@ -72,7 +72,11 @@ class WatsonAssistant:
             'Track': command_track,
             'Stop Track': command_stop_track,
             'Fetch Events': process_text,
-            'Update Me': update_me
+            'Update Me': update_me,
+            'Artist': request_artist,
+            'Artist Request': request_specific_artist,
+            'Album': request_album,
+            'Album Request': request_specific_album
         }
 
     def read_intents_from_csv(self, file_path):
