@@ -8,6 +8,7 @@ def extract_article_number(user_input):
         'four': 4,
         'five': 5
     }
+    # Extracts the number word from user input
     match = re.search(r'\bnumber\s*(\w+)\b', user_input, re.IGNORECASE)
     if match:
         number_word = match.group(1)
@@ -17,9 +18,11 @@ def extract_article_number(user_input):
 
 def get_news(user_input):
     local_recogniser = get_recogniser()
+    # Fetch news data from the API
     news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
     news = news_data.json()
     titles = ""
+    # Extract the titles of the news articles
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     play_sound("sound/newsSearchFiller.mp3", 1, blocking=False)
@@ -43,6 +46,7 @@ def get_news(user_input):
                     article_index = article_number - 1
                     if 0 <= article_index < min(5, len(news["results"])):
                         play_sound("sound/newsFiller.mp3", 1, blocking=False)
+                        # Speak the description of the selected news article
                         speak(news["results"][article_index]["description"])
                         done = True
                     else:
@@ -74,9 +78,11 @@ def get_specific_news(user_input):
                 max_position = position
                 substring_max = substring
 
+    # Fetch news data based on the specified topic from the API
     news_data = requests.get(f'https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&q={substring_max}')
     news = news_data.json()
     titles = ""
+    # Extract the titles of the news articles
     for i in range(min(5, len(news["results"]))):
         titles += news["results"][i]["title"] + "\n"
     play_sound("sound/newsTopicSearchFiller.mp3", 1, blocking=False)
@@ -95,6 +101,7 @@ def get_specific_news(user_input):
                 done = True
             elif article_number is not None and 1 <= article_number <= 5:
                 play_sound("sound/newsFiller.mp3", 1, blocking=False)
+                # Speak the description of the selected news article
                 speak(news["results"][article_number - 1]["description"])
                 done = True
             else:

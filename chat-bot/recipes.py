@@ -10,6 +10,7 @@ def extract_recipe_number(user_input):
         'two': 2,
         'three': 3,
     }
+    # Extracts the number word from user input
     match = re.search(r'\bnumber\s*(\w+)\b', user_input, re.IGNORECASE)
     if match:
         number_word = match.group(1)
@@ -18,6 +19,7 @@ def extract_recipe_number(user_input):
     return None
 
 def remove_html_tags(text):
+    # Removes HTML tags from a text string
     clean_text = ""
     inside_tag = False
     for char in text:
@@ -30,6 +32,7 @@ def remove_html_tags(text):
     return clean_text
 
 def get_data_from_api(url):
+    # Fetches data from the API based on the provided URL
     try:
         response = requests.get(url, headers=HEADERS)
         response.raise_for_status()
@@ -39,6 +42,7 @@ def get_data_from_api(url):
         return None
 
 def search_recipe_by_name(dish_name):
+    # Searches for a recipe by the specified dish name
     url = f"https://api.spoonacular.com/recipes/complexSearch?query={dish_name}&number=1&apiKey={API_KEY}"
     data = get_data_from_api(url)
 
@@ -56,6 +60,7 @@ def search_recipe_by_name(dish_name):
     return []
 
 def get_recipe_instructions(recipe_id):
+    # Fetches the recipe instructions for a given recipe ID
     url = f"https://api.spoonacular.com/recipes/{recipe_id}/analyzedInstructions?apiKey={API_KEY}"
     data = get_data_from_api(url)
 
@@ -66,6 +71,7 @@ def get_recipe_instructions(recipe_id):
     return "No instructions available."
 
 def get_random_recipes(number, meal_type):
+    # Retrieves random recipes of the specified meal type
     url = f"https://api.spoonacular.com/recipes/random?number={number}&tags={meal_type}&apiKey={API_KEY}"
     data = get_data_from_api(url)
 
@@ -78,6 +84,7 @@ def get_random_recipes(number, meal_type):
 def get_random_meal_by_phrase(phrase):
     local_recogniser = get_recogniser()
     meal_type = ""
+    # Determine the meal type based on the provided phrase
     if "breakfast" in phrase.lower():
         meal_type = "breakfast"
     elif "lunch" in phrase.lower():
@@ -88,6 +95,7 @@ def get_random_meal_by_phrase(phrase):
         meal_type = random.choice(["lunch", "breakfast", "dinner"])
 
     random_meals = get_random_recipes(3, meal_type)
+
     if random_meals:
         play_sound("sound/recipeSearch.mp3", 1, blocking=True)
         meal_string = "\n"
@@ -118,6 +126,7 @@ def get_random_meal_by_phrase(phrase):
     else:
         play_sound("sound/recipeRepeat.mp3", 1, blocking=True)
 
+# Extracts the name of the meal
 def extract_meal_name(prompt):
     pattern = r"(?i)\b(how to make|recipe for|instructions for|how do I make|tell me how to make|show me how to make)\b\s+(.*)"
     match = re.search(pattern, prompt)
@@ -125,8 +134,8 @@ def extract_meal_name(prompt):
         return match.group(2).strip()
     return None
 
+# Searches for the recipe of a given meal
 def search_meal(prompt):
-    local_recogniser = get_recogniser()
     meal_name = extract_meal_name(prompt)
     if meal_name != None:
         recipes = search_recipe_by_name(meal_name)
