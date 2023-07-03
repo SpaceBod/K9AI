@@ -8,8 +8,6 @@ from activities import *
 from music import *
 from gCalendar import *
 from update import *
-
-
 from movement.game_controller import command_sit, command_stand, command_track, command_stop_track
 import csv
 
@@ -20,6 +18,7 @@ class WatsonAssistant:
         self.service_url = service_url
         self.intents_dict = self.read_intents_from_csv(intents_file)
 
+        # Initialise Watson Assistant
         authenticator = IAMAuthenticator(api_key)
         self.assistant = AssistantV2(
             version='2021-11-27',
@@ -29,6 +28,7 @@ class WatsonAssistant:
         response = self.assistant.create_session(assistant_id=id).get_result()
         self.session_id = response['session_id']
 
+        # Mapping of intents to corresponding functions
         self.intent_mapping = {
             'Weather': get_weather,
             'Day': get_day,
@@ -73,10 +73,10 @@ class WatsonAssistant:
             'Stop Track': command_stop_track,
             'Fetch Events': process_text,
             'Update Me': update_me
-
         }
 
     def read_intents_from_csv(self, file_path):
+        # Read intents from a CSV file and return a dictionary of intent_id: intent_text
         intents = {}
         with open(file_path, 'r') as csvfile:
             reader = csv.reader(csvfile)
@@ -84,6 +84,7 @@ class WatsonAssistant:
         return intents
 
     def watson_chat(self, speech_input, shared_list):
+        # Send user input to Watson Assistant and process the response
         message_response = self.assistant.message(assistant_id=self.id, session_id=self.session_id,
                                                   input={'message_type': 'text', 'text': speech_input}).get_result()
         if 'generic' in message_response['output']:
@@ -102,7 +103,6 @@ class WatsonAssistant:
                             self.intent_mapping[intent_text](speech_input)
                         else:
                             speak(assistant_reply)
-
                     else:
                         play_sound("sound/oops.mp3", 1, blocking=True)
                 else:
@@ -114,7 +114,7 @@ class WatsonAssistant:
                     intent_text = self.intents_dict.get(intent, 'Unknown intent')
                     print('Intent:', intent_text, "\tID: ", intent)
                     # Call the corresponding function based on the intent without TTS
-                    # Movement Command
+                    # Movement Commands
                     if intent_text == 'Sit' or intent_text == 'Stand' or intent_text == 'Track' or intent_text == 'Stop Track':
                         self.intent_mapping[intent_text](shared_list)
                     elif intent_text in self.intent_mapping:
@@ -123,4 +123,3 @@ class WatsonAssistant:
                     play_sound("sound/oops.mp3", 1, blocking=True)
         else:
             play_sound("sound/oops.mp3", 1, blocking=True)
-
