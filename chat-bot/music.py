@@ -7,7 +7,6 @@ import csv
 import re
 import time
 from functions import *
-import alsaaudio
 
 global_spotify = None
 global_device_id = None
@@ -129,7 +128,6 @@ def get_liked_songs(spotify: Spotify):
 
 def is_track_paused(spotify: Spotify) -> bool:
     current_playback = spotify.current_user_playing_track()
-    #print(current_playback['is_playing'])
     if current_playback and current_playback['is_playing']:
         return True
     return False
@@ -364,16 +362,14 @@ def request_song(text):
             if artist == "":
                 uri = get_track_uri(spotify=global_spotify, name=song_name)
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
-                #speak(f"Playing {song_name}.")
             # If song title + artist provided
             else:
                 uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
-                #speak(f"Playing {song_name} by {artist}.")
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            #play_sound("sound/repeat.mp3", 0.5, blocking=False)
+            play_sound("sound/repeat.mp3", 0.5, blocking=True)
 
 def request_specific_song(text):
     song_name, artist = extract_song_info(text)
@@ -385,12 +381,10 @@ def request_specific_song(text):
     if artist == "":
         uri = get_track_uri(spotify=global_spotify, name=song_name)
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
-        #speak(f"Playing {song_name}.")
     # If song title + artist provided
     else:
         uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
-        #speak(f"Playing {song_name} by {artist}.")
 
 def request_playlist(text):
     local_recogniser = get_recogniser()
@@ -407,7 +401,7 @@ def request_playlist(text):
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 1, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=True)
 
 def request_specific_playlist(text):
     playlist_name = extract_playlist_info(text).title()
@@ -432,11 +426,10 @@ def request_podcast(text):
             time.sleep(4)
             uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
             play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
-            speak(f"Playing {podcast_name}.")
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 1, blocking=False)
+            play_sound("sound/repeat.mp3", 1, blocking=True)
 
 def request_specific_podcast(text):
     podcast_name = extract_podcast_info(text).title()
@@ -448,7 +441,6 @@ def request_specific_podcast(text):
         time.sleep(4)
         uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
-        speak(f"Playing {podcast_name}.")
 
 def request_genre_podcast(text):
     local_recogniser = get_recogniser()
@@ -487,8 +479,8 @@ def request_genre_podcast(text):
             print("entered check:")
             uri,podcast_name,podcast_artist = get_podcast_genre_uri(spotify=global_spotify, genre=podcast_genre)
             check_history = podcast_history_check(podcast_name,podcast_artist)
-        play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         speak(f"Playing {podcast_genre}.")
+        play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
         podcast_history(podcast_genre,podcast_name,podcast_artist)
 
 def request_random_podcast(text):
@@ -501,8 +493,8 @@ def request_random_podcast(text):
         uri,podcast_name,podcast_artist = get_podcast_genre_uri(spotify=global_spotify, genre=podcast_genre)
         print(podcast_name, podcast_artist)
         check_history = podcast_history_check(podcast_name,podcast_artist)
-    play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     speak(f"Playing {podcast_genre}.")    
+    play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     podcast_history(podcast_genre,podcast_name,podcast_artist)
 
 
@@ -594,7 +586,7 @@ def podcast_feedback_love(text):
         return
     new_score = min(current_score + 2, 10)
     change_podcast_rating(podcast_genre, new_score)
-    speak("")
+    speak("Thanks for the feedback")
 
 def podcast_feedback_like(text):
     podcast_genre, current_score = fetch_prev_podcast()
@@ -603,7 +595,7 @@ def podcast_feedback_like(text):
         return
     new_score = min(current_score + 1, 10)
     change_podcast_rating(podcast_genre, new_score)
-    speak("")
+    speak("Thanks for the feedback")
 
 def podcast_feedback_dis(text):
     podcast_genre, current_score = fetch_prev_podcast()
@@ -612,7 +604,7 @@ def podcast_feedback_dis(text):
         return
     new_score = max(current_score - 1, 1)
     change_podcast_rating(podcast_genre, new_score)
-    speak("")
+    speak("Thanks for the feedback")
 
 def podcast_feedback_stdis(text):
     podcast_genre, current_score = fetch_prev_podcast()
@@ -621,7 +613,7 @@ def podcast_feedback_stdis(text):
         return
     new_score = max(current_score - 2, 1)
     change_podcast_rating(podcast_genre, new_score)
-    speak("")
+    speak("Thanks for the feedback")
 
 def podcast_feedback_hate(text):
     podcast_genre, current_score = fetch_prev_podcast()
@@ -629,4 +621,4 @@ def podcast_feedback_hate(text):
         print("Topic not found.")
         return
     change_podcast_rating(podcast_genre, 2)
-    speak("")
+    speak("Thanks for the feedback")
