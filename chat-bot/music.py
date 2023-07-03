@@ -170,6 +170,11 @@ def play_artist(spotify=None, device_id=None, uri=None):
     time.sleep(5)
     spotify.start_playback(device_id=device_id, context_uri=uri)
 
+# Starts playback of a particular album
+def play_album(spotify=None, device_id=None, uri=None):
+    time.sleep(5)
+    spotify.start_playback(device_id=device_id, context_uri=uri)
+
 # Starts playback of liked songs
 def play_liked_songs(spotify=None, device_id=None, liked_songs=None):
     time.sleep(5)
@@ -418,6 +423,27 @@ def extract_podcast_info(text):
         podcast_name = ""
     return podcast_name
 
+# Speech to text retrival of given artist
+def extract_artist_info(text):
+    match = re.search(r'artist\s(.+)$', text, re.IGNORECASE)
+    if match:
+        artist_name = match.group(1).strip()
+    else:
+        artist_name = ""
+    return artist_name
+
+def extract_album_info(text):
+    # Try to match the pattern 'album' followed by album name and optional artist
+    match = re.search(r'album(?:\s(.+?))(?:\sby\s(.+))?$', text, re.IGNORECASE)
+    if match:
+        album_name = match.group(1).strip()
+        artist = match.group(2).strip() if match.group(2) is not None else ""
+    else:
+        album_name = ""
+        artist = ""
+    return album_name.title(), artist.title()
+
+
 # Speech to text retrieval of playback volume
 def extract_volume_percentage(text):
     # Try to find the pattern 'to' followed by a number, with or without '%'
@@ -587,6 +613,79 @@ def request_random_podcast(text):
         check_history = podcast_history_check(podcast_name,podcast_artist)
     play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     podcast_history(podcast_genre,podcast_name,podcast_artist)
+
+# Request a artist
+def request_artist(text):
+    local_recogniser = get_recogniser()
+    play_sound("sound/playlistRequest.mp3", 1, blocking=True)
+    done = False
+    while not done:
+        try:
+            artist_name = recognise_input(local_recogniser).title()
+            play_sound("sound/searching.mp3", 1, True)
+            print("Artist: ", artist_name)
+            uri = get_playlist_uri(spotify=global_spotify, name=artist_name)
+            play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            play_sound("sound/repeat.mp3", 1, blocking=True)
+
+
+# Request a specific pre-given artist
+def request_specific_artist(text):
+    artist = extract_artist_info(text)
+    play_sound("sound/searching.mp3", 1, True)
+    print("Artist:", artist)
+    if (artist == ""):
+        play_sound("sound/searchFailed.mp3", 1, True)
+        return
+    else:
+        uri = get_artist_uri(spotify=global_spotify, name=song_name, artist=artist)
+        play_artist(spotify=global_spotify, device_id=global_device_id, uri=uri)
+
+# Request an album
+def request_album(text):
+    local_recogniser = get_recogniser()
+    play_sound("sound/songRequest.mp3", 1, blocking=True)
+    done = False
+    while not done:
+        try:
+            album = recognise_input(local_recogniser)
+            play_sound("sound/searching.mp3", 1, True)
+            album_name, artist = extract_album_info(album)
+            print("Album:", album_name)
+            print("Artist:", artist)
+        
+            if artist == "":
+                uri = get_track_uri(spotify=global_spotify, name=album_name)
+                play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            # If song title + artist provided
+            else:
+                uri = get_track_uri(spotify=global_spotify, name=album_name, artist=artist)
+                play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            done = True
+        except speech_recognition.UnknownValueError:
+            local_recogniser = speech_recognition.Recognizer()
+            play_sound("sound/repeat.mp3", 0.5, blocking=True)
+
+# Request a specific pre-given album
+def request_specific_album(text):
+    album_name, artist = extract_album_info(text)
+    play_sound("sound/searching.mp3", 1, True)
+    print("Album:", album_name)
+    print("Artist:", artist)
+    if (artist == "" and album_name == ""):
+        play_sound("sound/searchFailed.mp3", 1, True)
+        return
+    # If only song title provided
+    if artist == "":
+        uri = get_track_uri(spotify=global_spotify, name=album_name)
+        play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+    # If song title + artist provided
+    else:
+        uri = get_track_uri(spotify=global_spotify, name=album_name, artist=artist)
+        play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Calls the check if podcast
 def is_music_paused():
