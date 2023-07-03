@@ -641,7 +641,7 @@ def request_specific_artist(text):
         play_sound("sound/searchFailed.mp3", 1, True)
         return
     else:
-        uri = get_artist_uri(spotify=global_spotify, name=song_name, artist=artist)
+        uri = get_artist_uri(spotify=global_spotify, artist=artist)
         play_artist(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Request an album
