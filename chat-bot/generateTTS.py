@@ -1,6 +1,8 @@
 from elevenlabslib.helpers import *
 from elevenlabslib import *
 
+# A script used to generate MP3 TTS files
+
 api_key = "ecf8b902a86fab1c3ec866b9a8ed6fc3"
 user = ElevenLabsUser(api_key)
 premadeVoice = user.get_voices_by_name("Jarvis")[0]

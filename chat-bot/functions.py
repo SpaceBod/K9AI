@@ -14,7 +14,15 @@ from gcsa.event import Event
 from gcsa.google_calendar import GoogleCalendar
 from beautiful_date import *
 from datetime import datetime, timedelta
+import json
 
+with open('settings.json') as f:
+    settings = json.load(f)
+weather_key = settings['weatherAPI']['api_key']
+elevenLabs_key = settings['elevenLabsAPI']['api_key']
+thingSpeak_key = settings['thingSpeakAPI']['api_key']
+
+# Setting up the OLED display
 serial = i2c(port=1, address=0x3C)  # Set the appropriate I2C port and address
 device = sh1106(serial)
 
@@ -23,21 +31,19 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
 K9_TTS = None
-weather_key = 'bf63b77834f1e14ad335ba6c23eea570'
-
 local_recogniser = None
 sound_effects = ["sound/ready.mp3", "sound/prompt.mp3", "sound/startup.mp3"]
-
 
 def get_recogniser():
     return local_recogniser
 
+# Function to play a sound file with optional blocking (waiting for sound to finish)
 def play_sound(file_path, volume, blocking=True):
     volume = 1
     pygame.mixer.init()
     sound = pygame.mixer.Sound(file_path)
     sound.set_volume(volume)
-    print(blocking)
+    # Play sound and wait for it to finish if blocking is True
     if file_path not in sound_effects:
         if blocking:
             play_sound_blocking(sound)
@@ -53,34 +59,40 @@ def play_sound(file_path, volume, blocking=True):
         else:
             sound.play()
 
+# Displays an animation on an OLED display while playing a sound synchronously
 def play_sound_blocking(sound):
+    # Load images for animation
     close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
     image_1 = Image.open('assets/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
     image_2 = Image.open('assets/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
     image_3 = Image.open('assets/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
 
+    # Resize images to match the OLED display resolution and convert to 1-bit grayscale
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
     image_2 = image_2.resize(device.size).convert('1')
     image_3 = image_3.resize(device.size).convert('1')
 
+    # Display the close image on the OLED display
     device.display(close_image_1)
     sound.play()
 
+    # Display animation while the sound is playing
     while pygame.mixer.get_busy():
         device.display(image_1)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_2)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_3)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_2)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
 
     # Display the close image after the sound finishes
     device.display(close_image_1)
     pygame.mixer.quit()
 
+# Displays an animation on an OLED display while playing a sound asynchronously
 def play_sound_non_blocking(sound):
     close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
     image_1 = Image.open('assets/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
@@ -94,18 +106,22 @@ def play_sound_non_blocking(sound):
 
     device.display(close_image_1)
 
+    # Start a new thread to play the animation
     animation_thread = threading.Thread(target=play_animation)
     animation_thread.start()
 
     sound.play()
+
+    # Start a new thread to wait for the sound to finish
     sound_thread = threading.Thread(target=wait_for_sound, args=(sound,))
     sound_thread.start()
 
+# Displays an animation on an OLED display by alternating between different images
 def play_animation():
-    close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
-    image_1 = Image.open('assets/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
-    image_2 = Image.open('assets/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
-    image_3 = Image.open('assets/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
+    close_image_1 = Image.open('assets/display/close.png')
+    image_1 = Image.open('assets/display/1.png')
+    image_2 = Image.open('assets/display/2.png')
+    image_3 = Image.open('assets/display/3.png')
     
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
@@ -114,20 +130,19 @@ def play_animation():
 
     while pygame.mixer.get_busy():
         device.display(image_1)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_2)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_3)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         device.display(image_2)
-        pygame.time.Clock().tick(20)  # Control the loop speed
+        pygame.time.Clock().tick(20)
         
     device.display(close_image_1)
     
 def wait_for_sound(sound):
     while pygame.mixer.get_busy():
         pass
-
     # Display the close image after the sound finishes
     close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
     close_image_1 = close_image_1.resize(device.size).convert('1')
@@ -173,14 +188,9 @@ def listen_for_wake_word(porcupine, audio_stream):
             break
 
 # Text to speech
-def espeak(text):
-    print('K9: ' + text)
-    K9_TTS.say(text)
-    K9_TTS.runAndWait()
-
 def speak(text):
     print('K9: ' + text)
-    set_api_key("ecf8b902a86fab1c3ec866b9a8ed6fc3")
+    set_api_key(elevenLabs_key)
     available_voices = voices()
     audio = generate(
       text=text,
@@ -190,6 +200,7 @@ def speak(text):
     save(audio, "sound/tts.mp3")
     play_sound("sound/tts.mp3", 1, True)
 
+# Retrieves weather forecase using API, defaults to London
 def get_weather(user_input):
     pattern = r"(?<=\bin\s).*"
     matches = re.search(pattern, user_input)    
@@ -203,11 +214,13 @@ def get_weather(user_input):
     play_sound("sound/weatherFiller.mp3", 1, blocking=False)
     speak(f"In {location}, the temperature is {temp} degrees, it's {weather}.")
 
+# Get the day of the week
 def get_day(user_input):
     day = datetime.datetime.now().strftime('%A')
     play_sound("sound/dayFiller.mp3", 1, blocking=False)
     speak(f"Today is {day}.")
 
+# Returns a 2-part joke
 def get_random_joke(text):
     # Yup we have to filter out a lot of bad jokes...
     url = "https://v2.jokeapi.dev/joke/Any?type=twopart&blacklistFlags=nsfw,religious,political,racist,sexist"
@@ -222,9 +235,11 @@ def get_random_joke(text):
         joke = data["joke"]
     speak(joke)
 
+# Sends sit command to the movement process
 def command_sitting(user_input):
     print("not implemented")
 
+# On the display, opens the mouth
 def open_mouth():
     # Initialize OLED display
     serial = i2c(port=1, address=0x3C)  # Set the appropriate I2C port and address
@@ -238,6 +253,7 @@ def open_mouth():
     # Display the image on the OLED display
     device.display(image)
 
+# On the display, closes the mouth
 def close_mouth():
     # Initialize OLED display
     serial = i2c(port=1, address=0x3C)  # Set the appropriate I2C port and address
@@ -251,6 +267,7 @@ def close_mouth():
     # Display the image on the OLED display
     device.display(image)
 
+# Creates and adds a calendar event to google calendar
 def create_calendar_event_easy(title, day, month, year, time):
     calendar = GoogleCalendar(credentials_path='client_secret.json')
     if time == 'all day':
@@ -269,19 +286,17 @@ def create_calendar_event_easy(title, day, month, year, time):
                 minutes_before_email_reminder=15)
     calendar.add_event(event)
 
-
     print("Event Created :", title)
     print("Date + Time:", start)
     print("\n")
 
+# Helper function to update ThingSpeak database
 def update_thingspeak(status):
     # ThingSpeak API endpoint URL
     url = "https://api.thingspeak.com/update.json"
 
-    # Your ThingSpeak channel ID and write API key
-    channel_id = "2201244"
-    write_api_key = "M0ZNFW8ZQDW7EIZC"
-
+    # Your ThingSpeak write API key
+    write_api_key = thingSpeak_key
     print(int(status))
     # Create the payload data
     data = {'api_key': write_api_key, 'field1': str(int(status))}
@@ -297,7 +312,8 @@ def update_thingspeak(status):
             print("Error occurred while updating status:", response.status_code)
     except requests.exceptions.RequestException as e:
         print("An error occurred:", e)
-    
+
+# Turn on and off lights
 def light_on(text):
     update_thingspeak(1)
     
