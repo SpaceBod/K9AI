@@ -425,7 +425,7 @@ def extract_podcast_info(text):
 
 # Speech to text retrival of given artist
 def extract_artist_info(text):
-    match = re.search(r'artist\s(.+)$', text, re.IGNORECASE)
+    match = re.search(r'by(.+)$', text, re.IGNORECASE)
     if match:
         artist_name = match.group(1).strip()
     else:
