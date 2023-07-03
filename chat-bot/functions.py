@@ -16,6 +16,7 @@ from beautiful_date import *
 from datetime import datetime, timedelta
 import json
 
+# Fetch API keys
 with open('settings.json') as f:
     settings = json.load(f)
 weather_key = settings['weatherAPI']['api_key']
