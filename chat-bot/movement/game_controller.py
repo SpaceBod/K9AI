@@ -173,19 +173,20 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
     sit = shared_list[0]
     tracking_value = shared_list[1]
     global begin
-
+    forwards = False
+    backwards = False
+    head = ""
+    
     if tracking_value == False:
+        # Handle controller input when not tracking
         begin = False
-        forwards = False
-        backwards = False
-        head = ""
         pygame.event.pump()
         buttons = [gamepad.get_button(i) for i in range(gamepad.get_numbuttons())]
         for i, button in enumerate(buttons):
             if button and not prev_buttons[i]:
                 print("Button [P]:", button_names[i], i)
                 if i == 1:
-                    sit = not sit # Toggle the sitting value
+                    sit = not sit  # Toggle the sitting value
                     print(sit)
                     shared_list[0] = sit
             if not button and prev_buttons[i]:
@@ -196,15 +197,12 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
         for i, axis in enumerate(axes):
             if i == 0:  # Check if it's the left joystick axis
                 if axis > 0.2:
-                    direction = "Right"
                     momentum[1] = min(momentum[1] + accel, 4)
                     forwards = True
                 elif axis < -0.2:
-                    direction = "Left"
                     momentum[1] = max(momentum[1] - accel, -4)
                     forwards = True
-                else:
-                    direction = "Center"
+
             # Right Joystick
             if i == 2:
                 if axis > 0.2:
@@ -225,14 +223,12 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
                     else:
                         momentum[0] = max(momentum[0] - accel, -bound)
                         backwards = True
-    # head = "" 
-    # forwards = False
-    # backwards = False
+
     if tracking_value == True:
+        # Handle controller input when tracking
         forwards = False
         backwards = False
         head = ""
-        #current_dir = "Forward"
         if not begin:
             thread = threading.Thread(target=start_tracking, args=(shared_list,))
             thread.start()
@@ -252,6 +248,7 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
     pygame.time.wait(30)
     return momentum, forwards, backwards, shared_list, head
 
+# Functions are alled by Watson
 def command_sit(shared_list):
     shared_list[0] = True
     print("Sit: ", shared_list[0])
