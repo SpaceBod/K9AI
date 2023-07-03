@@ -37,7 +37,6 @@ def send_variables(spotify, device_id):
     global_spotify = spotify
     global_device_id = device_id
 
-Status
 #------------------------------------Status-------------------------------------
 
 # Checks to see the status of the playback
