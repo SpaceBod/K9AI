@@ -144,8 +144,8 @@ def add_face(text):
         else:
             if ('yes' in response) or ('yeah' in response):               
                 name = True
-            name = True #consider changing 
-    cap = cv2.VideoCapture(0)
+            name = True
+    cap = get_available_webcam()
     play_sound("sound/picture.mp3", 1, blocking=True)
     _, image = cap.read()
     image_path = f"assets/vision/faces/{person}.jpg"
@@ -163,19 +163,13 @@ def greet_me(text):
     save_file = 'assets/vision/face_encodings.pkl'
     sfr = FaceRec()
     sfr.load_encoding_images("assets/vision/faces/", save_file=save_file)
-    # Load Camera
-    cap = None
-    for device_num in range(10):
-        device_path = f"/dev/video{device_num}"
-        cap = cv2.VideoCapture(device_path)
-        if cap.isOpened():
-            break
+    # Get an available webcam
+    cap = get_available_webcam()
 
     if cap is None or not cap.isOpened():
         print("No available webcam found.")
         return
     
-    #cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
         recognized_names = []  # Initialize the list inside the loop
