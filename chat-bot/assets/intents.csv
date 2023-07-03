@@ -45,3 +45,7 @@ action_36833_intent_43080,Track
 action_4672_intent_9604,Stop Track
 action_19530_intent_33007,Update Me
 action_40882_intent_29193,Fetch Events
+action_14500_intent_49161,Artist
+action_37046_intent_48089,Artist Request
+action_10548_intent_4575,Album
+action_35856_intent_39595,Album Request
