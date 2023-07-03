@@ -41,3 +41,7 @@ action_45821_intent_17901,Sit
 action_16159_intent_44339,Stand
 action_8307_intent_21998,Light On
 action_4492_intent_49679,Light Off
+action_36833_intent_43080,Track
+action_4672_intent_9604,Stop Track
+action_19530_intent_33007,Update Me
+action_40882_intent_29193,Fetch Events

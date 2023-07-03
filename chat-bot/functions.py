@@ -33,6 +33,7 @@ def get_recogniser():
     return local_recogniser
 
 def play_sound(file_path, volume, blocking=True):
+    volume = 1
     pygame.mixer.init()
     sound = pygame.mixer.Sound(file_path)
     sound.set_volume(volume)

@@ -11,11 +11,11 @@ def handle_interrupt(signal, frame):
     # Exit the program
     exit(0)
 
-def main_quad(sit):
+def main_quad(shared_list):
     r = Quadruped()
     try:
         #r.calibrate()
-        r.move(controller, sit)
+        r.move(controller, shared_list)
     except KeyboardInterrupt:
         # Ctrl+C was pressed, handle the interrupt
         handle_interrupt(None, None)

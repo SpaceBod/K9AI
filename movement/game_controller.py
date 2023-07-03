@@ -46,7 +46,7 @@ button_names = {
 
 sitting = False
 # Main loop
-def controller(momentum, accel=0.05, bound=3.5):
+def controller(momentum, accel=0.5, bound=3.5):
     global sitting
     ismoving = False
     head = ""
@@ -98,5 +98,5 @@ def controller(momentum, accel=0.05, bound=3.5):
                     momentum[0] = max(momentum[0] - accel, -bound)
                     ismoving = True
 
-    pygame.time.wait(10)
+    pygame.time.wait(5)
     return momentum, ismoving, sitting, head

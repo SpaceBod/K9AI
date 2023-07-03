@@ -14,9 +14,9 @@ import imutils
 
 forwards = False
 backwards = False
-begin = False
+tracking_value  = False
 
-#Initialize the joystick module
+# Initialize the joystick module
 pygame.joystick.init()
 
 # Check for connected gamepad controllers
@@ -54,25 +54,13 @@ button_names = {
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
 pts = deque(maxlen=64)
+tracking_value = True
 # define the screen segments
 screen_width = 600
-first_third = 120
-last_third = 480
+first_third = screen_width // 3
+last_third = first_third * 2
 
 current_dir = "None"
-
-def get_available_webcam():
-    # Get the list of available video devices
-    video_devices = [f"/dev/video{i}" for i in range(10)]
-
-    # Iterate through the video devices to find an available webcam
-    for device in video_devices:
-        cap = imutils.video.WebcamVideoStream(device).start()
-        if cap.stream.isOpened():
-            return cap
-
-    return None  # Return None if no available webcam is found
-
 
 def draw_green_bars(frame, center):
     global current_dir
@@ -87,16 +75,12 @@ def draw_green_bars(frame, center):
             # Draw green bar for the last third
             cv2.rectangle(frame, (last_third, 0), (screen_width, 10), (0, 255, 0), cv2.FILLED)
             current_dir = "Right"
-        elif ball_x < last_third and ball_x > first_third:
+        else:
             # Draw green bar for the middle third
             cv2.rectangle(frame, (first_third, 0), (last_third, 10), (0, 255, 0), cv2.FILLED)
             current_dir = "Forward"
-        else:
-            current_dir = "None"
-            print("Lost Tracking")
     else:
         current_dir = "None"
-        print("Lost Tracking")
 def draw_size(frame, radius, x, y):
     cv2.putText(frame, f"Size: {radius}", (int(x - radius), int(y - radius - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
@@ -145,14 +129,9 @@ def process_frame(frame, headless_mode=False):
     if not headless_mode:
         cv2.imshow("Frame", frame)
 
-def start_tracking(shared_list, headless_mode=True):
+def start_tracking(headless_mode=True):
     # initialize the video stream
-    vs = get_available_webcam()
-    if vs is not None:
-        print("Webcam found!")
-        # Do further processing with the webcam
-    else:
-        print("No webcam found.")
+    vs = VideoStream(src=0).start()
     time.sleep(1.0)
     
     if not headless_mode:
@@ -163,17 +142,13 @@ def start_tracking(shared_list, headless_mode=True):
     while True:
         frame = vs.read()
         process_frame(frame, headless_mode)
-        if shared_list[1] == False:
+        if tracking_value == False:
             break
     # stop the camera video stream
     vs.stop()
     cv2.destroyAllWindows()
 
-def controller(momentum, shared_list, accel=0.7, bound=5):
-    sit = shared_list[0]
-    tracking_value = shared_list[1]
-    global begin
-
+def controller(momentum, sit, accel=0.7, bound=5):
     if tracking_value == False:
         begin = False
         forwards = False
@@ -185,9 +160,8 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
             if button and not prev_buttons[i]:
                 print("Button [P]:", button_names[i], i)
                 if i == 1:
-                    sit = not sit # Toggle the sitting value
-                    print(sit)
-                    shared_list[0] = sit
+                    sit.value = not sit.value  # Toggle the sitting value
+                    print(sit.value)
             if not button and prev_buttons[i]:
                 print("Button [R]:", button_names[i], i)
             prev_buttons[i] = button
@@ -197,11 +171,11 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
             if i == 0:  # Check if it's the left joystick axis
                 if axis > 0.2:
                     direction = "Right"
-                    momentum[1] = min(momentum[1] + accel, 4)
+                    momentum[1] = min(momentum[1] + accel, bound)
                     forwards = True
                 elif axis < -0.2:
                     direction = "Left"
-                    momentum[1] = max(momentum[1] - accel, -4)
+                    momentum[1] = max(momentum[1] - accel, -bound)
                     forwards = True
                 else:
                     direction = "Center"
@@ -225,45 +199,35 @@ def controller(momentum, shared_list, accel=0.7, bound=5):
                     else:
                         momentum[0] = max(momentum[0] - accel, -bound)
                         backwards = True
-    # head = "" 
-    # forwards = False
-    # backwards = False
+
     if tracking_value == True:
-        forwards = False
-        backwards = False
-        head = ""
-        #current_dir = "Forward"
         if not begin:
-            thread = threading.Thread(target=start_tracking, args=(shared_list,))
+            thread = threading.Thread(target=start_tracking)
             thread.start()
             begin = True
-            print("Tracking Thread Started")
-        print(current_dir)
         if current_dir == "Left":
-            momentum[1] = max(momentum[1] - accel, -4)
+            momentum[1] = max(momentum[1] - accel, -bound)
             forwards = True
         elif current_dir == "Right":
-            momentum[1] = min(momentum[1] + accel, 4)
+            momentum[1] = min(momentum[1] + accel, bound)
             forwards = True
         elif current_dir == "Forward":
             momentum[0] = min(momentum[0] + accel, bound)
             forwards = True
 
-    pygame.time.wait(30)
-    return momentum, forwards, backwards, shared_list, head
+    pygame.time.wait(10)
+    return momentum, forwards, backwards, sit, head
 
-def command_sit(shared_list):
-    shared_list[0] = True
-    print("Sit: ", shared_list[0])
+def command_sit(sit):
+    sit.value = True
+    print("Sit: ", sit.value)
     
-def command_stand(shared_list):
-    shared_list[0] = False
-    print("Sit: ", shared_list[0])
+def command_stand(sit):
+    sit.value = False
+    print("Sit: ", sit.value)
 
-def command_track(shared_list):
-    shared_list[1] = True
-    print("Tracking: ", shared_list[1])
+def command_track(sit):
+    sit.value = True
 
-def command_stop_track(shared_list):
-    shared_list[1] = False
-    print("Tracking: ", shared_list[1])
+def command_stop_track(sit):
+    sit.value = False

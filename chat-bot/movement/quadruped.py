@@ -5,15 +5,15 @@ import bezier
 import numpy as np
 import os
 
-forward_br_leg_lower_limit = -3.5
-forward_bl_leg_lower_limit = -3.5
-forward_fl_leg_lower_limit = -3.3
-forward_fr_leg_lower_limit = -3.3
+forward_br_leg_lower_limit = -3.4
+forward_bl_leg_lower_limit = -3.35
+forward_fl_leg_lower_limit = -3.5
+forward_fr_leg_lower_limit = -3.45  
 
-backward_br_leg_lower_limit = -2.5
-backward_bl_leg_lower_limit = -2.5
-backward_fl_leg_lower_limit = -2.5
-backward_fr_leg_lower_limit = -2.5
+backward_br_leg_lower_limit = -3.5
+backward_bl_leg_lower_limit = -3.5
+backward_fl_leg_lower_limit = -3.35
+backward_fr_leg_lower_limit = -3.4
 
 class Motor(IntEnum):
     # identifies the corresponding pin location with the motor location
@@ -143,7 +143,23 @@ class Quadruped:
         a2 = self.lower_leg_length
 
         c2 = (x**2 + y_prime**2 - a1**2 - a2**2) / (2 * a1 * a2)
-        s2 = math.sqrt(1 - c2**2)
+        # print("x", x)
+        # print("y", y)
+        # print("z", z)
+        # print("y_prime", y_prime)
+        # print("y_prime squard", y_prime**2)
+        # print("x squared", x**2)
+        # print("a1", a1)
+        # print("a2", a2)
+        # print("a1 squared", a1**2)
+        # print("a2 squared", a2**2)
+        # print("c2", c2)
+        # print("c2 squared", (1 - c2**2))
+        square_c2 = (1 - c2**2)
+        if (square_c2 < 0):
+            s2 = 0
+        else:
+            s2 = math.sqrt(square_c2)
         theta2 = math.atan2(s2, c2)
         c2 = math.cos(theta2)
         s2 = math.sin(theta2)
@@ -194,7 +210,7 @@ class Quadruped:
         if leg_id == 'BR':
             self.inverse_positioning(Motor.BR_SHOULDER, Motor.BR_ELBOW, x, y, right=True)
     
-    def move(self, controller=None, sit=None):
+    def move(self, controller=None, shared_list=None):
         """
         Walks around based on the controller inputted momentum
         :param controller: the controller that is called to determine the robot momentum
@@ -208,59 +224,69 @@ class Quadruped:
         
         # Generate footstep
         s_vals = np.linspace(0.0, 1.0, 20)
-        step_nodes = np.asfortranarray([
-            [-0.6, -0.6, 0.6, 0.6],  # x-coordinates (shoulder motor control)
-            [-0.6, -0.6, 0.6, 0.6],  # y-coordinates (desired height)
-            [-12.0, -12.0, -12.0, -15.0],  # z-coordinates (hip/shoulder motor control)
+        front_legs_control_points = np.asfortranarray([
+            [-0.9, -0.9, 1.2, 1.2],     # x-coordinates (shoulder motor control)
+            [-0.9, -0.9, 1.2, 1.2],     # y-coordinates (desired height)
+            [-15.6, -11.75, -11.75, -15.6]  # z-coordinates (hip/shoulder motor control)
+        ])
+
+        # Define the control points for the back legs curve
+        back_legs_control_points = np.asfortranarray([
+            [-0.7, -0.7, 0.7, 0.7],     # x-coordinates (shoulder motor control)
+            [-0.7, -0.7, 0.7, 0.7],     # y-coordinates (desired height)
+            [-15.6, -12.1, -12.1, -15.6]  # z-coordinates (hip/shoulder motor control)
         ])
     
-        # step_nodes = np.asfortranarray([
-        #     [-0.9, -0.9, 0.9, 0.9],  # x-coordinates (shoulder motor control)
-        #     [18.3, 18.3, 18.3, 18.3],  # y-coordinates (desired height)
-        #     [-15.0, -12.8, -12.8, -15.0],  # z-coordinates (hip/shoulder motor control)
-        # ])
-        curve = bezier.Curve(step_nodes, degree=3)
-        step = curve.evaluate_multi(s_vals)
+        # Create Bézier curves for the front and back legs
+        front_legs_curve = bezier.Curve(front_legs_control_points, degree=3)
+        back_legs_curve = bezier.Curve(back_legs_control_points, degree=3)
+
+        front_legs_points = front_legs_curve.evaluate_multi(s_vals)
+        back_legs_points = back_legs_curve.evaluate_multi(s_vals)
+
         slide_nodes = np.asfortranarray([
-            [1.0, -1.0],
-            [1.0, -1.0],
-            [-15.0, -15],
+            [0.3, -0.3],
+            [0.3, -0.3],
+            [-15.0, -15.0],
         ])
         curve = bezier.Curve(slide_nodes, degree=1)
         slide = curve.evaluate_multi(s_vals)
 
-        motion = np.concatenate((step,slide), axis=1)
+        motion_f = np.concatenate((front_legs_points,slide), axis=1)
+        motion_b = np.concatenate((back_legs_points,slide), axis=1)
         prev_sit_value = False
-
         close = False
         while not close:
-            momentum, forwards, backwards, sit, head_dir = controller(momentum, sit)
+            momentum, forwards, backwards, shared_list, head_dir = controller(momentum, shared_list)
             #print(queue.get())
             #sprint(momentum)
-            if forwards and not sit.value:
+            if forwards and not shared_list[0]:
                 #print("is moving")
-                tragectory = motion * momentum[:3, None]
+                tragectory_f = motion_f * momentum[:3, None]
+                tragectory_b = motion_b * momentum[:3, None]
+                
                 if momentum[3]:
                     close = True
-                x,z,y = tragectory
+                xf,zf,yf = tragectory_f
+                xb,zb,yb = tragectory_b
                 #
                 i1 = index%40
                 i2 = (index+20)%40
                 
                 # Apply movement based movement
 
-                self.inverse_positioning(Motor.FR_SHOULDER,Motor.FR_ELBOW,x[i1],y[i1]+forward_fr_leg_lower_limit,z=z[i1],hip=Motor.FR_HIP,right=True)
-                self.inverse_positioning(Motor.BR_SHOULDER,Motor.BR_ELBOW,x[i2],y[i2]+forward_br_leg_lower_limit,right=True)
-                self.inverse_positioning(Motor.FL_SHOULDER,Motor.FL_ELBOW,x[i2],y[i2]+forward_fl_leg_lower_limit,z=-z[i2],hip=Motor.FL_HIP,right=False)
-                self.inverse_positioning(Motor.BL_SHOULDER,Motor.BL_ELBOW,x[i1],y[i1]+forward_bl_leg_lower_limit,right=False)
+                self.inverse_positioning(Motor.FR_SHOULDER,Motor.FR_ELBOW,xf[i1],yf[i1]+forward_fr_leg_lower_limit,z=zf[i1],hip=Motor.FR_HIP,right=True)
+                self.inverse_positioning(Motor.BR_SHOULDER,Motor.BR_ELBOW,xb[i2],yb[i2]+forward_br_leg_lower_limit,right=True)
+                self.inverse_positioning(Motor.FL_SHOULDER,Motor.FL_ELBOW,xf[i2],yf[i2]+forward_fl_leg_lower_limit,z=-zf[i2],hip=Motor.FL_HIP,right=False)
+                self.inverse_positioning(Motor.BL_SHOULDER,Motor.BL_ELBOW,xb[i1],yb[i1]+forward_bl_leg_lower_limit,right=False)
                 index += 2
             
-            if backwards and not sit.value:
+            if backwards and not shared_list[0]:
                 #print("is moving")
-                tragectory = motion * momentum[:3, None]
+                tragectory_f = motion_f * momentum[:3, None]
                 if momentum[3]:
                     close = True
-                x,z,y = tragectory
+                x,z,y = tragectory_f
                 #
                 i1 = index%40
                 i2 = (index+20)%40
@@ -273,13 +299,13 @@ class Quadruped:
                 index += 1
             
             # IDLE STAND
-            if not forwards and not backwards and not sit.value:
+            if not forwards and not backwards and not shared_list[0]:
                 # Set legs to lower limit when not moving and not sitting
                 if prev_sit_value == True:
                     #print("in if")
                     self.leg_position("FR", 0, 18.7, z=0)
                     self.leg_position("FR", 0, 18.7, z=0)
-                    for value in np.arange(15.0, 18.7, 0.3):
+                    for value in np.arange(15.0, 18.7, 0.9):
                         self.leg_position("BR", 0, value, z=0)
                         self.leg_position("BL", 0, value, z=0)
                         #print("standing", value)
@@ -291,12 +317,12 @@ class Quadruped:
                 momentum = np.asarray([0,0,1,0],dtype=np.float32)
             
             # IDLE SIT
-            if sit.value != prev_sit_value:
+            if shared_list[0] != prev_sit_value:
                 not_sat = False
                 #print("in sit.value != prev")
 
                 
-            if sit.value and not forwards and not backwards and not not_sat:
+            if shared_list[0] and not forwards and not backwards and not not_sat:
                 for value in np.arange(18.7, 15.0, -0.02):
                     if value > 15.8 and value < 16.1:
                         self.leg_position("FR", 0, 19.0, z=0)
@@ -317,6 +343,16 @@ class Quadruped:
                 base_position, tilt_position = self.head_control(head_dir, base_position, tilt_position)
             
                 
-            prev_sit_value = sit.value
+            prev_sit_value = shared_list[0]
             
-                
+
+def raise_head():
+    kit = ServoKit(channels=16)
+    kit.servo[15].angle = 65
+    kit.servo[14].angle = 90
+
+def lower_head():
+    kit = ServoKit(channels=16)
+    kit.servo[15].angle = 65
+    kit.servo[14].angle = 90
+

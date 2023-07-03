@@ -7,8 +7,10 @@ from vision import *
 from activities import *
 from music import *
 from gCalendar import *
+from update import *
 
-from movement.game_controller import command_sit, command_stand
+
+from movement.game_controller import command_sit, command_stand, command_track, command_stop_track
 import csv
 
 class WatsonAssistant:
@@ -66,7 +68,12 @@ class WatsonAssistant:
             'Sit': command_sit,
             'Stand': command_stand,
             'Light On': light_on,
-            'Light Off': light_off
+            'Light Off': light_off,
+            'Track': command_track,
+            'Stop Track': command_stop_track,
+            'Fetch Events': process_text,
+            'Update Me': update_me
+
         }
 
     def read_intents_from_csv(self, file_path):
@@ -76,7 +83,7 @@ class WatsonAssistant:
             intents = {intent_id: intent_text for intent_id, intent_text in reader}
         return intents
 
-    def watson_chat(self, speech_input, movement):
+    def watson_chat(self, speech_input, shared_list):
         message_response = self.assistant.message(assistant_id=self.id, session_id=self.session_id,
                                                   input={'message_type': 'text', 'text': speech_input}).get_result()
         if 'generic' in message_response['output']:
@@ -108,8 +115,8 @@ class WatsonAssistant:
                     print('Intent:', intent_text, "\tID: ", intent)
                     # Call the corresponding function based on the intent without TTS
                     # Movement Command
-                    if intent_text == 'Sit' or intent_text == 'Stand':
-                        self.intent_mapping[intent_text](movement)
+                    if intent_text == 'Sit' or intent_text == 'Stand' or intent_text == 'Track' or intent_text == 'Stop Track':
+                        self.intent_mapping[intent_text](shared_list)
                     elif intent_text in self.intent_mapping:
                         self.intent_mapping[intent_text](speech_input)
                 else:

@@ -55,6 +55,18 @@ class FaceRec:
         face_locations = np.array(face_locations)
         face_locations = face_locations / self.frame_resizing
         return face_locations.astype(int), face_names
+        
+def get_available_webcam():
+    # Get the list of available video devices
+    video_devices = [f"/dev/video{i}" for i in range(10)]
+
+    # Iterate through the video devices to find an available webcam
+    for device in video_devices:
+        cap = cv2.VideoCapture(device)
+        if cap.isOpened():
+            return cap
+
+    return None  # Return None if no available webcam is found
     
 def scan_face():
     # Encode faces from a folder and save the encodings
@@ -62,8 +74,18 @@ def scan_face():
     sfr = FaceRec()
     sfr.load_encoding_images("assets/vision/faces/", save_file=save_file)
 
-    # Load Camera
-    cap = cv2.VideoCapture(0)
+    # Get an available webcam
+    cap = None
+    for device_num in range(10):
+        device_path = f"/dev/video{device_num}"
+        cap = cv2.VideoCapture(device_path)
+        if cap.isOpened():
+            break
+
+    if cap is None or not cap.isOpened():
+        print("No available webcam found.")
+        return
+    
     while True:
         ret, frame = cap.read()
         recognized_names = []  # Initialize the list inside the loop
@@ -142,7 +164,18 @@ def greet_me(text):
     sfr = FaceRec()
     sfr.load_encoding_images("assets/vision/faces/", save_file=save_file)
     # Load Camera
-    cap = cv2.VideoCapture(0)
+    cap = None
+    for device_num in range(10):
+        device_path = f"/dev/video{device_num}"
+        cap = cv2.VideoCapture(device_path)
+        if cap.isOpened():
+            break
+
+    if cap is None or not cap.isOpened():
+        print("No available webcam found.")
+        return
+    
+    #cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
         recognized_names = []  # Initialize the list inside the loop
