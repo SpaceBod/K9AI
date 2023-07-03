@@ -9,6 +9,7 @@ def get_activity(text):
     location = "Chelsea"  # adjust to dog location
 
     def get_suggestions():
+        # Retrieve activity suggestions based on temperature and weather
         suggestions = []
         closest_temperature_diff = float('inf')
         closest_temperature_activity = None
@@ -31,6 +32,7 @@ def get_activity(text):
         return suggestions
 
     while True:
+        # Get current weather and temperature information
         weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&APPID={weather_key}")
         weather_json = weather_data.json()
         weather = weather_json['weather'][0]['main']
@@ -57,6 +59,7 @@ def get_activity(text):
         max_attempts = 3  # Set the maximum number of attempts
 
         while attempt_counter < max_attempts:
+            # Prompt the user for input and process their response
             category = random.choice(categories)
             try:
                 response = recognise_input(local_recogniser)
@@ -102,11 +105,13 @@ def mental_support(text):
     # List of keywords related to depression or suicide
     depression_keywords = ["depressed", "depression","die", "dark place", "hopeless", "despair", "suicide","suicidal", "kill myself", "don't want to live"]
     if any(keyword in text for keyword in depression_keywords):
+        # Provide mental support response and helpline information for depression-related keywords
         selected_response = random.choice(mental_support_responses)
         mental_support_responses.remove(selected_response)
         play_sound(f"sound/helpline_responses/helpline_response{selected_response}.mp3", 1, blocking=True)
         play_sound(f"sound/helpline_responses/samaritans_helpline.mp3", 1, blocking=True)
     else:
+        # Provide a random supportive message from the Mental_Support.txt file
         with open("assets/behaviours/Mental_Support.txt", "r") as file:
             rows = file.readlines()
             rows = [row.strip() for row in rows]
@@ -118,6 +123,7 @@ def mental_support(text):
 prev_love_you_response = None
 def love_you(text):
     global prev_love_you_response
+    # Provide a random "I love you" response from the Love_You.txt file
     with open("assets/behaviours/Love_You.txt", "r") as file:
         rows = file.readlines()
         rows = [row.strip() for row in rows]
@@ -126,4 +132,3 @@ def love_you(text):
         selected_row = random.choice(rows)
         prev_love_you_response = selected_row
         speak(selected_row)  # Replace this line with your preferred method of output
-    
