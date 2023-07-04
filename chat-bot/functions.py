@@ -317,6 +317,8 @@ def update_thingspeak(status):
 # Turn on and off lights
 def light_on(text):
     update_thingspeak(1)
+    play_sound("sound/lightOn.mp3", 1, True)
     
 def light_off(text):
     update_thingspeak(0)
+    play_sound("sound/lightOff.mp3", 1, True)
