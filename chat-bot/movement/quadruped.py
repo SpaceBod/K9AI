@@ -165,7 +165,7 @@ class Quadruped:
         reverse_control_points = np.asfortranarray([
             [-1.0, -1.0, 1.0, 1.0], 
             [-1.0, -1.0, 1.0, 1.0],
-            [-15.0, -12.0, -12.0, -15.0]
+            [-15.0, -13.0, -13.0, -15.0]
         ])
     
         # Create Bézier curves for the front and back legs
