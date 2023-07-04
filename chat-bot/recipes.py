@@ -140,7 +140,7 @@ def search_meal(prompt):
     if meal_name != None:
         recipes = search_recipe_by_name(meal_name)
         if recipes:
-            play_sound("sound/RecipeSearchFiller.mp3", 1, blocking=False)
+            play_sound("sound/recipeSearchFiller.mp3", 1, blocking=False)
             speak(f"These are the instructions for {recipes[0]['title']}: {recipes[0]['instructions']}")
         else:
             play_sound("sound/NoRecipesFound.mp3", 1, blocking=True)
