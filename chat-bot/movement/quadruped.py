@@ -160,13 +160,22 @@ class Quadruped:
             [-0.7, -0.7, 0.7, 0.7],
             [-15.6, -12.1, -12.1, -15.6]
         ])
+
+        # Define the control points for all legs reversing
+        reverse_control_points = np.asfortranarray([
+            [-1.0, -1.0, 1.0, 1.0], 
+            [-1.0, -1.0, 1.0, 1.0],
+            [-15.0, -12.0, -12.0, -15.0]
+        ])
     
         # Create Bézier curves for the front and back legs
         front_legs_curve = bezier.Curve(front_legs_control_points, degree=3)
         back_legs_curve = bezier.Curve(back_legs_control_points, degree=3)
+        reverse_curve = bezier.Curve(reverse_control_points, degree=3)
 
         front_legs_points = front_legs_curve.evaluate_multi(s_vals)
         back_legs_points = back_legs_curve.evaluate_multi(s_vals)
+        reverse_points = reverse_curve.evaluate_multi(s_vals)
 
         slide_nodes = np.asfortranarray([
             [0.3, -0.3],
@@ -178,6 +187,7 @@ class Quadruped:
 
         motion_f = np.concatenate((front_legs_points,slide), axis=1)
         motion_b = np.concatenate((back_legs_points,slide), axis=1)
+        motion_reverse = np.concatenate((reverse_points,slide), axis=1)
         prev_sit_value = False
         close = False
 
@@ -206,10 +216,10 @@ class Quadruped:
             
             # Moving backwards
             if backwards and not shared_list[0]:
-                tragectory_f = motion_f * momentum[:3, None]
+                tragectory_reverse = motion_reverse * momentum[:3, None]
                 if momentum[3]:
                     close = True
-                x,z,y = tragectory_f
+                x,z,y = tragectory_reverse
                 #
                 i1 = index%40
                 i2 = (index+20)%40
