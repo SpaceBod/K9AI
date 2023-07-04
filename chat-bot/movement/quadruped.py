@@ -10,10 +10,10 @@ forward_bl_leg_lower_limit = -3.35
 forward_fl_leg_lower_limit = -3.5
 forward_fr_leg_lower_limit = -3.45  
 
-backward_br_leg_lower_limit = -3.5
-backward_bl_leg_lower_limit = -3.5
-backward_fl_leg_lower_limit = -3.35
-backward_fr_leg_lower_limit = -3.4
+backward_br_leg_lower_limit = 2.5
+backward_bl_leg_lower_limit = -2.5
+backward_fl_leg_lower_limit = -2.5
+backward_fr_leg_lower_limit = -2.5
 
 class Motor(IntEnum):
     # Pins for each servo motor
@@ -165,7 +165,7 @@ class Quadruped:
         reverse_control_points = np.asfortranarray([
             [-1.0, -1.0, 1.0, 1.0], 
             [-1.0, -1.0, 1.0, 1.0],
-            [-14.0, -13.0, -13.0, -14.0]
+            [-15.0, -14.0, -14.0, -15.0]
         ])
     
         # Create Bézier curves for the front and back legs
