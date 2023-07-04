@@ -617,7 +617,7 @@ def request_random_podcast(text):
 # Request a artist
 def request_artist(text):
     local_recogniser = get_recogniser()
-    play_sound("sound/playlistRequest.mp3", 1, blocking=True)
+    play_sound("sound/artistRequest.mp3", 1, blocking=True)
     done = False
     while not done:
         try:
@@ -647,7 +647,7 @@ def request_specific_artist(text):
 # Request an album
 def request_album(text):
     local_recogniser = get_recogniser()
-    play_sound("sound/songRequest.mp3", 1, blocking=True)
+    play_sound("sound/albumRequest.mp3", 1, blocking=True)
     done = False
     while not done:
         try:
