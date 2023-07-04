@@ -32,10 +32,10 @@ def play_sound(file_path, volume, blocking=True):
 # Displays an animation on an OLED display while playing a sound synchronously
 def play_sound_blocking(sound):
     # Load images for animation
-    close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
-    image_1 = Image.open('assets/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
-    image_2 = Image.open('assets/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
-    image_3 = Image.open('assets/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
+    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    image_1 = Image.open('display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
+    image_2 = Image.open('display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
+    image_3 = Image.open('display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
 
     # Resize images to match the OLED display resolution and convert to 1-bit grayscale
     close_image_1 = close_image_1.resize(device.size).convert('1')
@@ -64,10 +64,10 @@ def play_sound_blocking(sound):
 
 # Displays an animation on an OLED display while playing a sound asynchronously
 def play_sound_non_blocking(sound):
-    close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
-    image_1 = Image.open('assets/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
-    image_2 = Image.open('assets/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
-    image_3 = Image.open('assets/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
+    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    image_1 = Image.open('display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
+    image_2 = Image.open('display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
+    image_3 = Image.open('display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
 
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
@@ -88,10 +88,10 @@ def play_sound_non_blocking(sound):
 
 # Displays an animation on an OLED display by alternating between different images
 def play_animation():
-    close_image_1 = Image.open('assets/display/close.png')
-    image_1 = Image.open('assets/display/1.png')
-    image_2 = Image.open('assets/display/2.png')
-    image_3 = Image.open('assets/display/3.png')
+    close_image_1 = Image.open('display/close.png')
+    image_1 = Image.open('display/1.png')
+    image_2 = Image.open('display/2.png')
+    image_3 = Image.open('display/3.png')
     
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
@@ -114,7 +114,7 @@ def wait_for_sound(sound):
     while pygame.mixer.get_busy():
         pass
     # Display the close image after the sound finishes
-    close_image_1 = Image.open('assets/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
     close_image_1 = close_image_1.resize(device.size).convert('1')
     device.display(close_image_1)
 # Setting up the OLED display
@@ -122,7 +122,7 @@ serial = i2c(port=1, address=0x3C)  # Set the appropriate I2C port and address
 device = sh1106(serial)
 
 def main():
-    play_sound("Grettings.mp3", 1, True)
+    play_sound("Greetings.mp3", 1, True)
     play_sound("About.mp3", 1, True)
     play_sound("playMusic.mp3", 1, True)
     play_sound("queen.mp3", 1, True)
