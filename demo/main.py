@@ -267,6 +267,11 @@ def main():
     
     # Movement
     k9  =  Quadruped()
-    k9.move("forward")
+    
+    duration = 4
+    start_time = time.time()
+    while (time.time() - start_time) < duration:
+        k9.move("forward")
+    k9.move("stop")
     
 main()
