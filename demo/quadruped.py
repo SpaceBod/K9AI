@@ -3,6 +3,7 @@ from enum import IntEnum
 import math
 import bezier
 import numpy as np
+import time
 
 # Setting height limits for each leg
 forward_br_leg_lower_limit = -3.4
@@ -10,10 +11,10 @@ forward_bl_leg_lower_limit = -3.35
 forward_fl_leg_lower_limit = -3.5
 forward_fr_leg_lower_limit = -3.45
 
-backward_br_leg_lower_limit = 2.5
-backward_bl_leg_lower_limit = -2.5
-backward_fl_leg_lower_limit = -2.5
-backward_fr_leg_lower_limit = -2.5
+backward_br_leg_lower_limit = -3
+backward_bl_leg_lower_limit = -3
+backward_fl_leg_lower_limit = -3
+backward_fr_leg_lower_limit = -3
 
 class Motor(IntEnum):
     # Pins for each servo motor
@@ -189,15 +190,24 @@ class Quadruped:
         motion_b = np.concatenate((back_legs_points,slide), axis=1)
         motion_reverse = np.concatenate((reverse_points,slide), axis=1)
         close = False
+        
+        duration = 4
+        start_time = time.time()
+        if controller == "stop":
+            duration = 2
 
-        while not close:
+        while (time.time() - start_time) < duration:
             if controller  == "forwards":
                 momentum[0] = min(momentum[0] + 0.7, 5)
             if controller ==  "backwards":
                 momentum[0] = max(momentum[0] - 0.7, -5)
+            if controller ==  "right":
+                momentum[1] = min(momentum[1] + 1, 4)
+            if controller ==  "left":
+                momentum[1] = max(momentum[1] - 1, -4)
 
             # Moving forwards
-            if controller ==  "forwards":
+            if controller ==  "forwards" or controller == "right" or controller == "left":
                 tragectory_f = motion_f * momentum[:3, None]
                 tragectory_b = motion_b * momentum[:3, None]
                 
@@ -235,15 +245,24 @@ class Quadruped:
             
             # IDLE STAND
             if controller == "stop":
-                # Set legs to lower limit when not moving and not sitting
-                    self.leg_position("FR", 0, 18.7, z=0)
-                    self.leg_position("FR", 0, 18.7, z=0)
-                    for value in np.arange(15.0, 18.7, 0.9):
-                        self.leg_position("BR", 0, value, z=0)
-                        self.leg_position("BL", 0, value, z=0)
-                else:
-                    self.leg_position("BR", 0, 18.7, z=0)
-                    self.leg_position("BL", 0, 18.7, z=0)
-                    self.leg_position("FR", 0, 18.7, z=0)
-                    self.leg_position("FL", 0, 18.7, z=0)
+                self.leg_position("BR", 0, 18.7, z=0)
+                self.leg_position("BL", 0, 18.7, z=0)
+                self.leg_position("FR", 0, 18.7, z=0)
+                self.leg_position("FL", 0, 18.7, z=0)
                 momentum = np.asarray([0,0,1,0],dtype=np.float32)
+            
+            # SIT
+            if controller == "sit":
+                for value in np.arange(18.7, 15.0, -0.02):
+                    if value > 15.8 and value < 16.1:
+                        self.leg_position("FR", 0, 19.0, z=0)
+                        self.leg_position("FL", 0, 19.0, z=0)
+                    if value < 15.2:
+                        self.leg_position("FL", 0, 19.3, z=0)
+                        self.leg_position("FR", 0, 19.3, z=0)
+                    self.leg_position("BR", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
+                    self.leg_position("BL", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
+
+                    momentum = np.asarray([0,0,1,0],dtype=np.float32)
+                break
+            time.sleep(0.025)

@@ -49,6 +49,14 @@ def turn_head():
 def thread_turn():
     thread = threading.Thread(target=turn_head)
     thread.start()
+
+def walking_music():
+    play_sound("walksong.mp3", 0.1, True)
+    play_sound("finish.mp3", 1, True)
+    
+def thread_walk():
+    thread = threading.Thread(target=walking_music)
+    thread.start()
     
 # Function to play a sound file with optional blocking (waiting for sound to finish)
 def play_sound(file_path, volume, blocking=True):
@@ -197,7 +205,7 @@ def get_news():
         # Fetch news data from the API
         news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
 
-        if news_data.status_code == 500:
+        if news_data.status_code == 200:
             news = news_data.json()
 
             if "results" in news and len(news["results"]) > 0:
@@ -237,41 +245,48 @@ def main():
     set_head()
     time.sleep(0.5)
     
-#    raise_head()
-#    thread_turn()
-#    play_sound("Greetings.mp3", 1, True)
-#    play_sound("About.mp3", 1, True)
-#
-#    play_sound("playMusic.mp3", 1, True)
-#    lower_head()
-#    play_sound("queen.mp3", 0.7, True)
-#
-#    raise_head()
-#    thread_turn()
-#    play_sound("getWeather.mp3", 1, False)
-#    get_weather("London")
-#    lower_head()
-#
-#    thread_turn()
-#    play_sound("getNews.mp3", 1, False)
-#    raise_head()
-#    get_news()
-#
+    raise_head()
+    thread_turn()
+    play_sound("Greetings.mp3", 1, True)
+    play_sound("About.mp3", 1, True)
+
+    play_sound("playMusic.mp3", 1, True)
+    lower_head()
+    play_sound("queen.mp3", 0.7, True)
+
+    raise_head()
+    thread_turn()
+    play_sound("getWeather.mp3", 1, False)
+    get_weather("London")
+    lower_head()
+
+    thread_turn()
+    play_sound("getNews.mp3", 1, False)
+    raise_head()
+    get_news()
+
     thread_turn()
     play_sound("calendar.mp3", 1, True)
-    
+
     lower_head()
     thread_turn()
     play_sound("joke.mp3", 1, False)
     get_random_joke()
-    
+#
     # Movement
+    play_sound("walk.mp3", 1, True)
+    thread_walk()
+    
     k9  =  Quadruped()
-    
-    duration = 4
-    start_time = time.time()
-    while (time.time() - start_time) < duration:
-        k9.move("forward")
+    k9.move("forwards")
     k9.move("stop")
-    
+    k9.move("backwards")
+    k9.move("stop")
+    k9.move("right")
+    k9.move("stop")
+    k9.move("left")
+    k9.move("stop")
+    k9.move("sit")
+    time.sleep(2)
 main()
+
