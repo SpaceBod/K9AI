@@ -134,8 +134,7 @@ def speak(text, auto_play=True):
       model="eleven_monolingual_v1"
     )
     save(audio, "sound/tts.mp3")
-    if auto_play == True:
-        play_sound("sound/tts.mp3", 1, True)
+    play_sound("sound/tts.mp3", 1, True)
 
 
 def main():
@@ -143,12 +142,5 @@ def main():
     play_sound("About.mp3", 1, True)
     play_sound("playMusic.mp3", 1, True)
     play_sound("queen.mp3", 0.4, False)
-
-    # While the music is playing, fetch the weather condition and get the TTS ready to speak
-    # TTS doesn't auto play the MP3, just saves it, then plays it once song is over.
-    speak("Also, judging from the current weather conditions, I would say it's rainy.", auto_play=False)
-    while pygame.mixer.get_busy():  # Wait for the sound to finish playing
-        pygame.time.Clock().tick(10)
-    play_sound("tts.mp3", 1, True)
 
 main()
