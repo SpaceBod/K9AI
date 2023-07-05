@@ -2,10 +2,12 @@ from PIL import Image
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 import pygame
+from elevenlabs import generate, play, voices, save
+from elevenlabs import set_api_key
 import threading
 import time
 
-sound_effects = ["sound/ready.mp3", "sound/prompt.mp3", "sound/startup.mp3"]
+sound_effects = ["sound/ready.mp3", "sound/prompt.mp3", "sound/startup.mp3", "queen.mp3"]
 
 # Function to play a sound file with optional blocking (waiting for sound to finish)
 def play_sound(file_path, volume, blocking=True):
@@ -121,11 +123,32 @@ def wait_for_sound(sound):
 serial = i2c(port=1, address=0x3C)  # Set the appropriate I2C port and address
 device = sh1106(serial)
 
+# Text to speech
+def speak(text, auto_play=True):
+    print('K9: ' + text)
+    set_api_key("ecf8b902a86fab1c3ec866b9a8ed6fc3")
+    available_voices = voices()
+    audio = generate(
+      text=text,
+      voice=available_voices[9],
+      model="eleven_monolingual_v1"
+    )
+    save(audio, "sound/tts.mp3")
+    if auto_play == True:
+        play_sound("sound/tts.mp3", 1, True)
+
+
 def main():
     play_sound("Greetings.mp3", 1, True)
     play_sound("About.mp3", 1, True)
     play_sound("playMusic.mp3", 1, True)
-    play_sound("queen.mp3", 1, True)
-    time.sleep(1)
+    play_sound("queen.mp3", 0.4, False)
+
+    # While the music is playing, fetch the weather condition and get the TTS ready to speak
+    # TTS doesn't auto play the MP3, just saves it, then plays it once song is over.
+    speak("Also, judging from the current weather conditions, I would say it's rainy.", auto_play=False)
+    while pygame.mixer.get_busy():  # Wait for the sound to finish playing
+        pygame.time.Clock().tick(10)
+    play_sound("tts.mp3", 1, True)
 
 main()
