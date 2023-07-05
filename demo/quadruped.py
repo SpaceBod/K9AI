@@ -8,7 +8,7 @@ import numpy as np
 forward_br_leg_lower_limit = -3.4
 forward_bl_leg_lower_limit = -3.35
 forward_fl_leg_lower_limit = -3.5
-forward_fr_leg_lower_limit = -3.45  
+forward_fr_leg_lower_limit = -3.45
 
 backward_br_leg_lower_limit = 2.5
 backward_bl_leg_lower_limit = -2.5
@@ -138,7 +138,7 @@ class Quadruped:
             self.inverse_positioning(Motor.BR_SHOULDER, Motor.BR_ELBOW, x, y, right=True)
     
     # Walks around based on the controller inputted momentum
-    def move(self, controller=None, shared_list=None):  
+    def move(self, controller):
         momentum = np.asarray([0,0,1,0],dtype=np.float32)
         index = 0
         base_position = 90
@@ -156,14 +156,14 @@ class Quadruped:
 
         # Define the control points for the back legs curve
         back_legs_control_points = np.asfortranarray([
-            [-0.7, -0.7, 0.7, 0.7], 
+            [-0.7, -0.7, 0.7, 0.7],
             [-0.7, -0.7, 0.7, 0.7],
             [-15.6, -12.1, -12.1, -15.6]
         ])
 
         # Define the control points for all legs reversing
         reverse_control_points = np.asfortranarray([
-            [-1.0, -1.0, 1.0, 1.0], 
+            [-1.0, -1.0, 1.0, 1.0],
             [-1.0, -1.0, 1.0, 1.0],
             [-15.0, -14.0, -14.0, -15.0]
         ])
@@ -188,14 +188,16 @@ class Quadruped:
         motion_f = np.concatenate((front_legs_points,slide), axis=1)
         motion_b = np.concatenate((back_legs_points,slide), axis=1)
         motion_reverse = np.concatenate((reverse_points,slide), axis=1)
-        prev_sit_value = False
         close = False
 
         while not close:
-            momentum, forwards, backwards, shared_list, head_dir = controller(momentum, shared_list)
+            if controller  == "forwards":
+                momentum[0] = min(momentum[0] + 0.7, 5)
+            if controller ==  "backwards":
+                momentum[0] = max(momentum[0] - 0.7, -5)
 
             # Moving forwards
-            if forwards and not shared_list[0]:
+            if controller ==  "forwards":
                 tragectory_f = motion_f * momentum[:3, None]
                 tragectory_b = motion_b * momentum[:3, None]
                 
@@ -215,7 +217,7 @@ class Quadruped:
                 index += 2
             
             # Moving backwards
-            if backwards and not shared_list[0]:
+            if controller == "backwards":
                 tragectory_reverse = motion_reverse * momentum[:3, None]
                 if momentum[3]:
                     close = True
@@ -232,9 +234,8 @@ class Quadruped:
                 index += 1
             
             # IDLE STAND
-            if not forwards and not backwards and not shared_list[0]:
+            if controller == "stop":
                 # Set legs to lower limit when not moving and not sitting
-                if prev_sit_value == True:
                     self.leg_position("FR", 0, 18.7, z=0)
                     self.leg_position("FR", 0, 18.7, z=0)
                     for value in np.arange(15.0, 18.7, 0.9):
@@ -246,40 +247,3 @@ class Quadruped:
                     self.leg_position("FR", 0, 18.7, z=0)
                     self.leg_position("FL", 0, 18.7, z=0)
                 momentum = np.asarray([0,0,1,0],dtype=np.float32)
-            
-            # Check for sit
-            if shared_list[0] != prev_sit_value:
-                not_sat = False
-
-            # SIT COMMAND
-            if shared_list[0] and not forwards and not backwards and not not_sat:
-                # Lowers the back legs slowly for smooth descent, whilst rasing front legs slightly
-                for value in np.arange(18.7, 15.0, -0.02):
-                    if value > 15.8 and value < 16.1:
-                        self.leg_position("FR", 0, 19.0, z=0)
-                        self.leg_position("FL", 0, 19.0, z=0)
-                    if value < 15.2:
-                        self.leg_position("FL", 0, 19.3, z=0)
-                        self.leg_position("FR", 0, 19.3, z=0)
-                    self.leg_position("BR", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
-                    self.leg_position("BL", 0, value, z=0)  # Back leg goes from 18.3 to 15.0
-
-                momentum = np.asarray([0,0,1,0],dtype=np.float32)
-                not_sat = True
-                 
-            if head_dir != "":
-                base_position, tilt_position = self.head_control(head_dir, base_position, tilt_position)
-                
-            prev_sit_value = shared_list[0]
-            
-
-def raise_head():
-    kit = ServoKit(channels=16)
-    kit.servo[15].angle = 45
-    kit.servo[14].angle = 90
-
-def lower_head():
-    kit = ServoKit(channels=16)
-    kit.servo[15].angle = 70
-    kit.servo[14].angle = 90
-

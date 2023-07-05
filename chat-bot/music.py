@@ -82,13 +82,23 @@ def get_playlist_uri(spotify: Spotify, name: str) -> str:
     return playlist_uri
 
 # Searches using Spotify api for a particular podcast
-def get_podcast_uri(spotify: Spotify, name: str) -> str:
-    original = name
-    name = name.replace(' ', '+')
+def get_podcast_uri(spotify: Spotify, name: str, artist=None) -> str:
+    original_name = name
+    if artist == None:
+        original_artist = "Unknown"
+        name = name.replace(" ", "+")
+        name = name.replace("'", "")
+        search_title = name
+    else:
+        original_artist = artist
+        name = name.replace(" ", "+")
+        name = name.replace("'", "")
+        artist = artist.replace(" ", "+")
+        search_title = name + "+" + artist
 
-    results = spotify.search(q=name, limit=1, type='show')
+    results = spotify.search(q=search_title, limit=1, type='show')
     if not results['shows']['items']:
-        raise InvalidSearchError(f'No podcast named "{original}"')
+        raise InvalidSearchError(f'No podcast named "{original_name} by {original_artist}"')
     podcast_uri = results['shows']['items'][0]['uri']
     print(results['shows']['items'][0]['name'])
     return podcast_uri
@@ -111,7 +121,6 @@ def get_podcast_genre_uri(spotify: Spotify, genre: str) -> str:
 def get_artist_uri(spotify: Spotify, name: str) -> str:
     original = name
     name = name.replace(' ', '+')
-
     results = spotify.search(q=name, limit=1, type='artist')
     if not results['artists']['items']:
         raise InvalidSearchError(f'No artist named "{original}"')
@@ -120,13 +129,24 @@ def get_artist_uri(spotify: Spotify, name: str) -> str:
     return artist_uri
 
 # Searches using Spotify api for a particular album
-def get_album_uri(spotify: Spotify, name: str) -> str:
+def get_album_uri(spotify: Spotify, name: str, artist=None) -> str:
+    original_name = name
+    if artist == None:
+        original_artist = "Unknown"
+        name = name.replace(" ", "+")
+        name = name.replace("'", "")
+        search_title = name
+    else:
+        original_artist = artist
+        name = name.replace(" ", "+")
+        name = name.replace("'", "")
+        artist = artist.replace(" ", "+")
+        search_title = name + "+" + artist
     original = name
     name = name.replace(' ', '+')
-
-    results = spotify.search(q=name, limit=1, type='album')
+    results = spotify.search(q=search_title, limit=1, type='album')
     if not results['albums']['items']:
-        raise InvalidSearchError(f'No album named "{original}"')
+        raise InvalidSearchError(f'No album named "{original_name} by {original_artist}"')
     album_uri = results['albums']['items'][0]['uri']
     return album_uri
 
@@ -168,6 +188,7 @@ def play_podcast(spotify=None, device_id=None, uri=None):
 # Starts playback of a particular artist
 def play_artist(spotify=None, device_id=None, uri=None):
     time.sleep(5)
+    print("should play")
     spotify.start_playback(device_id=device_id, context_uri=uri)
 
 # Starts playback of a particular album
@@ -230,7 +251,7 @@ def init_podcast_ratings():
 # Reads genres.csv file to get users podcast ratings
 def fetch_podcast_ratings():
     # Open the CSV file
-    file_path = "assets/genres.csv"
+    file_path = "assets/podcast/genres.csv"
     with open(file_path, 'r') as file:
         reader = csv.reader(file)
         # Create a dictionary to store the topics and their corresponding numbers
@@ -345,7 +366,7 @@ def fetch_prev_podcast():
         reader = csv.reader(csvfile)
         next(reader)  
         for row in reader:
-            podcast_genre = row[0]        
+            podcast_genre = row[0].title()        
     topics = fetch_podcast_ratings()
     current_score = topics.get(podcast_genre)
     return podcast_genre, current_score
@@ -416,12 +437,14 @@ def extract_playlist_info(text):
 
 # Speech to text retrival of given podcast
 def extract_podcast_info(text):
-    match = re.search(r'podcast\s(.+)$', text, re.IGNORECASE)
+    match = re.search(r'podcast(?:\s(.+?))(?:\sby\s(.+))?$', text, re.IGNORECASE)
     if match:
         podcast_name = match.group(1).strip()
+        artist = match.group(2).strip() if match.group(2) is not None else ""
     else:
         podcast_name = ""
-    return podcast_name
+        artist = ""
+    return podcast_name.title(), artist.title()
 
 # Speech to text retrival of given artist
 def extract_artist_info(text):
@@ -471,10 +494,12 @@ def request_song(text):
         
             if artist == "":
                 uri = get_track_uri(spotify=global_spotify, name=song_name)
+                speak(f"Playing {song_name}.")
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
             # If song title + artist provided
             else:
                 uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
+                speak(f"Playing {song_name} by {artist}.")
                 play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
             done = True
         except speech_recognition.UnknownValueError:
@@ -493,10 +518,12 @@ def request_specific_song(text):
     # If only song title provided
     if artist == "":
         uri = get_track_uri(spotify=global_spotify, name=song_name)
+        speak(f"Playing {song_name}.")
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
     # If song title + artist provided
     else:
         uri = get_track_uri(spotify=global_spotify, name=song_name, artist=artist)
+        speak(f"Playing {song_name} by {artist}.")
         play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Request a playlist
@@ -510,6 +537,7 @@ def request_playlist(text):
             play_sound("sound/searching.mp3", 1, True)
             print("Playlist: ", playlist_name)
             uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
+            speak(f"Playing {playlist_name}.")
             play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
             done = True
         except speech_recognition.UnknownValueError:
@@ -526,6 +554,7 @@ def request_specific_playlist(text):
         return
     else:
         uri = get_playlist_uri(spotify=global_spotify, name=playlist_name)
+        speak(f"Playing {playlist_name}.")
         play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Request a podcast
@@ -535,25 +564,34 @@ def request_podcast(text):
     done = False
     while not done:
         try:
-            podcast_name = recognise_input(local_recogniser).title()
+            podcast = recognise_input(local_recogniser)
             play_sound("sound/searching.mp3", 1, True)
-            print("Podcast: ", podcast_name)
-            uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
+            print("Podcast:", podcast)        
+            uri = get_podcast_uri(spotify=global_spotify, name=podcast)
+            speak(f"Playing {podcast}.")
             play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            # If song title + artist provided
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
-            play_sound("sound/repeat.mp3", 1, blocking=True)
+            play_sound("sound/repeat.mp3", 0.5, blocking=True)
 
 # Request a specific pre-given podcast
 def request_specific_podcast(text):
-    podcast_name = extract_podcast_info(text).title()
+    podcast_name, artist = extract_podcast_info(text)
     play_sound("sound/searching.mp3", 1, True)
-    if podcast_name == "":
-        play_sound("sound/searchFailed.mp3", 1, blocking=True)
+    print("Album:", podcast_name)
+    print("Artist:", artist)
+    if (artist == "" and podcast_name == ""):
+        play_sound("sound/searchFailed.mp3", 1, True)
         return
-    else:
+    if artist == "":
         uri = get_podcast_uri(spotify=global_spotify, name=podcast_name)
+        speak(f"Playing {podcast_name}.")
+        play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
+    else:
+        uri = get_podcast_uri(spotify=global_spotify, name=podcast_name, artist=artist)
+        speak(f"Playing {podcast_name} by {artist}.")
         play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Request a podcast genre
@@ -611,6 +649,7 @@ def request_random_podcast(text):
         print("Podcast:", podcast_name)
         print("Artist:", podcast_artist)
         check_history = podcast_history_check(podcast_name,podcast_artist)
+    speak(f"Playing {podcast_name} by {podcast_artist}.")
     play_podcast(spotify=global_spotify, device_id=global_device_id, uri=uri)
     podcast_history(podcast_genre,podcast_name,podcast_artist)
 
@@ -624,8 +663,9 @@ def request_artist(text):
             artist_name = recognise_input(local_recogniser).title()
             play_sound("sound/searching.mp3", 1, True)
             print("Artist: ", artist_name)
-            uri = get_playlist_uri(spotify=global_spotify, name=artist_name)
-            play_playlist(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            uri = get_artist_uri(spotify=global_spotify, name=artist_name)
+            speak(f"Playing {artist_name}.")
+            play_artist(spotify=global_spotify, device_id=global_device_id, uri=uri)
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
@@ -641,7 +681,8 @@ def request_specific_artist(text):
         play_sound("sound/searchFailed.mp3", 1, True)
         return
     else:
-        uri = get_artist_uri(spotify=global_spotify, artist=artist)
+        uri = get_artist_uri(spotify=global_spotify, name=artist)
+        speak(f"Playing {artist}.")
         play_artist(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Request an album
@@ -651,19 +692,13 @@ def request_album(text):
     done = False
     while not done:
         try:
-            album = recognise_input(local_recogniser)
-            play_sound("sound/searching.mp3", 1, True)
-            album_name, artist = extract_album_info(album)
-            print("Album:", album_name)
-            print("Artist:", artist)
-        
-            if artist == "":
-                uri = get_track_uri(spotify=global_spotify, name=album_name)
-                play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+            album = recognise_input(local_recogniser).title()
+            play_sound("sound/searching.mp3", 1, True)    
+            print("Album:", album)    
+            uri = get_album_uri(spotify=global_spotify, name=album)
+            speak(f"Playing {album}.")
+            play_album(spotify=global_spotify, device_id=global_device_id, uri=uri)
             # If song title + artist provided
-            else:
-                uri = get_track_uri(spotify=global_spotify, name=album_name, artist=artist)
-                play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
             done = True
         except speech_recognition.UnknownValueError:
             local_recogniser = speech_recognition.Recognizer()
@@ -680,12 +715,14 @@ def request_specific_album(text):
         return
     # If only song title provided
     if artist == "":
-        uri = get_track_uri(spotify=global_spotify, name=album_name)
-        play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+        uri = get_album_uri(spotify=global_spotify, name=album_name)
+        speak(f"Playing {album_name}.")
+        play_album(spotify=global_spotify, device_id=global_device_id, uri=uri)
     # If song title + artist provided
     else:
-        uri = get_track_uri(spotify=global_spotify, name=album_name, artist=artist)
-        play_track(spotify=global_spotify, device_id=global_device_id, uri=uri)
+        uri = get_album_uri(spotify=global_spotify, name=album_name, artist=artist)
+        speak(f"Playing {album_name} by {artist}.")
+        play_album(spotify=global_spotify, device_id=global_device_id, uri=uri)
 
 # Calls the check if podcast
 def is_music_paused():
@@ -744,6 +781,7 @@ def podcast_feedback_fav(text):
         print("Topic not found.")
         return
     change_podcast_rating(podcast_genre, 9)
+    speak("Thanks for the feedback")
 
 # Changes the podcast ratings for input 'love'
 def podcast_feedback_love(text):
