@@ -188,7 +188,6 @@ def play_podcast(spotify=None, device_id=None, uri=None):
 # Starts playback of a particular artist
 def play_artist(spotify=None, device_id=None, uri=None):
     time.sleep(5)
-    print("should play")
     spotify.start_playback(device_id=device_id, context_uri=uri)
 
 # Starts playback of a particular album
