@@ -1,3 +1,4 @@
 
 *.pyc
 chat-bot/.cache-lucabod8
+chat-bot/settings.json 
