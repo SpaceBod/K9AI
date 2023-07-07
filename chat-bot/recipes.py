@@ -3,7 +3,7 @@ import random
 
 with open('settings.json') as f:
         settings = json.load(f)
-API_KEY = settings['newsdata']
+API_KEY = settings['newsdata']['api_key']
 HEADERS = {"Content-Type": "application/json"}
 
 def extract_recipe_number(user_input):
