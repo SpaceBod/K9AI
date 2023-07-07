@@ -5,7 +5,7 @@ from elevenlabslib import *
 
 with open('settings.json') as f:
         settings = json.load(f)
-api_key = settings['elevenLabsAPI']
+api_key = settings['elevenLabsAPI']['api_key']
 
 user = ElevenLabsUser(api_key)
 premadeVoice = user.get_voices_by_name("Jarvis")[0]
