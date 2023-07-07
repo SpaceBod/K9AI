@@ -23,8 +23,8 @@ def extract_article_number(user_input):
 def get_news(user_input):
     local_recogniser = get_recogniser()
     # Fetch news data from the API
-    uri = 'https://newsdata.io/api/1/news?
-    news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
+    url = 'https://newsdata.io/api/1/news?apikey=[API_KEY]&language=en&country=gb&domain=bbc'
+    news_data = requests.get(url)
     news = news_data.json()
     titles = ""
     # Extract the titles of the news articles
