@@ -3,7 +3,10 @@ from elevenlabslib import *
 
 # A script used to generate MP3 TTS files
 
-api_key = "ecf8b902a86fab1c3ec866b9a8ed6fc3"
+with open('settings.json') as f:
+        settings = json.load(f)
+api_key = settings['elevenLabsAPI']
+
 user = ElevenLabsUser(api_key)
 premadeVoice = user.get_voices_by_name("Jarvis")[0]
 
