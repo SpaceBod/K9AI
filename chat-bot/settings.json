@@ -1,0 +1,31 @@
+"spotify": {
+        "client_id": "client_id",
+        "client_secret": "client_secret",
+        "redirect_uri": "http://localhost:8888/callback",
+        "username": "spotify_username",
+        "device_name": "K9",
+        "scope": "user-read-private user-read-playback-state user-modify-playback-state user-library-read user-read-currently-playing"
+    },
+    "watson_assistant": {
+        "api_key": "KEY",
+        "id": "ID",
+        "service_url": "URL",
+        "intents_file": "assets/intents.csv"
+    },
+    "porcupine_wake_word": {
+        "api_key": "KEY",
+        "model_path": "./assets/models/PiModel.ppn"
+    },
+    "spoonacular": {
+        "api_key": "KEY"
+    },
+    "weatherAPI": {
+        "api_key": "KEY"
+    },
+    "elevenLabsAPI": {
+        "api_key": "KEY"
+    },
+    "thingSpeakAPI": {
+        "api_key": "READ KEY"
+    }
+}
