@@ -23,7 +23,7 @@ def extract_article_number(user_input):
 def get_news(user_input):
     local_recogniser = get_recogniser()
     # Fetch news data from the API
-    url = 'https://newsdata.io/api/1/news?apikey={API_KEY}&language=en&country=gb&domain=bbc'
+    url = f'https://newsdata.io/api/1/news?apikey={API_KEY}&language=en&country=gb&domain=bbc'
     news_data = requests.get(url)
     news = news_data.json()
     titles = ""
@@ -84,7 +84,7 @@ def get_specific_news(user_input):
                 substring_max = substring
 
     # Fetch news data based on the specified topic from the API
-    url = 'https://newsdata.io/api/1/news?apikey={API_KEY}&language=en&country=gb&q={substring_max}'
+    url = f'https://newsdata.io/api/1/news?apikey={API_KEY}&language=en&country=gb&q={substring_max}'
     news_data = requests.get(url)
     news = news_data.json()
     titles = ""
