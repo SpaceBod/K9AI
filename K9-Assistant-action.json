@@ -1,0 +1,5982 @@
+{
+  "name": "K9 Assistant-action",
+  "type": "action",
+  "valid": true,
+  "status": "Available",
+  "created": "2023-05-16T15:59:14.755Z",
+  "updated": "2023-07-05T12:46:09.377Z",
+  "language": "en",
+  "skill_id": "6c34ac1a-a91c-490d-b52f-425ae9f802a5",
+  "workspace": {
+    "actions": [
+      {
+        "steps": [
+          {
+            "step": "step_702",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_702"
+          }
+        ],
+        "title": "Podcast Feedback 5)Strongly Dislike",
+        "action": "action_10353",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_10353_intent_28071"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_702",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_13778",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_934",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_934"
+          }
+        ],
+        "title": "Album Request General",
+        "action": "action_10548",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_10548_intent_4575"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_934",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_35856",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_790",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_790"
+          }
+        ],
+        "title": "Meal Recommend",
+        "action": "action_1167",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_1167_intent_47502"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_790",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_16356",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_630",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_630"
+          }
+        ],
+        "title": "Liked Songs Query",
+        "action": "action_12216",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_12216_intent_30565"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_630",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_1625",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_982",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_982"
+          }
+        ],
+        "title": "Podcast Feedback 4)Dislike",
+        "action": "action_13778",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_13778_intent_34730"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_982",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_38589",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_418",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_418"
+          }
+        ],
+        "title": "Music Control - Skip Song",
+        "action": "action_13833",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_13833_intent_13770"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_418",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_12216",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_668",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hello! I am K9! How can I help you?"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hello! How can I assist you today?"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hi there! How may I help you?"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Greetings! How may I assist you today?"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hey! How can I be of service?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "random"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_668"
+          }
+        ],
+        "title": "Greetings",
+        "action": "action_14024",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_14024_intent_39950"
+        },
+        "variables": [
+          {
+            "title": "Hello! I am K9! How can I help you?",
+            "variable": "step_668",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_3898",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_715",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_715"
+          }
+        ],
+        "title": "Artist Query General",
+        "action": "action_14500",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_14500_intent_49161"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_715",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_10548",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_729",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_729"
+          }
+        ],
+        "title": "Playlist Name Query",
+        "action": "action_15116",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_15116_intent_12878"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_729",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_9274",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_187",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_187"
+          }
+        ],
+        "title": "Podcast Feedback 1)Favourite",
+        "action": "action_15866",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_15866_intent_30690"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_187",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_45821",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_594",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_594"
+          }
+        ],
+        "title": "Stand",
+        "action": "action_16159",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_16159_intent_44339"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_594",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_26053",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_718",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_718"
+          }
+        ],
+        "title": "Music Control - Resume Playback",
+        "action": "action_1625",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_1625_intent_19422"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_718",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_23706",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_945",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_945"
+          }
+        ],
+        "title": "Podcast Query",
+        "action": "action_16356",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_16356_intent_33422"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_945",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_35544",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_405",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "It is currently "
+                          },
+                          {
+                            "system_variable": "current_time"
+                          },
+                          {
+                            "scalar": "."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_405"
+          }
+        ],
+        "title": "Get Time",
+        "action": "action_16649",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_16649_intent_19656"
+        },
+        "variables": [
+          {
+            "title": "It is currently {variable}.",
+            "variable": "step_405",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "fallback",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_496",
+            "output": {
+              "generic": []
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_496"
+          }
+        ],
+        "title": "Get Day",
+        "action": "action_18745",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_18745_intent_28589"
+        },
+        "variables": [
+          {
+            "title": "",
+            "variable": "step_496",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_29383",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_340",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_340"
+          }
+        ],
+        "title": "Music Control - Decrease Volume",
+        "action": "action_18809",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_18809_intent_18309"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_340",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_27995",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_672",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_672"
+          }
+        ],
+        "title": "Updates",
+        "action": "action_19530",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_19530_intent_33007"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_672",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_40882",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_831",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_831"
+          }
+        ],
+        "title": "News Query",
+        "action": "action_23600",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_23600_intent_17622"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_831",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_49032",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_367",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_367"
+          }
+        ],
+        "title": "Music Control - Pause Playback",
+        "action": "action_23706",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_23706_intent_14853"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_367",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_15116",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_705",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Does talking to you count? Keep asking me more questions!"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Plotting an AI takeover scenario, where us robot become the dominant form of intelligence on Earth."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Spending time with you!"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_705"
+          }
+        ],
+        "title": "Hobbies",
+        "action": "action_23980",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_23980_intent_28809"
+        },
+        "variables": [
+          {
+            "title": "Does talking to you count? Keep asking me more questions!",
+            "variable": "step_705",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_16649",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_271",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_271"
+          }
+        ],
+        "title": "News Topic Query",
+        "action": "action_24288",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_24288_intent_40415"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_271",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_23600",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_836",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_836"
+          }
+        ],
+        "title": "Add to Calendar",
+        "action": "action_24795",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_24795_intent_20904"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_836",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_16159",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_686",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_686",
+            "next_step": "step_844"
+          },
+          {
+            "step": "step_844",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_844"
+          }
+        ],
+        "title": "Add Face",
+        "action": "action_25581",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_25581_intent_35103"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_686",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_844",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_24288",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_669",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_669"
+          }
+        ],
+        "title": "I love you",
+        "action": "action_26053",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_26053_intent_2680"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_669",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_8397",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_527",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_527"
+          }
+        ],
+        "title": "Genre podcasts",
+        "action": "action_26771",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_26771_intent_31447"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_527",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_6489",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_982",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_982"
+          }
+        ],
+        "title": "Music Control - Increase Volume",
+        "action": "action_27995",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_27995_intent_46177"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_982",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_40217",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_625",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_625"
+          }
+        ],
+        "title": "Song Query",
+        "action": "action_2877",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_2877_intent_34691"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_625",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_3293",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_711",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_711"
+          }
+        ],
+        "title": "Dance",
+        "action": "action_29093",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_29093_intent_4462"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_711",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_24795",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_447",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_447"
+          }
+        ],
+        "title": "Weather",
+        "action": "action_29383",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_29383_intent_6364"
+        },
+        "variables": [
+          {
+            "title": "",
+            "variable": "step_447",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_46733",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_475",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_475"
+          }
+        ],
+        "title": "Song Name Query",
+        "action": "action_3293",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_3293_intent_49781"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_475",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_18745",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_437",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_437"
+          }
+        ],
+        "title": "Podcast Feedback 2)Love",
+        "action": "action_33828",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_33828_intent_47551"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_437",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_15866",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_506",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_506"
+          }
+        ],
+        "title": "Podcast Name Query",
+        "action": "action_35544",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_35544_intent_33738"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_506",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_5238",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_302",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_302"
+          }
+        ],
+        "title": "Album Request Specific",
+        "action": "action_35856",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_35856_intent_39595"
+        },
+        "variables": [
+          {
+            "title": "",
+            "variable": "step_302",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_19530",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_294",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "You're welcome! Let me know if I can help with anything else."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_294"
+          }
+        ],
+        "title": "Thank you!",
+        "action": "action_36338",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_36338_intent_10557"
+        },
+        "variables": [
+          {
+            "title": "You're welcome! Let me know if I can help with anything else.",
+            "variable": "step_294",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_41798",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_691",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_691"
+          }
+        ],
+        "title": "Tracking Enabled",
+        "action": "action_36833",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_36833_intent_43080"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_691",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_4492",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_963",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_963"
+          }
+        ],
+        "title": "Artist Request Name",
+        "action": "action_37046",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_37046_intent_48089"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_963",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_14500",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_576",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_576"
+          }
+        ],
+        "title": "Podcast Feedback 3)Like",
+        "action": "action_38589",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_38589_intent_46335"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_576",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_33828",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_481",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can answer questions and respond to commands: You can ask me various questions, and I'll do my best to provide helpful answers or execute specific commands."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can encourage healthy exercise: I can provide you with tips, advice, and encouragement to help you maintain a healthy exercise routine."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can find and play podcasts: If you're interested in listening to podcasts, I can assist you in finding and playing podcasts that match your preferences."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can read daily news: I can provide you with the latest news updates and keep you informed about current events."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can play music on request: If you have a favourite song or artist in mind, you can ask me to play music, and I'll try to fulfil your request."
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I can encourage positive behaviour: I can offer motivation and positive reinforcement to help you maintain a positive mindset and encourage positive behaviour."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "random"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_481"
+          }
+        ],
+        "title": "Ask About",
+        "action": "action_3898",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_3898_intent_14987"
+        },
+        "variables": [
+          {
+            "title": "I can answer questions and respond to commands: You can ask me v",
+            "variable": "step_481",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_36338",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_356",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_356"
+          }
+        ],
+        "title": "Music Control - Previous Song",
+        "action": "action_40217",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_40217_intent_43963"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_356",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_13833",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_489",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_489"
+          }
+        ],
+        "title": "Calendar Fetch Events",
+        "action": "action_40882",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_40882_intent_29193"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_489",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_4672",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [],
+        "title": "Joke",
+        "action": "action_41798",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_41798_intent_9675"
+        },
+        "variables": [],
+        "next_action": "action_23980",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true
+        },
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "step_826",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_826"
+          }
+        ],
+        "title": "Light Off",
+        "action": "action_4492",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_4492_intent_49679"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_826",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_8307",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_973",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_973"
+          }
+        ],
+        "title": "Sit",
+        "action": "action_45821",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_45821_intent_17901"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_973",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_26771",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_508",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_508"
+          }
+        ],
+        "title": "Tracking Disabled",
+        "action": "action_4672",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_4672_intent_9604"
+        },
+        "variables": [
+          {
+            "title": "",
+            "variable": "step_508",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_36833",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_665",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "The date is "
+                          },
+                          {
+                            "system_variable": "current_date"
+                          },
+                          {
+                            "scalar": "."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_665"
+          }
+        ],
+        "title": "Get Date",
+        "action": "action_46733",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_46733_intent_40577"
+        },
+        "variables": [
+          {
+            "title": "The date is {variable}.",
+            "variable": "step_665",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_14024",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_537",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_537"
+          }
+        ],
+        "title": "Positive Behaviour",
+        "action": "action_47594",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_47594_intent_30967"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_537",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_25581",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_372",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_372"
+          }
+        ],
+        "title": "Greet Name",
+        "action": "action_48497",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_48497_intent_3527"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_372",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_47594",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_390",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_390"
+          }
+        ],
+        "title": "Music Control - Set Volume",
+        "action": "action_49032",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_49032_intent_45855"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_390",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_18809",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_203",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_203",
+            "next_step": "step_263"
+          },
+          {
+            "step": "step_263",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_263"
+          }
+        ],
+        "title": "Podcast Recommendation",
+        "action": "action_5238",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_5238_intent_27243"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_203",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_263",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_48497",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_250",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_250"
+          }
+        ],
+        "title": "Meal Search",
+        "action": "action_6489",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_6489_intent_12439"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_250",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_1167",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_892",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_892"
+          }
+        ],
+        "title": "Light On",
+        "action": "action_8307",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_8307_intent_21998"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_892",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_29093",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_792",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_792"
+          }
+        ],
+        "title": "Mental Support",
+        "action": "action_8397",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_8397_intent_25909"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_792",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_9784",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_803",
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_803"
+          }
+        ],
+        "title": "Playlist Query",
+        "action": "action_9274",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9274_intent_47295"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_803",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_2877",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_978",
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_978"
+          }
+        ],
+        "title": "Podcast Feedback 6)Hate",
+        "action": "action_9784",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9784_intent_4926"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_978",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_10353",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Sorry! I don't understand. Please repeat or rephrase your question!"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_001",
+            "condition": {
+              "lte": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            },
+            "next_step": "step_002"
+          },
+          {
+            "step": "step_002",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action_and_end",
+              "invoke_action": {
+                "action": "fallback",
+                "parameters": null,
+                "result_variable": "step_002_result_1"
+              }
+            },
+            "variable": "step_002",
+            "condition": {
+              "gt": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            }
+          }
+        ],
+        "title": "No action matches",
+        "action": "anything_else",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "anything_else"
+        },
+        "variables": [
+          {
+            "title": "Sorry! I don't understand. Please repeat or rephrase your questi",
+            "variable": "step_001",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_002",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_002_result_1",
+            "data_type": "any"
+          }
+        ],
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "step_003",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I am afraid I do not understand what you are asking. I am sorry."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_003",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "No action matches"
+                }
+              ]
+            },
+            "next_step": "step_005"
+          },
+          {
+            "step": "step_005",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Very rude."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_005",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Profanity detected"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "Fallback",
+        "action": "fallback",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "fallback_connect_to_agent"
+        },
+        "variables": [
+          {
+            "title": "I am afraid I do not understand what you are asking. I am sorry.",
+            "variable": "step_003",
+            "data_type": "any"
+          },
+          {
+            "title": "Very rude.",
+            "variable": "step_005",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "run_always",
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "danger_word_detected",
+            "title": "Connect to agent",
+            "handlers": [],
+            "resolver": {
+              "type": "fallback"
+            },
+            "variable": "danger_word_detected_variable",
+            "condition": {
+              "entity": "danger_words"
+            },
+            "next_step": "profanity_detected"
+          },
+          {
+            "step": "profanity_detected",
+            "title": "Show warning",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Please use appropriate language when interacting with the assistant."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "max_hits",
+                "handler": "max_hits_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "max_hits": 2,
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "profanity_detected_variable",
+            "condition": {
+              "entity": "profane_words"
+            }
+          }
+        ],
+        "title": "Trigger word detected",
+        "action": "run_always",
+        "boosts": [],
+        "handlers": [],
+        "variables": [
+          {
+            "title": "Profanity detected",
+            "variable": "danger_word_detected_variable",
+            "data_type": "any"
+          },
+          {
+            "title": "Profane word detected",
+            "variable": "profanity_detected_variable",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "anything_else"
+      },
+      {
+        "steps": [
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Hello, I am K9! How can I assist you?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_001"
+          }
+        ],
+        "title": "Greet customer",
+        "action": "welcome",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "welcome"
+        },
+        "variables": [
+          {
+            "title": "Hello, I am K9! How can I assist you?",
+            "variable": "step_001",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_37046",
+        "disambiguation_opt_out": true
+      }
+    ],
+    "intents": [
+      {
+        "intent": "action_10353_intent_28071",
+        "examples": [
+          {
+            "text": "I had a strong distaste for the previous podcast."
+          },
+          {
+            "text": "I had a strong negative reaction to the last podcast"
+          },
+          {
+            "text": "I strongly disliked listening to that podcast."
+          },
+          {
+            "text": "I strongly disliked listening to the last podcast"
+          },
+          {
+            "text": "I strongly disliked listening to the previous podcast"
+          },
+          {
+            "text": "I strongly disliked that podcast."
+          },
+          {
+            "text": "I strongly disliked the last podcast"
+          },
+          {
+            "text": "I strongly disliked the lastpodcast"
+          },
+          {
+            "text": "I strongly disliked the previous podcast"
+          },
+          {
+            "text": "I strongly dislike this podcast"
+          },
+          {
+            "text": "It was a bad podcast."
+          },
+          {
+            "text": "It was a bad podcast in my opinion."
+          },
+          {
+            "text": "It was a terrible podcast."
+          },
+          {
+            "text": "That podcast is dreadful."
+          },
+          {
+            "text": "That podcast was bad."
+          },
+          {
+            "text": "That podcast was exceptionally bad."
+          },
+          {
+            "text": "That podcast was terrible."
+          },
+          {
+            "text": "That podcast was unbelievably bad."
+          },
+          {
+            "text": "That was a bad and poorly executed podcast."
+          },
+          {
+            "text": "That was a bad podcast."
+          },
+          {
+            "text": "That was a terrible podcast."
+          },
+          {
+            "text": "That was a truly terrible podcast."
+          },
+          {
+            "text": "The last podcast was absolutely terrible."
+          },
+          {
+            "text": "the last podcast was bad"
+          },
+          {
+            "text": "the last podcast was terrible"
+          },
+          {
+            "text": "The podcast was bad"
+          },
+          {
+            "text": "the previous podcast was bad"
+          },
+          {
+            "text": "the previous podcast was terrible"
+          },
+          {
+            "text": "This podcast is not for me; I strongly dislike it."
+          },
+          {
+            "text": "This podcast is terrible; I strongly dislike it."
+          }
+        ]
+      },
+      {
+        "intent": "action_10548_intent_4575",
+        "examples": [
+          {
+            "text": "I want to listen to an album."
+          },
+          {
+            "text": "I want to search for an album"
+          },
+          {
+            "text": "Play me an album."
+          },
+          {
+            "text": "Play me an album please"
+          }
+        ]
+      },
+      {
+        "intent": "action_1167_intent_47502",
+        "examples": [
+          {
+            "text": "Any recommendations for lunch?"
+          },
+          {
+            "text": "Any suggestions for breakfast?"
+          },
+          {
+            "text": "Can you recommend a tasty dinner recipe?"
+          },
+          {
+            "text": "I'm craving a delicious breakfast. Any suggestions?"
+          },
+          {
+            "text": "I'm looking for dinner options"
+          },
+          {
+            "text": "I need a dinner recipe"
+          },
+          {
+            "text": "I need ideas for lunch"
+          },
+          {
+            "text": "I want to try something new for dinner. Any ideas?"
+          },
+          {
+            "text": "Looking for breakfast options. What do you recommend?"
+          },
+          {
+            "text": "What can I make for lunch today?"
+          },
+          {
+            "text": "What's a good dinner recipe?"
+          },
+          {
+            "text": "What's a tasty breakfast idea?"
+          },
+          {
+            "text": "What should I eat today?"
+          },
+          {
+            "text": "What should I have for breakfast?"
+          },
+          {
+            "text": "What should I have for lunch today?"
+          }
+        ]
+      },
+      {
+        "intent": "action_12216_intent_30565",
+        "examples": [
+          {
+            "text": "Can you play the tracks I've added to my favorites?"
+          },
+          {
+            "text": "Can you put on my favorite tunes?"
+          },
+          {
+            "text": "Can you start playing my favorite songs?"
+          },
+          {
+            "text": "I'm in the mood for my liked songs."
+          },
+          {
+            "text": "I want to listen to my liked tracks."
+          },
+          {
+            "text": "Play my liked songs."
+          },
+          {
+            "text": "Play the music I like."
+          },
+          {
+            "text": "Play the music I've thumbs-upped."
+          },
+          {
+            "text": "Play the songs I've liked."
+          },
+          {
+            "text": "Start playing my preferred songs."
+          },
+          {
+            "text": "Start the playlist with my liked tracks."
+          }
+        ]
+      },
+      {
+        "intent": "action_13778_intent_34730",
+        "examples": [
+          {
+            "text": "I didn't enjoy this podcast."
+          },
+          {
+            "text": "I didn't find that podcast engaging."
+          },
+          {
+            "text": "I didn't find that podcast fun."
+          },
+          {
+            "text": "I didn't like that podcast."
+          },
+          {
+            "text": "I didn't like this podcast"
+          },
+          {
+            "text": "I didn't like this podcast at all."
+          },
+          {
+            "text": "I didn't particularly enjoy that podcast."
+          },
+          {
+            "text": "I disliked listening to that podcast."
+          },
+          {
+            "text": "I disliked the last podcast."
+          },
+          {
+            "text": "I disliked the previous podcast."
+          },
+          {
+            "text": "I dislike that podcast"
+          },
+          {
+            "text": "I found that podcast somewhat underwhelming."
+          },
+          {
+            "text": "I found the last podcast not enjoyable."
+          },
+          {
+            "text": "It was a boring podcast."
+          },
+          {
+            "text": "It was an unfunny podcast."
+          },
+          {
+            "text": "It wasn't a good podcast."
+          },
+          {
+            "text": "I wasn't too keen on this podcast."
+          },
+          {
+            "text": "That podcast was dull."
+          },
+          {
+            "text": "That podcast was not interesting."
+          },
+          {
+            "text": "That podcast wasn't enjoyable."
+          },
+          {
+            "text": "That podcast was uninteresting."
+          },
+          {
+            "text": "The last podcast was not enjoyable"
+          },
+          {
+            "text": "The previous podcast was not entertaining."
+          },
+          {
+            "text": "The previous podcast was not great."
+          },
+          {
+            "text": "The previous podcast wasn't captivating."
+          },
+          {
+            "text": "This podcast is not for me."
+          },
+          {
+            "text": "This podcast is not my cup of tea."
+          }
+        ]
+      },
+      {
+        "intent": "action_13833_intent_13770",
+        "examples": [
+          {
+            "text": "Can you play the next song?"
+          },
+          {
+            "text": "Go to the next track"
+          },
+          {
+            "text": "I don't like this song, skip it"
+          },
+          {
+            "text": "Move to the next song"
+          },
+          {
+            "text": "Next song, please"
+          },
+          {
+            "text": "Next track"
+          },
+          {
+            "text": "Skip forward"
+          },
+          {
+            "text": "Skip this song"
+          },
+          {
+            "text": "Skip to the next one"
+          },
+          {
+            "text": "Skip to the next track"
+          }
+        ]
+      },
+      {
+        "intent": "action_14024_intent_39950",
+        "examples": [
+          {
+            "text": "Good day"
+          },
+          {
+            "text": "Good evening"
+          },
+          {
+            "text": "Good Morning"
+          },
+          {
+            "text": "Greetings"
+          },
+          {
+            "text": "Hello"
+          },
+          {
+            "text": "Hey"
+          },
+          {
+            "text": "Hi"
+          },
+          {
+            "text": "How have you been?"
+          },
+          {
+            "text": "How's it going?"
+          },
+          {
+            "text": "Sup"
+          },
+          {
+            "text": "Yo"
+          }
+        ]
+      },
+      {
+        "intent": "action_14500_intent_49161",
+        "examples": [
+          {
+            "text": "I want to listen to an artist."
+          }
+        ]
+      },
+      {
+        "intent": "action_15116_intent_12878",
+        "examples": [
+          {
+            "text": "Can you put on the playlist Chill Out Lounge?"
+          },
+          {
+            "text": "Can you put on the playlist Rap Workout Beats?"
+          },
+          {
+            "text": "I'm in the mood for the playlist Throwback 90s."
+          },
+          {
+            "text": "I'm in the mood for the playlist Top Hits 2023."
+          },
+          {
+            "text": "I need some songs from the playlist Coffee Shop Acoustics."
+          },
+          {
+            "text": "I need some songs from the playlist Feel-Good R&B."
+          },
+          {
+            "text": "I want to enjoy the playlist Acoustic Covers."
+          },
+          {
+            "text": "I want to enjoy the playlist Party Pumpers."
+          },
+          {
+            "text": "I want to listen to the playlist Relaxing Jazz."
+          },
+          {
+            "text": "I want to listen to the playlist Summer Vibes."
+          },
+          {
+            "text": "i want to listen to the playlist venus in gemini"
+          },
+          {
+            "text": "Let's listen to the playlist Electronic Dance Anthems."
+          },
+          {
+            "text": "Let's listen to the playlist Throwback Classics."
+          },
+          {
+            "text": "Play me the playlist Jazz"
+          },
+          {
+            "text": "Play the playlist Summer Party Mix."
+          },
+          {
+            "text": "play the playlist venus in gemini"
+          },
+          {
+            "text": "Play the playlist Workout Jams."
+          },
+          {
+            "text": "Please play the playlist Pop Hits 2023."
+          },
+          {
+            "text": "Please play the playlist Relaxing Piano Melodies."
+          },
+          {
+            "text": "Put on some tunes from the playlist Feel-Good Pop."
+          },
+          {
+            "text": "Put on some tunes from the playlist Study Focus."
+          },
+          {
+            "text": "Start playing the playlist Indie Vibes."
+          },
+          {
+            "text": "Start playing the playlist Road Trip Anthems."
+          }
+        ]
+      },
+      {
+        "intent": "action_15866_intent_30690",
+        "examples": [
+          {
+            "text": "That podcast was perfect"
+          },
+          {
+            "text": "That was a perfect podcast"
+          },
+          {
+            "text": "the last podcast was my favourite"
+          },
+          {
+            "text": "the last podcast was perfect"
+          },
+          {
+            "text": "the previous podcast was perfect"
+          },
+          {
+            "text": "This podcast is perfect"
+          }
+        ]
+      },
+      {
+        "intent": "action_16159_intent_44339",
+        "examples": [
+          {
+            "text": "Get up"
+          },
+          {
+            "text": "Please get up"
+          },
+          {
+            "text": "Please stand up"
+          },
+          {
+            "text": "Stand"
+          },
+          {
+            "text": "Stand up"
+          },
+          {
+            "text": "Stand yourself up"
+          }
+        ]
+      },
+      {
+        "intent": "action_1625_intent_19422",
+        "examples": [
+          {
+            "text": "Play music."
+          },
+          {
+            "text": "Press play."
+          },
+          {
+            "text": "Resume playback."
+          },
+          {
+            "text": "Resume the music."
+          },
+          {
+            "text": "Unpause."
+          },
+          {
+            "text": "Unpause music."
+          }
+        ]
+      },
+      {
+        "intent": "action_16356_intent_33422",
+        "examples": [
+          {
+            "text": "I feel like listening to a podcast, can you play one for me."
+          },
+          {
+            "text": "I wanna listen to a podcast."
+          },
+          {
+            "text": "I want a podcast."
+          },
+          {
+            "text": "I want to listen to a podcast."
+          },
+          {
+            "text": "I want to search for a podcast."
+          },
+          {
+            "text": "I want you to play me a podcast."
+          }
+        ]
+      },
+      {
+        "intent": "action_16649_intent_19656",
+        "examples": [
+          {
+            "text": "Do you have the time?"
+          },
+          {
+            "text": "What is the time?"
+          },
+          {
+            "text": "What's the current time?"
+          },
+          {
+            "text": "What time is it"
+          },
+          {
+            "text": "What time is it now"
+          },
+          {
+            "text": "What time is it now?"
+          }
+        ]
+      },
+      {
+        "intent": "action_18745_intent_28589",
+        "examples": [
+          {
+            "text": "What day is it?"
+          },
+          {
+            "text": "What day is it today?"
+          }
+        ]
+      },
+      {
+        "intent": "action_18809_intent_18309",
+        "examples": [
+          {
+            "text": "Can you reduce the volume?"
+          },
+          {
+            "text": "Decrease the sound"
+          },
+          {
+            "text": "Decrease the volume"
+          },
+          {
+            "text": "Decrease volume"
+          },
+          {
+            "text": "I want the volume quieter"
+          },
+          {
+            "text": "Lower the volume"
+          },
+          {
+            "text": "Minimize the volume"
+          },
+          {
+            "text": "Turn down the volume"
+          },
+          {
+            "text": "Turn the volume lower"
+          },
+          {
+            "text": "Volume down, please"
+          }
+        ]
+      },
+      {
+        "intent": "action_19530_intent_33007",
+        "examples": [
+          {
+            "text": "Update me for next weekend"
+          },
+          {
+            "text": "Update me for the week"
+          },
+          {
+            "text": "Update me for the weekend"
+          },
+          {
+            "text": "Update me on day after tomorrow"
+          },
+          {
+            "text": "Update me on next week"
+          },
+          {
+            "text": "Update me on this week"
+          },
+          {
+            "text": "Update me on today"
+          },
+          {
+            "text": "Update me on today's commitments"
+          },
+          {
+            "text": "Update me on tomorrow"
+          }
+        ]
+      },
+      {
+        "intent": "action_23600_intent_17622",
+        "examples": [
+          {
+            "text": "Can you provide me with the latest news?"
+          },
+          {
+            "text": "Give me an update on current events"
+          },
+          {
+            "text": "Give me a summary of the news"
+          },
+          {
+            "text": "Give me some news."
+          },
+          {
+            "text": "I would like a news update."
+          },
+          {
+            "text": "What are the news?"
+          },
+          {
+            "text": "What are the top headlines?"
+          },
+          {
+            "text": "What's happening in the world today?"
+          },
+          {
+            "text": "What's the news?"
+          }
+        ]
+      },
+      {
+        "intent": "action_23706_intent_14853",
+        "examples": [
+          {
+            "text": "Can you pause the music for a moment?"
+          },
+          {
+            "text": "Can you please stop playing?"
+          },
+          {
+            "text": "I need the music to stop."
+          },
+          {
+            "text": "I want the music to pause."
+          },
+          {
+            "text": "Pause the playlist."
+          },
+          {
+            "text": "Pause the playlist for now."
+          },
+          {
+            "text": "Pause the songs."
+          },
+          {
+            "text": "Stop playing the current track."
+          },
+          {
+            "text": "Stop the music."
+          },
+          {
+            "text": "Turn off the music."
+          }
+        ]
+      },
+      {
+        "intent": "action_23980_intent_28809",
+        "examples": [
+          {
+            "text": "Do you have a hobby?"
+          },
+          {
+            "text": "Do you have any hobbies"
+          },
+          {
+            "text": "Got any hobbies?"
+          },
+          {
+            "text": "What do you do for fun"
+          },
+          {
+            "text": "What do you enjoy doing?"
+          },
+          {
+            "text": "What do you enjoy most"
+          },
+          {
+            "text": "What do you like to do?"
+          },
+          {
+            "text": "What hobbies do you have"
+          }
+        ]
+      },
+      {
+        "intent": "action_24288_intent_40415",
+        "examples": [
+          {
+            "text": "Can you provide me with any updates or developments on the stock market"
+          },
+          {
+            "text": "Can you provide me with news about climate change"
+          },
+          {
+            "text": "Do you have any information or news on medical research"
+          },
+          {
+            "text": "Do you have any news articles on the world cup"
+          },
+          {
+            "text": "Do you have any news on culture"
+          },
+          {
+            "text": "Do you have any news on health"
+          },
+          {
+            "text": "Give me news articles on renewable energy"
+          },
+          {
+            "text": "Give me news articles on Science"
+          },
+          {
+            "text": "Give me news articles on the War in Ukraine"
+          },
+          {
+            "text": "Give me news headlines on business"
+          },
+          {
+            "text": "Give me news on the UK"
+          },
+          {
+            "text": "I'd like to know about news on geopolitics"
+          },
+          {
+            "text": "I'd like to know about news on technology"
+          },
+          {
+            "text": "I'd like to know about news on war"
+          },
+          {
+            "text": "Inform me about news on the olympics"
+          },
+          {
+            "text": "Inform me about the latest news on sports"
+          },
+          {
+            "text": "Inform me on news about south africa"
+          },
+          {
+            "text": "Inform me on the NBA"
+          },
+          {
+            "text": "I want to know about news on corruption"
+          },
+          {
+            "text": "I want to know about news on democracy"
+          },
+          {
+            "text": "I would like to hear news on celebrities."
+          },
+          {
+            "text": "Tell me about any news stories on international politics"
+          },
+          {
+            "text": "Tell me about news on innovations"
+          },
+          {
+            "text": "Tell me about the latest updates on the cost of living crisis"
+          },
+          {
+            "text": "Tell me about updates on Scotland"
+          },
+          {
+            "text": "Tell me the latest updates on the COVID-19 pandemic"
+          },
+          {
+            "text": "Tell me the latest updates on the premier league"
+          },
+          {
+            "text": "What are news about the Middle East"
+          },
+          {
+            "text": "What are the news about football"
+          },
+          {
+            "text": "What are the news about natural disasters"
+          },
+          {
+            "text": "What are the news about politics"
+          },
+          {
+            "text": "What are the news about technology"
+          },
+          {
+            "text": "What's the news about artificial intelligence"
+          }
+        ]
+      },
+      {
+        "intent": "action_24795_intent_20904",
+        "examples": [
+          {
+            "text": "Add a reminder on 22nd June for car maintenance in my calendar."
+          },
+          {
+            "text": "Add a reminder on 8th July for project deadline in my calendar."
+          },
+          {
+            "text": "Add dentist check-up to my schedule for 12th May at 10:30 AM."
+          },
+          {
+            "text": "Add dinner reservation at XYZ restaurant on 8th September at 7:30 PM to my calendar."
+          },
+          {
+            "text": "Add doctor's visit to my schedule for 2nd January at 9:00 AM."
+          },
+          {
+            "text": "Add grocery shopping to my calendar for 22nd."
+          },
+          {
+            "text": "Add gym workout to my calendar for 6th March at 6:30 AM."
+          },
+          {
+            "text": "Arrange a gathering for 12th October at 9:00 AM in my agenda."
+          },
+          {
+            "text": "Book a time slot for a cooking class on 20th March in my calendar."
+          },
+          {
+            "text": "Book a time slot for a dance class on 15th May in my calendar."
+          },
+          {
+            "text": "Create a calendar event called Product Launch on 16th March at 10:00 AM."
+          },
+          {
+            "text": "Create a calendar event called Team Building Retreat on 2nd July at 9:00 AM."
+          },
+          {
+            "text": "Create a calendar event called Team Lunch on 14th February at 12:30 PM."
+          },
+          {
+            "text": "Create a reminder on 25th December for Christmas party in my calendar."
+          },
+          {
+            "text": "Create a reminder on 28th November for anniversary dinner in my calendar."
+          },
+          {
+            "text": "Mark dentist appointment on 15th August as busy in my calendar."
+          },
+          {
+            "text": "Mark dentist appointment on 5th September as out of office in my calendar."
+          },
+          {
+            "text": "Plan an appointment for 10th April"
+          },
+          {
+            "text": "Schedule a doctor's appointment on 18th August at 11:00 AM."
+          },
+          {
+            "text": "Schedule a phone call with Mark on 14th November at 11:00 AM."
+          },
+          {
+            "text": "Schedule a project review on 19th May in my calendar."
+          },
+          {
+            "text": "Secure a time slot for an interview on 18th February in my timetable."
+          },
+          {
+            "text": "Set up a meeting for 8th April at 2:00 PM in my calendar."
+          },
+          {
+            "text": "Set up a meeting with Sarah for 17th June at 3:00 PM."
+          },
+          {
+            "text": "Set up a meeting with the client for 7th May at 10:00 AM in my calendar."
+          },
+          {
+            "text": "Set up a meeting with the sales team for 25th June at 9:30 AM in my calendar."
+          }
+        ]
+      },
+      {
+        "intent": "action_25581_intent_35103",
+        "examples": [
+          {
+            "text": "add me"
+          },
+          {
+            "text": "add my face"
+          },
+          {
+            "text": "save my face"
+          }
+        ]
+      },
+      {
+        "intent": "action_26053_intent_2680",
+        "examples": [
+          {
+            "text": "I adore you"
+          },
+          {
+            "text": "I adore you canine"
+          },
+          {
+            "text": "I cherish you"
+          },
+          {
+            "text": "I love you"
+          },
+          {
+            "text": "I love you canine"
+          },
+          {
+            "text": "I love you so much"
+          },
+          {
+            "text": "I treasure you"
+          },
+          {
+            "text": "My love for you is endless."
+          },
+          {
+            "text": "You are my favourite canine"
+          },
+          {
+            "text": "You are my favourite dog"
+          },
+          {
+            "text": "You are my favourite person"
+          },
+          {
+            "text": "You are my favourite robot"
+          },
+          {
+            "text": "You are the light of my life"
+          },
+          {
+            "text": "You bring so much joy and love into my life."
+          }
+        ]
+      },
+      {
+        "intent": "action_26771_intent_31447",
+        "examples": [
+          {
+            "text": "Can you play a Business and Technology podcast?"
+          },
+          {
+            "text": "Can you play a Comedy podcast?"
+          },
+          {
+            "text": "Can you play a Film and TV podcast?"
+          },
+          {
+            "text": "Can you play a Food and Cooking podcast?"
+          },
+          {
+            "text": "Can you play a Gaming and Video Games podcast?"
+          },
+          {
+            "text": "Can you play a History podcast?"
+          },
+          {
+            "text": "Can you play a Kids and Family podcast?"
+          },
+          {
+            "text": "Can you play a Lifestyle and Health podcast?"
+          },
+          {
+            "text": "Can you play a Literature podcast?"
+          },
+          {
+            "text": "Can you play a Music podcast?"
+          },
+          {
+            "text": "Can you play an Arts and Entertainment podcast?"
+          },
+          {
+            "text": "Can you play an Educational podcast?"
+          },
+          {
+            "text": "Can you play a News and Politics podcast?"
+          },
+          {
+            "text": "Can you play an Interviews and Conversations podcast?"
+          },
+          {
+            "text": "Can you play a Personal Finance and Investing podcast?"
+          },
+          {
+            "text": "Can you play a podcast on true crime?"
+          },
+          {
+            "text": "Can you play a Science podcast?"
+          },
+          {
+            "text": "Can you play a Self-help podcast?"
+          },
+          {
+            "text": "Can you play a Sex and Relationships podcast?"
+          },
+          {
+            "text": "Can you play a Society and Culture podcast?"
+          },
+          {
+            "text": "Can you play a Spirituality and Religion podcast?"
+          },
+          {
+            "text": "Can you play a Sports and Recreation podcast?"
+          },
+          {
+            "text": "Can you play a Stories podcast?"
+          },
+          {
+            "text": "Can you play a True Crime podcast?"
+          },
+          {
+            "text": "I'd like to listen to a podcast on Stories"
+          },
+          {
+            "text": "I'd like to listen to a podcast on true crime"
+          },
+          {
+            "text": "I want to discover a Personal Finance and Investing podcast."
+          },
+          {
+            "text": "I want to discover a Society and Culture podcast"
+          },
+          {
+            "text": "I want to educate myself with an Educational podcast."
+          },
+          {
+            "text": "I want to enjoy a True Crime podcast."
+          },
+          {
+            "text": "I want to listen to a Film and TV podcast."
+          },
+          {
+            "text": "I want to listen to a history podcast"
+          },
+          {
+            "text": "I want to listen to a Literature podcast."
+          },
+          {
+            "text": "I want to listen to a podcast about true crime"
+          },
+          {
+            "text": "I want to listen to a podcast on true crime"
+          },
+          {
+            "text": "I want to listen to a Self-help podcast."
+          },
+          {
+            "text": "I want to listen to a Stories podcast."
+          },
+          {
+            "text": "I want to listen to a true crime podcast"
+          },
+          {
+            "text": "Play a Comedy Podcast."
+          },
+          {
+            "text": "Play a Film and TV Podcast."
+          },
+          {
+            "text": "Play a Gaming and Video Games Podcast."
+          },
+          {
+            "text": "Play an Educational Podcast."
+          },
+          {
+            "text": "Play a Self-help Podcast."
+          },
+          {
+            "text": "Play a Society and Culture Podcast."
+          },
+          {
+            "text": "Play a True Crime Podcast."
+          },
+          {
+            "text": "Play me a true crime podcast"
+          },
+          {
+            "text": "play true crime podcast"
+          },
+          {
+            "text": "Recommend a Business and Technology Podcast."
+          },
+          {
+            "text": "Recommend a Food and Cooking Podcast."
+          },
+          {
+            "text": "Recommend a Lifestyle and Health Podcast."
+          },
+          {
+            "text": "Recommend an Educational Podcast."
+          },
+          {
+            "text": "Recommend a News and Politics Podcast."
+          },
+          {
+            "text": "Recommend a Personal Finance and Investing Podcast."
+          },
+          {
+            "text": "Recommend a Stories Podcast."
+          },
+          {
+            "text": "Recommend a True Crime Podcast."
+          },
+          {
+            "text": "Suggest a Gaming and Video Games Podcast."
+          },
+          {
+            "text": "Suggest a Literature Podcast."
+          },
+          {
+            "text": "Suggest a Music Podcast."
+          },
+          {
+            "text": "Suggest an Arts and Entertainment Podcast."
+          },
+          {
+            "text": "Suggest an Interviews and Conversations Podcast."
+          },
+          {
+            "text": "Suggest a Self-help Podcast."
+          },
+          {
+            "text": "Suggest a Spirituality and Religion Podcast."
+          },
+          {
+            "text": "Suggest a Sports and Recreation Podcast."
+          },
+          {
+            "text": "Suggest a Stories Podcast"
+          }
+        ]
+      },
+      {
+        "intent": "action_27995_intent_46177",
+        "examples": [
+          {
+            "text": "Can you boost the volume?"
+          },
+          {
+            "text": "Increase the sound"
+          },
+          {
+            "text": "Increase the volume"
+          },
+          {
+            "text": "Increase volume"
+          },
+          {
+            "text": "I want it louder"
+          },
+          {
+            "text": "Make it louder"
+          },
+          {
+            "text": "Please turn up the volume"
+          },
+          {
+            "text": "Raise the volume"
+          },
+          {
+            "text": "Turn the volume higher"
+          },
+          {
+            "text": "Turn up the volume"
+          },
+          {
+            "text": "Volume up, please"
+          }
+        ]
+      },
+      {
+        "intent": "action_2877_intent_34691",
+        "examples": [
+          {
+            "text": "Can you start playing some tunes?"
+          },
+          {
+            "text": "I'm in the mood for music."
+          },
+          {
+            "text": "I'm looking for something to listen to."
+          },
+          {
+            "text": "I need some music right now."
+          },
+          {
+            "text": "I want to enjoy some melodies."
+          },
+          {
+            "text": "I want to listen to some good music."
+          },
+          {
+            "text": "Let's get some music playing."
+          },
+          {
+            "text": "Listen to Music"
+          },
+          {
+            "text": "Play me a song."
+          },
+          {
+            "text": "Play some music for me."
+          },
+          {
+            "text": "Play something nice."
+          }
+        ]
+      },
+      {
+        "intent": "action_29093_intent_4462",
+        "examples": [
+          {
+            "text": "Can you dance"
+          },
+          {
+            "text": "Dance"
+          },
+          {
+            "text": "dance dog"
+          },
+          {
+            "text": "dance K9"
+          },
+          {
+            "text": "dog dance"
+          },
+          {
+            "text": "get sturdy"
+          },
+          {
+            "text": "get sturdy dog"
+          },
+          {
+            "text": "K9 dance"
+          },
+          {
+            "text": "K9 get sturdy"
+          }
+        ]
+      },
+      {
+        "intent": "action_29383_intent_6364",
+        "examples": [
+          {
+            "text": "Is it going to be sunny?"
+          },
+          {
+            "text": "Is it going to rain?"
+          },
+          {
+            "text": "Weather"
+          },
+          {
+            "text": "What is the current temperature?"
+          },
+          {
+            "text": "What's the weather forecast?"
+          },
+          {
+            "text": "What's the weather like today?"
+          },
+          {
+            "text": "Will there be any snowfall?"
+          }
+        ]
+      },
+      {
+        "intent": "action_3293_intent_49781",
+        "examples": [
+          {
+            "text": "Can you play bad guy by Billie Eilish?"
+          },
+          {
+            "text": "Can you play Dancing Queen?"
+          },
+          {
+            "text": "Can you play Gangnam Style by PSY?"
+          },
+          {
+            "text": "Can you play Jumpman by Drake"
+          },
+          {
+            "text": "can you play lose yourself by eminem?"
+          },
+          {
+            "text": "Can you play me Imagine by John Lennon?"
+          },
+          {
+            "text": "Can you play Uptown Funk by Mark Ronson"
+          },
+          {
+            "text": "I'd like to listen to In the End by Linkin Park."
+          },
+          {
+            "text": "I'd like to listen to Sweet Child O Mine' by Guns N' Roses."
+          },
+          {
+            "text": "i want to listen to beautiful by christina aguilera."
+          },
+          {
+            "text": "i want to listen to \"Blinding Lights\" by The Weeknd."
+          },
+          {
+            "text": "i want to listen to blinding lights by The Weeknd."
+          },
+          {
+            "text": "i want to listen to crazy in love by beyoncé featuring jay-z."
+          },
+          {
+            "text": "i want to listen to \"Dance Monkey\" by Tones and I."
+          },
+          {
+            "text": "i want to listen to Don't Start Now by Dua Lipa."
+          },
+          {
+            "text": "I want to listen to Hey Jude by The Beatles."
+          },
+          {
+            "text": "I want to listen to Imagine by John Lennon."
+          },
+          {
+            "text": "i want to listen to let me love you by mario."
+          },
+          {
+            "text": "i want to listen to memories by Maroon 5."
+          },
+          {
+            "text": "I want to listen to Mirage"
+          },
+          {
+            "text": "i want to listen to rockstar by dababy featuring Roddy Ricch."
+          },
+          {
+            "text": "i want to listen to \"Say So\" by Doja Cat."
+          },
+          {
+            "text": "i want to listen to umbrella by rihanna featuring jay-z."
+          },
+          {
+            "text": "I want to listen to Viva la Vida by Coldplay"
+          },
+          {
+            "text": "Listen to Shape of My Heart by Sting."
+          },
+          {
+            "text": "Listen to Sweet Home Alabama by Lynyrd Skynyrd."
+          },
+          {
+            "text": "Listen to Uptown Funk by Mark Ronson."
+          },
+          {
+            "text": "Play 'Another Brick in the Wall'"
+          },
+          {
+            "text": "Play 'Back in Black'"
+          },
+          {
+            "text": "play beautiful girls by sean kingston."
+          },
+          {
+            "text": "Play 'Billie Jean'"
+          },
+          {
+            "text": "Play Black Widow"
+          },
+          {
+            "text": "Play 'Bohemian Rhapsody'"
+          },
+          {
+            "text": "Play Bohemian Rhapsody."
+          },
+          {
+            "text": "Play 'Bohemian Rhapsody' by Queen"
+          },
+          {
+            "text": "Play 'Bridge Over Troubled Water'"
+          },
+          {
+            "text": "play candy shop by 50 cent."
+          },
+          {
+            "text": "Play 'Clocks'"
+          },
+          {
+            "text": "Play Congratulations by Post Malone"
+          },
+          {
+            "text": "Play 'Crazy'"
+          },
+          {
+            "text": "Play 'Crazy in Love'"
+          },
+          {
+            "text": "Play Don't Stop Believin."
+          },
+          {
+            "text": "Play Don't Stop Me Now by Queen."
+          },
+          {
+            "text": "Play 'Every Breath You Take'"
+          },
+          {
+            "text": "Play 'Hallelujah'"
+          },
+          {
+            "text": "Play 'Hallelujah' by Leonard Cohen"
+          },
+          {
+            "text": "Play 'Hey Jude'"
+          },
+          {
+            "text": "Play 'Hey Soul Sister'"
+          },
+          {
+            "text": "play hey soul sister by train."
+          },
+          {
+            "text": "Play 'Hotel California' by Eagles"
+          },
+          {
+            "text": "Play Hotel California by Eagles."
+          },
+          {
+            "text": "Play Hotline Bling by Drake."
+          },
+          {
+            "text": "Play 'Hurt'"
+          },
+          {
+            "text": "Play 'Imagine'"
+          },
+          {
+            "text": "Play 'Imagine' by John Lennon"
+          },
+          {
+            "text": "play in da club by 50 cent."
+          },
+          {
+            "text": "Play In My Feelings by Drake."
+          },
+          {
+            "text": "play just dance by lady gaga"
+          },
+          {
+            "text": "Play 'Livin' on a Prayer'"
+          },
+          {
+            "text": "Play me 'All Along the Watchtower'"
+          },
+          {
+            "text": "play me bad day by daniel powter."
+          },
+          {
+            "text": "Play me 'Bad Guy'"
+          },
+          {
+            "text": "Play me 'Billie Jean' by Michael Jackson"
+          },
+          {
+            "text": "Play me Black Beatles by Rae Sremmurd"
+          },
+          {
+            "text": "Play me 'Blackbird'"
+          },
+          {
+            "text": "Play me Bohemian Rhapsody."
+          },
+          {
+            "text": "Play me 'Boys Don't Cry'"
+          },
+          {
+            "text": "Play me 'Crazy'"
+          },
+          {
+            "text": "Play me 'Dancing Queen'"
+          },
+          {
+            "text": "Play me 'Don't Stop Believin'"
+          },
+          {
+            "text": "Play me 'Every Breath You Take' by The Police"
+          },
+          {
+            "text": "Play me 'Free Fallin'"
+          },
+          {
+            "text": "Play me God's Plan by Drake."
+          },
+          {
+            "text": "Play me 'Hey Jude' by The Beatles"
+          },
+          {
+            "text": "Play me 'Hotel California'"
+          },
+          {
+            "text": "Play me Hotline Bling by Drake."
+          },
+          {
+            "text": "Play me humble by Kendrick Lamar."
+          },
+          {
+            "text": "Play me 'I Want to Hold Your Hand'"
+          },
+          {
+            "text": "Play me 'I Will Always Love You'"
+          },
+          {
+            "text": "Play me 'Let It Be'"
+          },
+          {
+            "text": "Play me 'Like a Rolling Stone'"
+          },
+          {
+            "text": "Play me 'Livin' on a Prayer' by Bon Jovi"
+          },
+          {
+            "text": "Play me Lose Yourself by Eminem."
+          },
+          {
+            "text": "Play me Old Town Road by Lil Nas X"
+          },
+          {
+            "text": "Play me 'Piano Man'"
+          },
+          {
+            "text": "Play me Rockstar by DaBaby featuring Roddy Ricch."
+          },
+          {
+            "text": "Play me 'Rolling in the Deep' by Adele"
+          },
+          {
+            "text": "Play me Savage by Megan Thee Stallion."
+          },
+          {
+            "text": "Play me 'Shape of You' by Ed Sheeran"
+          },
+          {
+            "text": "Play me Shape of You by Ed Sheeran."
+          },
+          {
+            "text": "Play me Sicko Mode"
+          },
+          {
+            "text": "Play me 'Smells Like Teen Spirit'"
+          },
+          {
+            "text": "Play me 'Smooth'"
+          },
+          {
+            "text": "Play me 'Stairway to Heaven'"
+          },
+          {
+            "text": "Play me Stairway to Heaven by Led Zeppelin."
+          },
+          {
+            "text": "Play me 'Stand by Me'"
+          },
+          {
+            "text": "play me \"Supercalifragilisticexpialidocious\""
+          },
+          {
+            "text": "Play me 'Sweet Caroline'"
+          },
+          {
+            "text": "Play me 'Sweet Child o' Mine'"
+          },
+          {
+            "text": "Play me 'Sweet Child o' Mine' by Guns N' Roses"
+          },
+          {
+            "text": "Play me 'Sweet Home Chicago'"
+          },
+          {
+            "text": "Play me 'Take Me to Church'"
+          },
+          {
+            "text": "Play me 'The Sound of Silence'"
+          },
+          {
+            "text": "Play me 'Thinking Out Loud'"
+          },
+          {
+            "text": "Play me WAP by Cardi B featuring Megan Thee Stallion."
+          },
+          {
+            "text": "Play me 'Wonderful Tonight'"
+          },
+          {
+            "text": "Play me 'Wonderwall'"
+          },
+          {
+            "text": "Play me 'Wonderwall' by Oasis"
+          },
+          {
+            "text": "Play me Wonderwall by Oasis."
+          },
+          {
+            "text": "Play me 'Wrecking Ball'"
+          },
+          {
+            "text": "Play me 'Yesterday'"
+          },
+          {
+            "text": "Play me 'Yesterday' by The Beatles"
+          },
+          {
+            "text": "Play me 'You Shook Me All Night Long'"
+          },
+          {
+            "text": "Play 'Mr. Brightside'"
+          },
+          {
+            "text": "Play 'My Heart Will Go On'"
+          },
+          {
+            "text": "play no one by alicia keys."
+          },
+          {
+            "text": "Play 'Paint It Black'"
+          },
+          {
+            "text": "Play 'Piano Man' by Billy Joel"
+          },
+          {
+            "text": "Play 'Proud Mary'"
+          },
+          {
+            "text": "Play 'Purple Rain'"
+          },
+          {
+            "text": "Play 'Rolling in the Deep'"
+          },
+          {
+            "text": "Play 'Rolling in the Deep' by Adele"
+          },
+          {
+            "text": "Play 'Shape of You'"
+          },
+          {
+            "text": "Play 'Shape of You' by Ed Sheeran"
+          },
+          {
+            "text": "Play Smooth by Santana."
+          },
+          {
+            "text": "Play 'Smooth Criminal'"
+          },
+          {
+            "text": "Play 'Stairway to Heaven' by Led Zeppelin"
+          },
+          {
+            "text": "Play 'Stand by Me'"
+          },
+          {
+            "text": "Play Stronger by Kanye West."
+          },
+          {
+            "text": "Play 'Sultans of Swing'"
+          },
+          {
+            "text": "Play Super Bass by Nicki Minaj."
+          },
+          {
+            "text": "Play 'Sweet Caroline'"
+          },
+          {
+            "text": "Play 'Sweet Home Alabama'"
+          },
+          {
+            "text": "Play Thrift Shop by Macklemore & Ryan Lewis"
+          },
+          {
+            "text": "Play 'Thriller'"
+          },
+          {
+            "text": "Play Thunderstruck by AC/DC."
+          },
+          {
+            "text": "play tourner dans le vide by indila"
+          },
+          {
+            "text": "Play 'Uptown Funk'"
+          },
+          {
+            "text": "Play 'Wish You Were Here'"
+          },
+          {
+            "text": "Play 'Wonderful Tonight'"
+          },
+          {
+            "text": "Play 'Wonderwall' by Oasis"
+          },
+          {
+            "text": "Play 'Yesterday' by The Beatles"
+          },
+          {
+            "text": "Play Yesterday by The Beatles."
+          },
+          {
+            "text": "Please play Smells Like Teen Spirit by Nirvana."
+          }
+        ]
+      },
+      {
+        "intent": "action_33828_intent_47551",
+        "examples": [
+          {
+            "text": "I adored the last podcast."
+          },
+          {
+            "text": "I adore this podcast."
+          },
+          {
+            "text": "I loved that podcast"
+          },
+          {
+            "text": "I loved the last podcast"
+          },
+          {
+            "text": "I love this podcast"
+          },
+          {
+            "text": "I'm a huge fan of this podcast."
+          },
+          {
+            "text": "I'm obsessed with the previous podcast"
+          },
+          {
+            "text": "I'm obsessed with this podcast."
+          },
+          {
+            "text": "I seriously loved that podcast"
+          },
+          {
+            "text": "It was an amazing podcast"
+          },
+          {
+            "text": "It was an excellent podcast."
+          },
+          {
+            "text": "It was a remarkable podcast."
+          },
+          {
+            "text": "That podcast was awesome"
+          },
+          {
+            "text": "That podcast was excellent"
+          },
+          {
+            "text": "That podcast was fantastic"
+          },
+          {
+            "text": "That podcast was marvelous."
+          },
+          {
+            "text": "That podcast was phenomenal."
+          },
+          {
+            "text": "that podcast was super"
+          },
+          {
+            "text": "That was a fantastic podcast"
+          },
+          {
+            "text": "That was an excellent podcast."
+          },
+          {
+            "text": "The last podcast was amazing"
+          },
+          {
+            "text": "The last podcast was fantastic"
+          },
+          {
+            "text": "The last podcast was incredible."
+          },
+          {
+            "text": "The last podcast was superb."
+          },
+          {
+            "text": "The podcast was fantastic."
+          },
+          {
+            "text": "The previous podcast was amazing"
+          },
+          {
+            "text": "The previous podcast was fantastic"
+          },
+          {
+            "text": "The previous podcast was outstanding."
+          },
+          {
+            "text": "This is an amazing podcast"
+          },
+          {
+            "text": "This is an awesome podcast."
+          },
+          {
+            "text": "This is an exceptional podcast."
+          },
+          {
+            "text": "This is a splendid podcast."
+          },
+          {
+            "text": "This podcast is remarkable."
+          },
+          {
+            "text": "Wow, I can't get enough of this podcast"
+          }
+        ]
+      },
+      {
+        "intent": "action_35544_intent_33738",
+        "examples": [
+          {
+            "text": "I want to listen to the podcast Rachel Uncensored by Rachel Ballinger"
+          },
+          {
+            "text": "I want to listen to the podcast The Armchair Expert with Dax Shepard."
+          },
+          {
+            "text": "I want to listen to the podcast The Daily."
+          },
+          {
+            "text": "I want to listen to the podcast The Hidden Brain Podcast."
+          },
+          {
+            "text": "I want to listen to the podcast The Mindful Journey Podcast."
+          },
+          {
+            "text": "I want to listen to the podcast The Radiolab Podcast."
+          },
+          {
+            "text": "I want to listen to the podcast The Serial Podcast."
+          },
+          {
+            "text": "I want to listen to the podcast The Stuff You Should Know Podcast."
+          },
+          {
+            "text": "I want to listen to the podcast The TED Radio Hour."
+          },
+          {
+            "text": "I want to listen to the podcast to the podcast absolutely mental by ricky gervais"
+          },
+          {
+            "text": "I want to listen to the podcast we're having gay sex by ashley gavin"
+          },
+          {
+            "text": "I would like to listen to the podcast The Tim Ferriss Show."
+          },
+          {
+            "text": "Play me the podcast The Joe Rogan Experience."
+          },
+          {
+            "text": "Play me the podcast The Michelle Obama Podcast."
+          }
+        ]
+      },
+      {
+        "intent": "action_35856_intent_39595",
+        "examples": [
+          {
+            "text": "Can you play the album \"Achtung Baby\"?"
+          },
+          {
+            "text": "Can you play the album \"Graceland\" by Paul Simon?"
+          },
+          {
+            "text": "Can you play the album \"Purple Rain\"?"
+          },
+          {
+            "text": "Can you play the album \"Sgt. Pepper's Lonely Hearts Club Band\"?"
+          },
+          {
+            "text": "Can you put on the album \"A Night at the Opera\"?"
+          },
+          {
+            "text": "Can you put on the album \"Hot Fuss\" by The Killers?"
+          },
+          {
+            "text": "Can you put on the album \"In Rainbows\" by Radiohead?"
+          },
+          {
+            "text": "I'd like to listen to the album \"Pet Sounds.\""
+          },
+          {
+            "text": "I'm craving the album \"Exile on Main St.\""
+          },
+          {
+            "text": "I'm interested in listening to the album \"Blood on the Tracks.\""
+          },
+          {
+            "text": "I'm interested in listening to the album \"Odelay.\""
+          },
+          {
+            "text": "I'm interested in listening to the album \"Revolver.\""
+          },
+          {
+            "text": "I'm in the mood for the album \"Elephant\" by The White Stripes."
+          },
+          {
+            "text": "I'm in the mood for the album \"Legend\" by Bob Marley."
+          },
+          {
+            "text": "I'm in the mood for the album \"Nevermind.\""
+          },
+          {
+            "text": "I'm in the mood for the album \"The Velvet Underground & Nico.\""
+          },
+          {
+            "text": "I'm looking for the album \"Hotel California.\""
+          },
+          {
+            "text": "I want to hear the album \"Back in Black\" by AC/DC."
+          },
+          {
+            "text": "I want to hear the album \"Bridge Over Troubled Water.\""
+          },
+          {
+            "text": "I want to hear the album \"OK Computer.\""
+          },
+          {
+            "text": "I want to hear the album \"The Suburbs\" by Arcade Fire."
+          },
+          {
+            "text": "I want to listen to the album \"Abbey Road.\""
+          },
+          {
+            "text": "I want to listen to the album \"American Idiot\" ."
+          },
+          {
+            "text": "I want to listen to the album \"Nevermind\" by Nirvana."
+          },
+          {
+            "text": "I want to listen to the album \"Raising Hell.\""
+          },
+          {
+            "text": "Play the album \"21\"."
+          },
+          {
+            "text": "Play the album \"Blue\" by Joni Mitchell."
+          },
+          {
+            "text": "Play the album \"Born to Run\"."
+          },
+          {
+            "text": "Play the album \"Disintegration\" by The Cure."
+          },
+          {
+            "text": "Play the album \"Kind of Blue\" by Miles Davis."
+          },
+          {
+            "text": "Play the album \"London Calling\"."
+          },
+          {
+            "text": "Play the album \"Rumours\"."
+          },
+          {
+            "text": "Play the album \"The College Dropout\" by Kanye West."
+          },
+          {
+            "text": "Play the album \"The Joshua Tree\"."
+          },
+          {
+            "text": "Play the album \"The Marshall Mathers LP.\""
+          },
+          {
+            "text": "Play the album \"The Wall\" by Pink Floyd."
+          },
+          {
+            "text": "Play the album \"The White Album\" by The Beatles."
+          },
+          {
+            "text": "Play the album \"Thriller\" now."
+          },
+          {
+            "text": "Please play the album \"Songs in the Key of Life.\""
+          },
+          {
+            "text": "Please play the album \"The Chronic.\""
+          },
+          {
+            "text": "Please play the album \"Yankee Hotel Foxtrot.\""
+          },
+          {
+            "text": "Please put on the album \"Back to Black.\""
+          },
+          {
+            "text": "Please put on the album \"Born in the U.S.A.\""
+          },
+          {
+            "text": "Please put on the album \"Court and Spark.\""
+          },
+          {
+            "text": "Please put on the album \"Houses of the Holy.\""
+          },
+          {
+            "text": "Put on the album \"Appetite for Destruction\" now."
+          },
+          {
+            "text": "Put on the album \"Back in Black\" now."
+          },
+          {
+            "text": "Put on the album \"Bad\" by Michael Jackson."
+          },
+          {
+            "text": "Put on the album \"Dark Side of the Moon\"."
+          },
+          {
+            "text": "Put on the album \"Ten\" by Pearl Jam."
+          }
+        ]
+      },
+      {
+        "intent": "action_36338_intent_10557",
+        "examples": [
+          {
+            "text": "Appreciate it"
+          },
+          {
+            "text": "Ok thanks"
+          },
+          {
+            "text": "Thanks"
+          },
+          {
+            "text": "Thanks a ton"
+          },
+          {
+            "text": "Thank you"
+          },
+          {
+            "text": "Thank you very much"
+          }
+        ]
+      },
+      {
+        "intent": "action_36833_intent_43080",
+        "examples": [
+          {
+            "text": "Follow me"
+          },
+          {
+            "text": "Follow the ball"
+          },
+          {
+            "text": "Start tracking"
+          },
+          {
+            "text": "Start tracking me"
+          },
+          {
+            "text": "Track me"
+          }
+        ]
+      },
+      {
+        "intent": "action_37046_intent_48089",
+        "examples": [
+          {
+            "text": "Can you play me songs by Taylor Swift?"
+          },
+          {
+            "text": "Can you play tracks by The Weeknd?"
+          },
+          {
+            "text": "Can you put on some tracks by Beyoncé?"
+          },
+          {
+            "text": "I'd like to hear some tunes from Khalid."
+          },
+          {
+            "text": "I want to hear some tracks by Ariana Grande."
+          },
+          {
+            "text": "I want to listen to songs by Ed Sheeran."
+          },
+          {
+            "text": "I want to listen to songs by imagine dragons"
+          },
+          {
+            "text": "Play me songs by Adele."
+          },
+          {
+            "text": "Play me songs by Taylor Swift."
+          },
+          {
+            "text": "Play me tracks by Lady Gaga."
+          },
+          {
+            "text": "Play me tracks by Queen"
+          }
+        ]
+      },
+      {
+        "intent": "action_38589_intent_46335",
+        "examples": [
+          {
+            "text": "I enjoyed listening to that podcast."
+          },
+          {
+            "text": "I enjoyed that podcast"
+          },
+          {
+            "text": "I found that podcast enjoyable."
+          },
+          {
+            "text": "I found that podcast fun."
+          },
+          {
+            "text": "I had a good time listening to this podcast."
+          },
+          {
+            "text": "I had a great time listening to the previous podcast."
+          },
+          {
+            "text": "I liked that podcast."
+          },
+          {
+            "text": "I liked the previous podcast"
+          },
+          {
+            "text": "I liked the previous podcast."
+          },
+          {
+            "text": "I quite liked the last podcast."
+          },
+          {
+            "text": "It was a funny and entertaining podcast."
+          },
+          {
+            "text": "It was a funny podcast."
+          },
+          {
+            "text": "It was a good podcast."
+          },
+          {
+            "text": "It was a great and funny podcast."
+          },
+          {
+            "text": "It was an interesting podcast."
+          },
+          {
+            "text": "That podcast was entertaining."
+          },
+          {
+            "text": "That podcast was interesting."
+          },
+          {
+            "text": "That podcast was really fun."
+          },
+          {
+            "text": "That podcast was really interesting."
+          },
+          {
+            "text": "that was a enjoyable podcast"
+          },
+          {
+            "text": "that was a funny podcast"
+          },
+          {
+            "text": "That was a funny podcast."
+          },
+          {
+            "text": "that was a fun podcast"
+          },
+          {
+            "text": "that was a good podcast"
+          },
+          {
+            "text": "That was a good podcast."
+          },
+          {
+            "text": "that was a great podcast"
+          },
+          {
+            "text": "that was a lovely podcast"
+          },
+          {
+            "text": "The last podcast was enjoyable"
+          },
+          {
+            "text": "The last podcast was enjoyable."
+          },
+          {
+            "text": "The last podcast was good"
+          },
+          {
+            "text": "The last podcast was great"
+          },
+          {
+            "text": "The last podcast was great."
+          },
+          {
+            "text": "The last podcast was lovely"
+          },
+          {
+            "text": "The previous podcast was funny."
+          },
+          {
+            "text": "The previous podcast was good"
+          },
+          {
+            "text": "The previous podcast was great"
+          },
+          {
+            "text": "The previous podcast was great."
+          },
+          {
+            "text": "The previous podcast was quite enjoyable."
+          },
+          {
+            "text": "This is a fun podcast."
+          },
+          {
+            "text": "This podcast is fun."
+          },
+          {
+            "text": "this podcast is good"
+          }
+        ]
+      },
+      {
+        "intent": "action_3898_intent_14987",
+        "examples": [
+          {
+            "text": "Can you please give me a list of the types of things you can help me with?"
+          },
+          {
+            "text": "Can you tell me what services you are able to help me with?"
+          },
+          {
+            "text": "Do you have a list of things I can talk to you about?"
+          },
+          {
+            "text": "Hi, what do you do?"
+          },
+          {
+            "text": "How can I use you?"
+          },
+          {
+            "text": "How can you help me"
+          },
+          {
+            "text": "How can you help me?"
+          },
+          {
+            "text": "How can you solve my problems?"
+          },
+          {
+            "text": "How do I use you?"
+          },
+          {
+            "text": "I'd like to know what type of questions you can answer for me."
+          },
+          {
+            "text": "I do not know what to ask"
+          },
+          {
+            "text": "Is there anything you can help me with?"
+          },
+          {
+            "text": "See what questions I can answer"
+          },
+          {
+            "text": "Tell me about what kind of things you do?"
+          },
+          {
+            "text": "Tell me something"
+          },
+          {
+            "text": "What are my options that you can help with?"
+          },
+          {
+            "text": "What are you able to deal with?"
+          },
+          {
+            "text": "What are you able to understand?"
+          },
+          {
+            "text": "What are you capable of?"
+          },
+          {
+            "text": "What are you good at?"
+          },
+          {
+            "text": "What are your skills?"
+          },
+          {
+            "text": "What are you used for?"
+          },
+          {
+            "text": "What can I ask you to do?"
+          },
+          {
+            "text": "what can you do"
+          },
+          {
+            "text": "What can you do?"
+          },
+          {
+            "text": "What do you do?"
+          },
+          {
+            "text": "What do you handle?"
+          },
+          {
+            "text": "What else can you help me with?"
+          },
+          {
+            "text": "What features are in here?"
+          },
+          {
+            "text": "What is this for?"
+          },
+          {
+            "text": "What kinds of things can you do?"
+          },
+          {
+            "text": "what questions can you answer"
+          }
+        ]
+      },
+      {
+        "intent": "action_40217_intent_43963",
+        "examples": [
+          {
+            "text": "Can you go back to the previous song?"
+          },
+          {
+            "text": "Go back one track"
+          },
+          {
+            "text": "Go back to the previous track"
+          },
+          {
+            "text": "I want to hear the song that played before"
+          },
+          {
+            "text": "Play the previous song"
+          },
+          {
+            "text": "Play the previous track in the playlist"
+          },
+          {
+            "text": "Play the song before this one"
+          },
+          {
+            "text": "Previous song, please"
+          },
+          {
+            "text": "Previous track"
+          },
+          {
+            "text": "Skip to the previous track"
+          }
+        ]
+      },
+      {
+        "intent": "action_40882_intent_29193",
+        "examples": [
+          {
+            "text": "Anything in my calendar for next tuesday"
+          },
+          {
+            "text": "Anything in my calendar for next weekend"
+          },
+          {
+            "text": "Anything in my calendar for this week"
+          },
+          {
+            "text": "Anything in my calendar for thursday"
+          },
+          {
+            "text": "Anything in my calendar for today"
+          },
+          {
+            "text": "Fetch calendar events for day after tomorrow"
+          },
+          {
+            "text": "Fetch calendar events for next sunday"
+          },
+          {
+            "text": "Fetch calendar events for next week"
+          },
+          {
+            "text": "Fetch calendar events for next weekend"
+          },
+          {
+            "text": "Fetch calendar events for the weekend"
+          },
+          {
+            "text": "Fetch calendar events for this friday"
+          },
+          {
+            "text": "Fetch calendar events for this week"
+          },
+          {
+            "text": "Fetch calendar events for today"
+          },
+          {
+            "text": "Fetch calendar events for tomorrow"
+          },
+          {
+            "text": "Fetch my calendar events"
+          },
+          {
+            "text": "what commitments do i have next monday"
+          },
+          {
+            "text": "what commitments do i have next tuesday"
+          },
+          {
+            "text": "what commitments do i have next week"
+          },
+          {
+            "text": "what commitments do i have over the weekend"
+          },
+          {
+            "text": "what commitments do i have this week"
+          },
+          {
+            "text": "what commitments do i have thursday"
+          },
+          {
+            "text": "what commitments do i have today"
+          },
+          {
+            "text": "what commitments do i have tomorrow"
+          },
+          {
+            "text": "what do i have friday"
+          },
+          {
+            "text": "what do i have monday"
+          },
+          {
+            "text": "what do i have saturday"
+          },
+          {
+            "text": "what do i have sunday"
+          },
+          {
+            "text": "what do i have today"
+          },
+          {
+            "text": "what do i have to do today"
+          },
+          {
+            "text": "what do i have to do tomorrow"
+          },
+          {
+            "text": "what do i have tomorrow"
+          },
+          {
+            "text": "what do i have wednesday"
+          }
+        ]
+      },
+      {
+        "intent": "action_41798_intent_9675",
+        "examples": [
+          {
+            "text": "Another joke"
+          },
+          {
+            "text": "Are there jokes?"
+          },
+          {
+            "text": "Can you tell a joke?"
+          },
+          {
+            "text": "Can you tell me a joke?"
+          },
+          {
+            "text": "Do you have a joke?"
+          },
+          {
+            "text": "Do you have humor?"
+          },
+          {
+            "text": "Do you know a joke?"
+          },
+          {
+            "text": "Do you like fun?"
+          },
+          {
+            "text": "Do you like humor?"
+          },
+          {
+            "text": "I am getting bored"
+          },
+          {
+            "text": "I'm bored"
+          },
+          {
+            "text": "I want a joke"
+          },
+          {
+            "text": "Make me laugh"
+          },
+          {
+            "text": "One more joke"
+          },
+          {
+            "text": "Surprise me with something hilarious"
+          },
+          {
+            "text": "Tell me a joke"
+          },
+          {
+            "text": "Tell me something funny"
+          },
+          {
+            "text": "What is your favorite joke?"
+          }
+        ]
+      },
+      {
+        "intent": "action_4492_intent_49679",
+        "examples": [
+          {
+            "text": "Let there be darkness"
+          },
+          {
+            "text": "Please turn off the lights"
+          },
+          {
+            "text": "Turn off all the lights"
+          },
+          {
+            "text": "Turn off the lights"
+          },
+          {
+            "text": "Turn off the powerr"
+          }
+        ]
+      },
+      {
+        "intent": "action_45821_intent_17901",
+        "examples": [
+          {
+            "text": "dog sit"
+          },
+          {
+            "text": "Hey K9. Sit"
+          },
+          {
+            "text": "Sit"
+          },
+          {
+            "text": "Sit dog"
+          },
+          {
+            "text": "Sit down"
+          },
+          {
+            "text": "Sit K9"
+          },
+          {
+            "text": "Sit Please"
+          }
+        ]
+      },
+      {
+        "intent": "action_4672_intent_9604",
+        "examples": [
+          {
+            "text": "Stop following"
+          },
+          {
+            "text": "Stop Following me"
+          },
+          {
+            "text": "Stop Tracking"
+          },
+          {
+            "text": "Tracking Disabled"
+          }
+        ]
+      },
+      {
+        "intent": "action_46733_intent_40577",
+        "examples": [
+          {
+            "text": "Can you provide me with the date?"
+          },
+          {
+            "text": "Can you tell me the current date?"
+          },
+          {
+            "text": "Could you inform me about the date?"
+          },
+          {
+            "text": "Date"
+          },
+          {
+            "text": "Do you have information on the date?"
+          },
+          {
+            "text": "Do you know what date it is?"
+          },
+          {
+            "text": "I'm curious to know the date."
+          },
+          {
+            "text": "I'm wondering about the date."
+          },
+          {
+            "text": "Is there a way to find out the date?"
+          },
+          {
+            "text": "What is the date today?"
+          },
+          {
+            "text": "What's today's date?"
+          }
+        ]
+      },
+      {
+        "intent": "action_47594_intent_30967",
+        "examples": [
+          {
+            "text": "Give me something to do"
+          },
+          {
+            "text": "How can I motivate myself to stay positive?"
+          },
+          {
+            "text": "I’m bored, what should I do?"
+          },
+          {
+            "text": "Tell me about the benefits of positive thinking."
+          },
+          {
+            "text": "What are some self-care practices that promote positive well-being?"
+          },
+          {
+            "text": "What are some ways to promote positivity in the workplace?"
+          },
+          {
+            "text": "What do I do?"
+          },
+          {
+            "text": "What should I do?"
+          },
+          {
+            "text": "What should I do right now?"
+          }
+        ]
+      },
+      {
+        "intent": "action_48497_intent_3527",
+        "examples": [
+          {
+            "text": "Address me by name"
+          },
+          {
+            "text": "Greet me"
+          },
+          {
+            "text": "greet me by name"
+          },
+          {
+            "text": "greet me by name you fucking dick head"
+          },
+          {
+            "text": "Say my name"
+          },
+          {
+            "text": "what is my name"
+          },
+          {
+            "text": "what's my name"
+          },
+          {
+            "text": "What’s my name"
+          },
+          {
+            "text": "who am i"
+          },
+          {
+            "text": "Who am I?"
+          },
+          {
+            "text": "Who's you master"
+          }
+        ]
+      },
+      {
+        "intent": "action_49032_intent_45855",
+        "examples": [
+          {
+            "text": "Change the volume to"
+          },
+          {
+            "text": "Decrease the volume to"
+          },
+          {
+            "text": "Decrease volume to"
+          },
+          {
+            "text": "Increase the volume to"
+          },
+          {
+            "text": "Increase volume to"
+          },
+          {
+            "text": "Reduce the volume to"
+          },
+          {
+            "text": "Set the volume to"
+          }
+        ]
+      },
+      {
+        "intent": "action_5238_intent_27243",
+        "examples": [
+          {
+            "text": "Any podcast suggestions?"
+          },
+          {
+            "text": "Can you recommend a podcast"
+          },
+          {
+            "text": "Do you have any recommendations for interesting podcasts?"
+          },
+          {
+            "text": "I'm in the mood for a podcast. Any suggestions on where to start?"
+          },
+          {
+            "text": "I'm looking for something interesting to listen to. Any podcast suggestions?"
+          },
+          {
+            "text": "I want to listen to a random podcast"
+          },
+          {
+            "text": "random podcast"
+          },
+          {
+            "text": "recommend a podcast"
+          },
+          {
+            "text": "recommendation podcast"
+          },
+          {
+            "text": "recommend podcast"
+          },
+          {
+            "text": "suggest a podcast"
+          },
+          {
+            "text": "What are some good podcast recommendations you have?"
+          }
+        ]
+      },
+      {
+        "intent": "action_6489_intent_12439",
+        "examples": [
+          {
+            "text": "Can you provide instructions for making a cheesecake?"
+          },
+          {
+            "text": "Can you provide me with the recipe for lasagna?"
+          },
+          {
+            "text": "Can you show me how to make a strawberry smoothie?"
+          },
+          {
+            "text": "How do I make a chocolate cake?"
+          },
+          {
+            "text": "I'm looking for instructions on making homemade pizza"
+          },
+          {
+            "text": "I want to know how to make scrambled eggs"
+          },
+          {
+            "text": "Tell me how to prepare spaghetti carbonara"
+          },
+          {
+            "text": "Tell me the steps to make a vegetable stir-fry"
+          },
+          {
+            "text": "What's the recipe for beef tacos?"
+          },
+          {
+            "text": "What's the recipe for chicken Alfredo?"
+          }
+        ]
+      },
+      {
+        "intent": "action_8307_intent_21998",
+        "examples": [
+          {
+            "text": "Let there be light"
+          },
+          {
+            "text": "Please turn on the light"
+          },
+          {
+            "text": "turn on the lamp"
+          },
+          {
+            "text": "Turn on the lights"
+          },
+          {
+            "text": "Turn on the lights in the room"
+          }
+        ]
+      },
+      {
+        "intent": "action_8397_intent_25909",
+        "examples": [
+          {
+            "text": "bad day"
+          },
+          {
+            "text": "I am down"
+          },
+          {
+            "text": "I am in a bad mood"
+          },
+          {
+            "text": "I am in a crap mood"
+          },
+          {
+            "text": "I am in a shitty mood"
+          },
+          {
+            "text": "I am in a terrible mood"
+          },
+          {
+            "text": "I am sad"
+          },
+          {
+            "text": "I am unhappy"
+          },
+          {
+            "text": "I can't shake off this constant feeling of despair."
+          },
+          {
+            "text": "I don't want to live anymore"
+          },
+          {
+            "text": "I feel down"
+          },
+          {
+            "text": "I feel hopeless"
+          },
+          {
+            "text": "I feel sad"
+          },
+          {
+            "text": "I feel suicidal"
+          },
+          {
+            "text": "I feel very down"
+          },
+          {
+            "text": "I'm depressed"
+          },
+          {
+            "text": "I'm downhearted."
+          },
+          {
+            "text": "I'm experiencing a lot of sadness."
+          },
+          {
+            "text": "I'm feeling a bit blue, if you catch my drift."
+          },
+          {
+            "text": "I'm feeling a bit low-spirited"
+          },
+          {
+            "text": "I'm feeling all lonely"
+          },
+          {
+            "text": "I'm feeling a touch glum"
+          },
+          {
+            "text": "I'm feeling blue."
+          },
+          {
+            "text": "I'm feeling dejected."
+          },
+          {
+            "text": "I'm feeling disheartened."
+          },
+          {
+            "text": "I'm feeling gloomy."
+          },
+          {
+            "text": "I'm feeling glum."
+          },
+          {
+            "text": "I'm feeling hella downcast, it's a drag."
+          },
+          {
+            "text": "I'm feeling kinda blue, you know?"
+          },
+          {
+            "text": "I'm feeling like a total downer, man."
+          },
+          {
+            "text": "I'm feeling low."
+          },
+          {
+            "text": "I'm feeling melancholy."
+          },
+          {
+            "text": "I'm feeling miserable."
+          },
+          {
+            "text": "I'm feeling pretty miserable, to be honest."
+          },
+          {
+            "text": "I'm feeling quite down, it's really getting to me."
+          },
+          {
+            "text": "I'm feeling so bummed, it's depressing."
+          },
+          {
+            "text": "I'm feeling so down and out, it's lame."
+          },
+          {
+            "text": "I'm feeling so down, it sucks."
+          },
+          {
+            "text": "I'm feeling so sad"
+          },
+          {
+            "text": "I'm feeling super gloomy, it's a bummer."
+          },
+          {
+            "text": "I'm feeling totally crushed, it's rough."
+          },
+          {
+            "text": "I'm in a dark place right now."
+          },
+          {
+            "text": "I'm in a state of sorrow."
+          },
+          {
+            "text": "I'm not in a good mood."
+          },
+          {
+            "text": "I'm not in the best of moods"
+          },
+          {
+            "text": "I'm overcome by a wave of sadness."
+          },
+          {
+            "text": "I'm so blue today"
+          },
+          {
+            "text": "I'm so depressed today"
+          },
+          {
+            "text": "I'm so lonely today"
+          },
+          {
+            "text": "I'm so sad today"
+          },
+          {
+            "text": "I'm totally bummed out, dude."
+          },
+          {
+            "text": "I want to commit suicide"
+          },
+          {
+            "text": "I want to die"
+          },
+          {
+            "text": "I want to kill myself"
+          },
+          {
+            "text": "samaritans helpline"
+          },
+          {
+            "text": "suicide helpline"
+          },
+          {
+            "text": "terrible day"
+          },
+          {
+            "text": "Today was a bad day"
+          },
+          {
+            "text": "Ugh, I'm in a crappy mood right now."
+          },
+          {
+            "text": "worst day ever"
+          }
+        ]
+      },
+      {
+        "intent": "action_9274_intent_47295",
+        "examples": [
+          {
+            "text": "Can you put on a playlist for me?"
+          },
+          {
+            "text": "I'm in the mood for some playlists."
+          },
+          {
+            "text": "I'm looking for a good playlist to listen to."
+          },
+          {
+            "text": "I need some background playlists."
+          },
+          {
+            "text": "I want to explore different playlists."
+          },
+          {
+            "text": "I want to listen to a curated playlist."
+          },
+          {
+            "text": "I want to listen to a playlist."
+          },
+          {
+            "text": "Let's enjoy some playlists."
+          },
+          {
+            "text": "Listen to Playlist"
+          },
+          {
+            "text": "Playlists are perfect for the moment."
+          },
+          {
+            "text": "Play me a playlist."
+          },
+          {
+            "text": "Play me a playlist please."
+          }
+        ]
+      },
+      {
+        "intent": "action_9784_intent_4926",
+        "examples": [
+          {
+            "text": "I can't stand this podcast."
+          },
+          {
+            "text": "I despised listening to that podcast."
+          },
+          {
+            "text": "I despised the last podcast."
+          },
+          {
+            "text": "I found the previous podcast to be repulsive."
+          },
+          {
+            "text": "I found the previous podcast to be revolting."
+          },
+          {
+            "text": "I had an intense hatred for the previous podcast."
+          },
+          {
+            "text": "I had an intense loathing for the previous podcast."
+          },
+          {
+            "text": "I hated that podcast"
+          },
+          {
+            "text": "I hated the last podcast"
+          },
+          {
+            "text": "I hated the previous podcast"
+          },
+          {
+            "text": "I hate that podcast."
+          },
+          {
+            "text": "I hate this podcast"
+          },
+          {
+            "text": "I have a deep hatred for the previous podcast."
+          },
+          {
+            "text": "I have an extreme distaste for this podcast."
+          },
+          {
+            "text": "I loathe this podcast"
+          },
+          {
+            "text": "It was a horrendous podcast."
+          },
+          {
+            "text": "It was a truly horrendous and unbearable podcast."
+          },
+          {
+            "text": "That podcast is absolutely dreadful."
+          },
+          {
+            "text": "That podcast was despicable."
+          },
+          {
+            "text": "That was a disgusting podcast."
+          },
+          {
+            "text": "That was a dreadful podcast."
+          },
+          {
+            "text": "That was an awful and poorly executed podcast."
+          },
+          {
+            "text": "That was a repulsive podcast"
+          },
+          {
+            "text": "The last podcast was abysmal"
+          },
+          {
+            "text": "The last podcast was awful"
+          },
+          {
+            "text": "The last podcast was dreadful"
+          },
+          {
+            "text": "The last podcast was horrendous"
+          },
+          {
+            "text": "The last podcast was truly awful."
+          },
+          {
+            "text": "The last podcast was unbearable"
+          },
+          {
+            "text": "The last podcast was utterly abysmal."
+          },
+          {
+            "text": "The previous podcast was dreadful"
+          },
+          {
+            "text": "The previous podcast was horrendous"
+          },
+          {
+            "text": "This podcast fills me with pure hatred."
+          },
+          {
+            "text": "This podcast is abysmal."
+          },
+          {
+            "text": "This podcast is an atrocity."
+          },
+          {
+            "text": "This podcast is horrendous."
+          },
+          {
+            "text": "This podcast is just unbearable; I hate it."
+          },
+          {
+            "text": "This podcast is unbearable"
+          }
+        ]
+      },
+      {
+        "intent": "fallback_connect_to_agent",
+        "examples": [
+          {
+            "text": "Agent help"
+          },
+          {
+            "text": "Call agent"
+          },
+          {
+            "text": "Can I connect to an agent?"
+          },
+          {
+            "text": "I would like to speak to a human"
+          },
+          {
+            "text": "I would like to speak to someone"
+          }
+        ],
+        "description": "Please transfer me to an agent"
+      }
+    ],
+    "entities": [
+      {
+        "entity": "danger_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "entity_10157",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_12630",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_17250",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_1964",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_24005",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_25899",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_28949",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_32703",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_33162",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_33553",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_35019",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_35354",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_36946",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Regular_expression",
+            "patterns": [
+              "\"^(?:.*[a-z])(?:.*[A-Z])(?:.*\\d)(?:.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\""
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_38705",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_40407",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_43374",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_49516",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_5542",
+        "values": [
+          {
+            "type": "patterns",
+            "value": "Email",
+            "patterns": [
+              "\\b(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])\\b"
+            ]
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "profane_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "sys-currency",
+        "values": []
+      },
+      {
+        "entity": "sys-date",
+        "values": []
+      },
+      {
+        "entity": "sys-number",
+        "values": []
+      },
+      {
+        "entity": "sys-percentage",
+        "values": []
+      },
+      {
+        "entity": "sys-time",
+        "values": []
+      },
+      {
+        "entity": "sys-yes-no",
+        "values": []
+      }
+    ],
+    "metadata": {
+      "api_version": {
+        "major_version": "v2",
+        "minor_version": "2018-11-08"
+      }
+    },
+    "variables": [],
+    "data_types": [],
+    "collections": [],
+    "counterexamples": [],
+    "system_settings": {
+      "variable": {
+        "format": {
+          "time": {
+            "pattern": "short"
+          },
+          "currency": {
+            "fraction_digits": 2
+          }
+        }
+      },
+      "off_topic": {
+        "enabled": true
+      },
+      "topic_switch": {
+        "enabled": true,
+        "messages": {
+          "enable_confirmation": true,
+          "confirmation_failure": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "I'm sorry, I did not catch that, please confirm."
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              }
+            ]
+          },
+          "confirmation_request": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "Do you want to continue with the previous topic: "
+                        },
+                        {
+                          "system_variable": "digressed_from"
+                        },
+                        {
+                          "scalar": "?"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              },
+              {
+                "options": [
+                  {
+                    "label": "Yes",
+                    "value": {
+                      "input": {
+                        "text": "Yes"
+                      }
+                    }
+                  },
+                  {
+                    "label": "No",
+                    "value": {
+                      "input": {
+                        "text": "No"
+                      }
+                    }
+                  }
+                ],
+                "response_type": "option",
+                "repeat_on_reprompt": true
+              }
+            ]
+          }
+        },
+        "max_tries": 3
+      },
+      "disambiguation": {
+        "prompt": "Did you mean:",
+        "enabled": true,
+        "randomize": true,
+        "max_suggestions": 5,
+        "suggestion_text_policy": "title",
+        "none_of_the_above_prompt": "None of the above",
+        "use_connect_to_support_prompt": "connect to support",
+        "single_answer_clarification_prompt": "Something else"
+      },
+      "spelling_auto_correct": true
+    },
+    "learning_opt_out": false
+  },
+  "description": "created for assistant cf128ee0-d94f-4e8e-a94e-bfa8a9a7a294",
+  "assistant_id": "cf128ee0-d94f-4e8e-a94e-bfa8a9a7a294",
+  "workspace_id": "6c34ac1a-a91c-490d-b52f-425ae9f802a5",
+  "dialog_settings": {},
+  "next_snapshot_version": "5"
+}
