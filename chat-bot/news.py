@@ -1,5 +1,9 @@
 from functions import *
 
+with open('settings.json') as f:
+        settings = json.load(f)
+API_KEY = settings['newsdata']
+
 def extract_article_number(user_input):
     number_words = {
         'one': 1,
@@ -19,6 +23,7 @@ def extract_article_number(user_input):
 def get_news(user_input):
     local_recogniser = get_recogniser()
     # Fetch news data from the API
+    uri = 'https://newsdata.io/api/1/news?
     news_data = requests.get('https://newsdata.io/api/1/news?apikey=pub_2224719bbcc10e32c3eaae46f288b9876718a&language=en&country=gb&domain=bbc')
     news = news_data.json()
     titles = ""
