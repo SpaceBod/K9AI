@@ -11,3 +11,4 @@ Requests==2.31.0
 SpeechRecognition==3.10.0
 spotipy==2.23.0
 elevenlabslib==0.9.1
+gcsa==2.1.0
