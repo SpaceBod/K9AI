@@ -2,7 +2,7 @@ from functions import *
 
 with open('settings.json') as f:
         settings = json.load(f)
-API_KEY = settings['newsdata']
+API_KEY = settings['newsdata']['api_key']
 
 def extract_article_number(user_input):
     number_words = {
