@@ -16,6 +16,10 @@ Group Members:
 
 K9 is an innovative AI companion pet designed to bring joy, interactivity, and intelligent functionalities into your daily life. Combining advanced technologies such as voice recognition, natural language processing, and integration with popular platforms like Spotify, K9 offers a unique and personalised experience. With its autonomous roaming capabilities, interactive user interface, and expressive OLED display, K9 brings a new level of interactivity and entertainment. Whether it's playing your favorite music, providing real-time news updates, or engaging in natural conversations, K9 is the perfect companion that combines cutting-edge technology with a touch of personality. With its customisability and commitment to sustainability and ethical design, K9 is not just a robot, but a delightful addition to your daily routine.
 
+Watch the video!  
+
+[![Watch the video](https://img.youtube.com/vi/BALdOfcJ_tw/mqdefault.jpg)](https://youtu.be/BALdOfcJ_tw)
+
 <img src="img/K9-Side.png" alt="K9" title="K9 AI" width=50%>
 
 ## Table of Contents
