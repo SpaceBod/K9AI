@@ -176,7 +176,7 @@ device = sh1106(serial)
 # Text to speech
 def speak(text, auto_play=True):
     print('K9: ' + text)
-    set_api_key("ecf8b902a86fab1c3ec866b9a8ed6fc3")
+    set_api_key("")
     available_voices = voices()
     audio = generate(
       text=text,
