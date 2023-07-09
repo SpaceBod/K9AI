@@ -18,7 +18,7 @@ K9 is an innovative AI companion pet designed to bring joy, interactivity, and i
 
 Watch the video!  
 
-[![Watch the video](https://img.youtube.com/vi/BALdOfcJ_tw/mqdefault.jpg)](https://youtu.be/BALdOfcJ_tw)
+[![Watch the video](https://img.youtube.com/vi/deW5Cu7FMCs/mqdefault.jpg)](https://youtu.be/deW5Cu7FMCs)
 
 <img src="img/K9-Side.png" alt="K9" title="K9 AI" width=50%>
 
