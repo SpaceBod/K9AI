@@ -10,7 +10,7 @@ import time
 import requests
 from quadruped import Quadruped
 
-sound_effects = ["speech/queen.mp3"]
+sound_effects = ["K9AI/demo/speech/queen.mp3"]
 PAN = 14
 TILT = 15
 
@@ -51,8 +51,8 @@ def thread_turn():
     thread.start()
 
 def walking_music():
-    play_sound("speech/walksong.mp3", 0.1, True)
-    play_sound("speech/finish.mp3", 1, True)
+    play_sound("K9AI/demo/speech/walksong.mp3", 0.1, True)
+    play_sound("K9AI/demo/speech/finish.mp3", 1, True)
     
 def thread_walk():
     thread = threading.Thread(target=walking_music)
@@ -84,10 +84,10 @@ def play_sound(file_path, volume, blocking=True):
 # Displays an animation on an OLED display while playing a sound synchronously
 def play_sound_blocking(sound):
     # Load images for animation
-    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
-    image_1 = Image.open('display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
-    image_2 = Image.open('display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
-    image_3 = Image.open('display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
+    close_image_1 = Image.open('K9AI/demo/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    image_1 = Image.open('K9AI/demo/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
+    image_2 = Image.open('K9AI/demo/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
+    image_3 = Image.open('K9AI/demo/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
 
     # Resize images to match the OLED display resolution and convert to 1-bit grayscale
     close_image_1 = close_image_1.resize(device.size).convert('1')
@@ -116,10 +116,10 @@ def play_sound_blocking(sound):
 
 # Displays an animation on an OLED display while playing a sound asynchronously
 def play_sound_non_blocking(sound):
-    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
-    image_1 = Image.open('display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
-    image_2 = Image.open('display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
-    image_3 = Image.open('display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
+    close_image_1 = Image.open('K9AI/demo/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    image_1 = Image.open('K9AI/demo/display/1.png')  # Replace 'image_1_path.png' with the path to your image 1
+    image_2 = Image.open('K9AI/demo/display/2.png')  # Replace 'image_2_path.png' with the path to your image 2
+    image_3 = Image.open('K9AI/demo/display/3.png')  # Replace 'image_3_path.png' with the path to your image 3
 
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
@@ -139,10 +139,10 @@ def play_sound_non_blocking(sound):
 
 # Displays an animation on an OLED display by alternating between different images
 def play_animation():
-    close_image_1 = Image.open('display/close.png')
-    image_1 = Image.open('display/1.png')
-    image_2 = Image.open('display/2.png')
-    image_3 = Image.open('display/3.png')
+    close_image_1 = Image.open('K9AI/demo/display/close.png')
+    image_1 = Image.open('K9AI/demo/display/1.png')
+    image_2 = Image.open('K9AI/demo/display/2.png')
+    image_3 = Image.open('K9AI/demo/display/3.png')
     
     close_image_1 = close_image_1.resize(device.size).convert('1')
     image_1 = image_1.resize(device.size).convert('1')
@@ -165,7 +165,7 @@ def wait_for_sound(sound):
     while pygame.mixer.get_busy():
         pass
     # Display the close image after the sound finishes
-    close_image_1 = Image.open('display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
+    close_image_1 = Image.open('K9AI/demo/display/close.png')  # Replace 'close_image_1_path.png' with the path to your close image 1
     close_image_1 = close_image_1.resize(device.size).convert('1')
     device.display(close_image_1)
     
@@ -183,8 +183,8 @@ def speak(text, auto_play=True):
       voice=available_voices[9],
       model="eleven_monolingual_v1"
     )
-    save(audio, "speech/tts.mp3")
-    play_sound("speech/tts.mp3", 1, True)
+    save(audio, "K9AI/demo/speech/tts.mp3")
+    play_sound("K9AI/demo/speech/tts.mp3", 1, True)
 
 # Retrieves weather forecase using API, defaults to London
 def get_weather(location):
@@ -247,34 +247,34 @@ def main():
     
     raise_head()
     thread_turn()
-    play_sound("speech/Greetings.mp3", 1, True)
-    play_sound("speech/About.mp3", 1, True)
+    play_sound("K9AI/demo/speech/Greetings.mp3", 1, True)
+    play_sound("K9AI/demo/speech/About.mp3", 1, True)
 
-    play_sound("speech/playMusic.mp3", 1, True)
+    play_sound("K9AI/demo/speech/playMusic.mp3", 1, True)
     lower_head()
-    play_sound("speech/queen.mp3", 0.7, True)
+    play_sound("K9AI/demo/speech/queen.mp3", 0.7, True)
 
     raise_head()
     thread_turn()
-    play_sound("speech/getWeather.mp3", 1, False)
+    play_sound("K9AI/demo/speech/getWeather.mp3", 1, False)
     get_weather("London")
     lower_head()
 
     thread_turn()
-    play_sound("speech/getNews.mp3", 1, False)
+    play_sound("K9AI/demo/speech/getNews.mp3", 1, False)
     raise_head()
     get_news()
 
     thread_turn()
-    play_sound("speech/calendar.mp3", 1, True)
+    play_sound("K9AI/demo/speech/calendar.mp3", 1, True)
 
     lower_head()
     thread_turn()
-    play_sound("speech/joke.mp3", 1, False)
+    play_sound("K9AI/demo/speech/joke.mp3", 1, False)
     get_random_joke()
 #
     # Movement
-    play_sound("speech/walk.mp3", 1, True)
+    play_sound("K9AI/demo/speech/walk.mp3", 1, True)
     thread_walk()
     
     k9  =  Quadruped()

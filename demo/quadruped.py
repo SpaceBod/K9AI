@@ -1,7 +1,7 @@
 from adafruit_servokit import ServoKit
 from enum import IntEnum
 import math
-import bezier
+from K9AI.demo import bezier
 import numpy as np
 import time
 
