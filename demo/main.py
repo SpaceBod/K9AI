@@ -10,7 +10,7 @@ import time
 import requests
 from quadruped import Quadruped
 
-sound_effects = ["sound/ready.mp3", "sound/prompt.mp3", "sound/startup.mp3", "queen.mp3"]
+sound_effects = ["speech/queen.mp3"]
 PAN = 14
 TILT = 15
 
@@ -51,8 +51,8 @@ def thread_turn():
     thread.start()
 
 def walking_music():
-    play_sound("walksong.mp3", 0.1, True)
-    play_sound("finish.mp3", 1, True)
+    play_sound("speech/walksong.mp3", 0.1, True)
+    play_sound("speech/finish.mp3", 1, True)
     
 def thread_walk():
     thread = threading.Thread(target=walking_music)
@@ -183,8 +183,8 @@ def speak(text, auto_play=True):
       voice=available_voices[9],
       model="eleven_monolingual_v1"
     )
-    save(audio, "tts.mp3")
-    play_sound("tts.mp3", 1, True)
+    save(audio, "speech/tts.mp3")
+    play_sound("speech/tts.mp3", 1, True)
 
 # Retrieves weather forecase using API, defaults to London
 def get_weather(location):
@@ -247,34 +247,34 @@ def main():
     
     raise_head()
     thread_turn()
-    play_sound("Greetings.mp3", 1, True)
-    play_sound("About.mp3", 1, True)
+    play_sound("speech/Greetings.mp3", 1, True)
+    play_sound("speech/About.mp3", 1, True)
 
-    play_sound("playMusic.mp3", 1, True)
+    play_sound("speech/playMusic.mp3", 1, True)
     lower_head()
-    play_sound("queen.mp3", 0.7, True)
+    play_sound("speech/queen.mp3", 0.7, True)
 
     raise_head()
     thread_turn()
-    play_sound("getWeather.mp3", 1, False)
+    play_sound("speech/getWeather.mp3", 1, False)
     get_weather("London")
     lower_head()
 
     thread_turn()
-    play_sound("getNews.mp3", 1, False)
+    play_sound("speech/getNews.mp3", 1, False)
     raise_head()
     get_news()
 
     thread_turn()
-    play_sound("calendar.mp3", 1, True)
+    play_sound("speech/calendar.mp3", 1, True)
 
     lower_head()
     thread_turn()
-    play_sound("joke.mp3", 1, False)
+    play_sound("speech/joke.mp3", 1, False)
     get_random_joke()
 #
     # Movement
-    play_sound("walk.mp3", 1, True)
+    play_sound("speech/walk.mp3", 1, True)
     thread_walk()
     
     k9  =  Quadruped()
